@@ -6,5 +6,9 @@
     {
         "name": "https://medcommand.github.io/",
         "url": "https://medcommand.github.io/claude.html"
+    },
+    {
+        "name": "Kimi",
+        "url": "https://medcommand.github.io/kimi.html"
     }
 ]
