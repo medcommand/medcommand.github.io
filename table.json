@@ -18,5 +18,13 @@
     {
         "name": "GPT",
         "url": "https://medcommand.github.io/gpt.html"
+    },
+    {
+        "name": "Zenless Zone Zero",
+        "url": "https://medcommand.github.io/zzz.html"
+    },
+    {
+        "name": "Genshin Impact",
+        "url": "https://medcommand.github.io/genshin.html"
     }
 ]
