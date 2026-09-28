@@ -396,7 +396,6 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:11.5px;let
 /* ================= constants ================= */
 var KEY='teyvatStudySanctum.v1';
 var RING_C=892.21;
-var BASE_DK={ink:'#eef1fb',muted:'#9aa8d0'};
 
 var THEMES=[
 {id:'default',name:'Paimon',cost:0,c1:'#101b3a',c2:'#1e3a7a',acc:'#ffd985',acc2:'#f0a832',muted:'#9aa8d0'},
@@ -421,131 +420,131 @@ var THEMES=[
 {id:'irminsul',name:'Irminsul',cost:60,c1:'#061712',c2:'#1a5c47',acc:'#7af0c8',acc2:'#1ec9a0',muted:'#94cec0'}
 ];
 
-/* ================= 120 daily missions ================= */
+/* ================= 120 daily missions (reward/target pools are ARRAYS) ================= */
 var RAW_M=[
-['Focus for {n} minutes','Study a total of {n} minutes today',{50,60,75,90,120,150},{5,8,12,15,20,28}],
-['Complete {n} Pomodoro session{s}','Finish {n} full focus round{s}',{50,60,80},{1,2,3}],
-['Complete {n} Pomodoro sessions','Finish {n} full focus rounds today',{120,160,200},{4,5,6}],
-['Earn {n} Primogems','Collect Primogems from studying',{40,50,60},{5,8,12}],
-['Earn {n} Primogems','Grow your treasury today',{100,120,150},{15,20,30}],
-['Keep a {n}-day streak','Study today to hold your streak',{100,120,150},{2,3,5}],
-['First light','Log at least 1 focused minute',{30},{1}],
-['Hour of devotion','Accumulate a full hour of focus',{80},{60}],
-['Deep delve','Hold 90 minutes of focus today',{120},{90}],
-['Marathon of will','Focus for 2 hours total today',{180},{120}],
-['Dawn patrol','Start a session between 5:00 and 9:00',{50},{1}],
-['Night owl rite','Start a session between 21:00 and 2:00',{50},{1}],
-['Twilight scholar','Start a session between 17:00 and 21:00',{50},{1}],
-['Meridian focus','Start a session between 11:00 and 14:00',{50},{1}],
-['Warm-up lap','Focus for 10 minutes',{30},{10}],
-['Steady cadence','Focus for 20 minutes',{40},{20}],
-['Push the pace','Focus for 30 minutes',{50},{30}],
-['Endurance drill','Focus for 45 minutes',{60},{45}],
-['Triple rounds','Complete 3 Pomodoros',{100},{3}],
-['Quad rounds','Complete 4 Pomodoros',{140},{4}],
-['Pomodoro duo','Complete 2 Pomodoros',{60},{2}],
-['Solo round','Complete 1 Pomodoro',{30},{1}],
-['Gem pouch','Earn 25 Primogems',{40},{25}],
-['Gem satchel','Earn 40 Primogems',{60},{40}],
-['Sprint start','Focus for 5 minutes',{20},{5}],
-['Quarter hour','Focus for 15 minutes',{35},{15}],
-['Three quarters','Focus for 50 minutes',{70},{50}],
-['Century march','Focus for 100 minutes',{110},{100}],
-['Streak keeper','Study today to keep your streak alive',{50},{1}],
-['Style shift','Switch to any theme today',{40},{1}],
-['Realm attunement','Open the wardrobe panel today',{30},{1}],
-['Vision trial','Focus for {n} straight minutes in one session',{60},{25}],
-['Elemental mastery','Focus for 40 minutes total',{55},{40}],
-['Commission closer','Complete 2 commissions today',{60},{2}],
-['Grand completion','Complete every commission today',{150},{1}],
-['Steady stream','Focus for 35 minutes',{45},{35}],
-['Ascending path','Focus for 55 minutes',{75},{55}],
-['Iron will','Focus for 70 minutes',{90},{70}],
-['Scholar\'s vigil','Focus for 80 minutes',{95},{80}],
-['Beyond the veil','Focus for 95 minutes',{105},{95}],
-['Wish maker','Earn 30 Primogems',{45},{30}],
-['Constellation fund','Earn 70 Primogems',{85},{70}],
-['Banner savings','Earn 90 Primogems',{100},{90}],
-['Two rounds strong','Complete 2 Pomodoros',{60},{2}],
-['Five-round gauntlet','Complete 5 Pomodoros',{180},{5}],
-['Resin refuel','Focus for 12 minutes',{30},{12}],
-['Domain run','Focus for 22 minutes',{40},{22}],
-['Ley line outing','Focus for 28 minutes',{45},{28}],
-['Spiral descent','Focus for 42 minutes',{55},{42}],
-['Fragile resonance','Focus for 65 minutes',{80},{65}],
-['Teapot serenity','Focus for 18 minutes',{35},{18}],
-['Waypoint claim','Focus for 8 minutes',{25},{8}],
-['Statue blessing','Focus for 33 minutes',{45},{33}],
-['Oculi hunt','Focus for 48 minutes',{65},{48}],
-['Shrine trek','Focus for 62 minutes',{80},{62}],
-['Anemo glide','Focus for 14 minutes',{30},{14}],
-['Geo shield','Focus for 26 minutes',{45},{26}],
-['Hydro flow','Focus for 38 minutes',{50},{38}],
-['Pyro spark','Focus for 36 minutes',{50},{36}],
-['Cryo chill','Focus for 24 minutes',{40},{24}],
-['Electro charge','Focus for 32 minutes',{45},{32}],
-['Dendro bloom','Focus for 44 minutes',{60},{44}],
-['Adventurer\'s pace','Focus for 34 minutes',{45},{34}],
-['Guild standing','Focus for 52 minutes',{70},{52}],
-['Quest progress','Focus for 58 minutes',{75},{58}],
-['Archon\'s focus','Focus for 72 minutes',{90},{72}],
-['Harbinger\'s grit','Focus for 84 minutes',{100},{84}],
-['Catalyst grind','Focus for 92 minutes',{105},{92}],
-['Artifact luck','Earn 35 Primogems',{50},{35}],
-['Crit hit','Earn 45 Primogems',{60},{45}],
-['Ascension ready','Earn 55 Primogems',{70},{55}],
-['Talent books','Earn 20 Primogems',{35},{20}],
-['Mora hoard','Earn 80 Primogems',{90},{80}],
-['Primogem rain','Earn 110 Primogems',{130},{110}],
-['Abyss star','Complete 1 Pomodoro and 20 bonus minutes',{90},{1}],
-['Triple crown','Focus for 66 minutes',{85},{66}],
-['Steady flame','Focus for 56 minutes',{75},{56}],
-['Frozen watch','Focus for 88 minutes',{100},{88}],
-['Storm ride','Focus for 76 minutes',{95},{76}],
-['Sunlit study','Focus for 64 minutes',{80},{64}],
-['Moonlit study','Focus for 37 minutes',{50},{37}],
-['Glide time','Focus for 16 minutes',{35},{16}],
-['Climb higher','Focus for 46 minutes',{60},{46}],
-['Swim across','Focus for 27 minutes',{45},{27}],
-['Statue rest','Focus for 11 minutes',{30},{11}],
-['Campfire cook','Focus for 19 minutes',{35},{19}],
-['Sweet Madame break','Complete 1 Pomodoro',{30},{1}],
-['Butter crab feast','Complete 2 Pomodoros',{65},{2}],
-['Adeptus\' temptation','Complete 3 Pomodoros',{110},{3}],
-['Wind chaser','Focus for 13 minutes',{30},{13}],
-['Stone heart','Focus for 41 minutes',{55},{41}],
-['Thundering pulse','Focus for 47 minutes',{60},{47}],
-['Verdant heart','Focus for 53 minutes',{70},{53}],
-['Blazing song','Focus for 57 minutes',{75},{57}],
-['Glacial waltz','Focus for 61 minutes',{80},{61}],
-['Tidal wave','Focus for 68 minutes',{85},{68}],
-['Starlight vigil','Focus for 105 minutes',{120},{105}],
-['Comet stride','Focus for 115 minutes',{130},{115}],
-['Meteor mind','Focus for 130 minutes',{150},{130}],
-['Celestial pace','Focus for 140 minutes',{160},{140}],
-['Irminsul root','Focus for 21 minutes',{40},{21}],
-['Sanctum deep','Focus for 74 minutes',{90},{74}],
-['Wishful study','Earn 15 Primogems',{30},{15}],
-['Lucky star','Earn 65 Primogems',{80},{65}],
-['Golden sparkle','Earn 75 Primogems',{90},{75}],
-['Foggy voyage','Focus for 29 minutes',{45},{29}],
-['Lantern rite','Focus for 31 minutes',{45},{31}],
-['Iridescence','Focus for 43 minutes',{55},{43}],
-['Mirror bloom','Focus for 49 minutes',{65},{49}],
-['Silk and steel','Focus for 63 minutes',{80},{63}],
-['Jade chamber','Focus for 86 minutes',{100},{86}],
-['Rishbolan focus','Focus for 78 minutes',{95},{78}],
-['Akasha link','Focus for 96 minutes',{110},{96}],
-['Opera night','Focus for 67 minutes',{85},{67}],
-['Underwater waltz','Focus for 51 minutes',{70},{51}],
-['Obsidian step','Focus for 82 minutes',{95},{82}],
-['Frostbound vow','Focus for 71 minutes',{90},{71}],
-['Fatui discipline','Focus for 112 minutes',{125},{112}],
-['Hilichurl hustle','Focus for 9 minutes',{25},{9}],
-['Slime sprint','Focus for 17 minutes',{35},{17}],
-['Abyss mage drill','Focus for 69 minutes',{85},{69}],
-['Ruin guard spar','Focus for 73 minutes',{90},{73}],
-['Whopperflower warmup','Focus for 23 minutes',{40},{23}]
+['Focus for {n} minutes','Study a total of {n} minutes today',[50,60,75,90,120,150],[5,8,12,15,20,28]],
+['Complete {n} Pomodoro session{s}','Finish {n} full focus round{s}',[50,60,80],[1,2,3]],
+['Complete {n} Pomodoro sessions','Finish {n} full focus rounds today',[120,160,200],[4,5,6]],
+['Earn {n} Primogems','Collect Primogems from studying',[40,50,60],[5,8,12]],
+['Earn {n} Primogems','Grow your treasury today',[100,120,150],[15,20,30]],
+['Keep a {n}-day streak','Study today to hold your streak',[100,120,150],[2,3,5]],
+['First light','Log at least 1 focused minute',[30],[1]],
+['Hour of devotion','Accumulate a full hour of focus',[80],[60]],
+['Deep delve','Hold 90 minutes of focus today',[120],[90]],
+['Marathon of will','Focus for 2 hours total today',[180],[120]],
+['Dawn patrol','Start a session between 5:00 and 9:00',[50],[1]],
+['Night owl rite','Start a session between 21:00 and 2:00',[50],[1]],
+['Twilight scholar','Start a session between 17:00 and 21:00',[50],[1]],
+['Meridian focus','Start a session between 11:00 and 14:00',[50],[1]],
+['Warm-up lap','Focus for 10 minutes',[30],[10]],
+['Steady cadence','Focus for 20 minutes',[40],[20]],
+['Push the pace','Focus for 30 minutes',[50],[30]],
+['Endurance drill','Focus for 45 minutes',[60],[45]],
+['Triple rounds','Complete 3 Pomodoros',[100],[3]],
+['Quad rounds','Complete 4 Pomodoros',[140],[4]],
+['Pomodoro duo','Complete 2 Pomodoros',[60],[2]],
+['Solo round','Complete 1 Pomodoro',[30],[1]],
+['Gem pouch','Earn 25 Primogems',[40],[25]],
+['Gem satchel','Earn 40 Primogems',[60],[40]],
+['Sprint start','Focus for 5 minutes',[20],[5]],
+['Quarter hour','Focus for 15 minutes',[35],[15]],
+['Three quarters','Focus for 50 minutes',[70],[50]],
+['Century march','Focus for 100 minutes',[110],[100]],
+['Streak keeper','Study today to keep your streak alive',[50],[1]],
+['Style shift','Switch to any theme today',[40],[1]],
+['Realm attunement','Open the wardrobe panel today',[30],[1]],
+['Vision trial','Focus for {n} straight minutes in one session',[60],[25]],
+['Elemental mastery','Focus for 40 minutes total',[55],[40]],
+['Commission closer','Complete 2 commissions today',[60],[2]],
+['Grand completion','Complete every commission today',[150],[1]],
+['Steady stream','Focus for 35 minutes',[45],[35]],
+['Ascending path','Focus for 55 minutes',[75],[55]],
+['Iron will','Focus for 70 minutes',[90],[70]],
+['Scholar\'s vigil','Focus for 80 minutes',[95],[80]],
+['Beyond the veil','Focus for 95 minutes',[105],[95]],
+['Wish maker','Earn 30 Primogems',[45],[30]],
+['Constellation fund','Earn 70 Primogems',[85],[70]],
+['Banner savings','Earn 90 Primogems',[100],[90]],
+['Two rounds strong','Complete 2 Pomodoros',[60],[2]],
+['Five-round gauntlet','Complete 5 Pomodoros',[180],[5]],
+['Resin refuel','Focus for 12 minutes',[30],[12]],
+['Domain run','Focus for 22 minutes',[40],[22]],
+['Ley line outing','Focus for 28 minutes',[45],[28]],
+['Spiral descent','Focus for 42 minutes',[55],[42]],
+['Fragile resonance','Focus for 65 minutes',[80],[65]],
+['Teapot serenity','Focus for 18 minutes',[35],[18]],
+['Waypoint claim','Focus for 8 minutes',[25],[8]],
+['Statue blessing','Focus for 33 minutes',[45],[33]],
+['Oculi hunt','Focus for 48 minutes',[65],[48]],
+['Shrine trek','Focus for 62 minutes',[80],[62]],
+['Anemo glide','Focus for 14 minutes',[30],[14]],
+['Geo shield','Focus for 26 minutes',[45],[26]],
+['Hydro flow','Focus for 38 minutes',[50],[38]],
+['Pyro spark','Focus for 36 minutes',[50],[36]],
+['Cryo chill','Focus for 24 minutes',[40],[24]],
+['Electro charge','Focus for 32 minutes',[45],[32]],
+['Dendro bloom','Focus for 44 minutes',[60],[44]],
+['Adventurer\'s pace','Focus for 34 minutes',[45],[34]],
+['Guild standing','Focus for 52 minutes',[70],[52]],
+['Quest progress','Focus for 58 minutes',[75],[58]],
+['Archon\'s focus','Focus for 72 minutes',[90],[72]],
+['Harbinger\'s grit','Focus for 84 minutes',[100],[84]],
+['Catalyst grind','Focus for 92 minutes',[105],[92]],
+['Artifact luck','Earn 35 Primogems',[50],[35]],
+['Crit hit','Earn 45 Primogems',[60],[45]],
+['Ascension ready','Earn 55 Primogems',[70],[55]],
+['Talent books','Earn 20 Primogems',[35],[20]],
+['Mora hoard','Earn 80 Primogems',[90],[80]],
+['Primogem rain','Earn 110 Primogems',[130],[110]],
+['Abyss star','Complete 1 Pomodoro and 20 bonus minutes',[90],[1]],
+['Triple crown','Focus for 66 minutes',[85],[66]],
+['Steady flame','Focus for 56 minutes',[75],[56]],
+['Frozen watch','Focus for 88 minutes',[100],[88]],
+['Storm ride','Focus for 76 minutes',[95],[76]],
+['Sunlit study','Focus for 64 minutes',[80],[64]],
+['Moonlit study','Focus for 37 minutes',[50],[37]],
+['Glide time','Focus for 16 minutes',[35],[16]],
+['Climb higher','Focus for 46 minutes',[60],[46]],
+['Swim across','Focus for 27 minutes',[45],[27]],
+['Statue rest','Focus for 11 minutes',[30],[11]],
+['Campfire cook','Focus for 19 minutes',[35],[19]],
+['Sweet Madame break','Complete 1 Pomodoro',[30],[1]],
+['Butter crab feast','Complete 2 Pomodoros',[65],[2]],
+['Adeptus\' temptation','Complete 3 Pomodoros',[110],[3]],
+['Wind chaser','Focus for 13 minutes',[30],[13]],
+['Stone heart','Focus for 41 minutes',[55],[41]],
+['Thundering pulse','Focus for 47 minutes',[60],[47]],
+['Verdant heart','Focus for 53 minutes',[70],[53]],
+['Blazing song','Focus for 57 minutes',[75],[57]],
+['Glacial waltz','Focus for 61 minutes',[80],[61]],
+['Tidal wave','Focus for 68 minutes',[85],[68]],
+['Starlight vigil','Focus for 105 minutes',[120],[105]],
+['Comet stride','Focus for 115 minutes',[130],[115]],
+['Meteor mind','Focus for 130 minutes',[150],[130]],
+['Celestial pace','Focus for 140 minutes',[160],[140]],
+['Irminsul root','Focus for 21 minutes',[40],[21]],
+['Sanctum deep','Focus for 74 minutes',[90],[74]],
+['Wishful study','Earn 15 Primogems',[30],[15]],
+['Lucky star','Earn 65 Primogems',[80],[65]],
+['Golden sparkle','Earn 75 Primogems',[90],[75]],
+['Foggy voyage','Focus for 29 minutes',[45],[29]],
+['Lantern rite','Focus for 31 minutes',[45],[31]],
+['Iridescence','Focus for 43 minutes',[55],[43]],
+['Mirror bloom','Focus for 49 minutes',[65],[49]],
+['Silk and steel','Focus for 63 minutes',[80],[63]],
+['Jade chamber','Focus for 86 minutes',[100],[86]],
+['Rishbolan focus','Focus for 78 minutes',[95],[78]],
+['Akasha link','Focus for 96 minutes',[110],[96]],
+['Opera night','Focus for 67 minutes',[85],[67]],
+['Underwater waltz','Focus for 51 minutes',[70],[51]],
+['Obsidian step','Focus for 82 minutes',[95],[82]],
+['Frostbound vow','Focus for 71 minutes',[90],[71]],
+['Fatui discipline','Focus for 112 minutes',[125],[112]],
+['Hilichurl hustle','Focus for 9 minutes',[25],[9]],
+['Slime sprint','Focus for 17 minutes',[35],[17]],
+['Abyss mage drill','Focus for 69 minutes',[85],[69]],
+['Ruin guard spar','Focus for 73 minutes',[90],[73]],
+['Whopperflower warmup','Focus for 23 minutes',[40],[23]]
 ];
 
 function kindOf(name){
@@ -598,7 +597,7 @@ var ACH=[
 ];
 ACH.forEach(function(a,i){a.reward=20+i*5;});
 
-/* ================= state (loaded FIRST, before anything uses it) ================= */
+/* ================= state (loaded FIRST) ================= */
 function def(){
   return {
     coins:0,earned:0,unlocked:['default'],theme:'default',
@@ -612,11 +611,13 @@ function def(){
 function mergeInto(t,p){
   if(!p||typeof p!=='object')return;
   Object.keys(t).forEach(function(k){
+    if(!(k in p))return;
     var v=p[k];
-    if(v===undefined||v===null&&typeof t[k]==='object'&&k!=='bgs')return;
     if(Array.isArray(t[k])){if(Array.isArray(v))t[k]=v;}
-    else if(t[k]&&typeof t[k]==='object'){if(v&&typeof v==='object'&&!Array.isArray(v))mergeInto(t[k],v);}
-    else t[k]=v;
+    else if(t[k]&&typeof t[k]==='object'&&t[k]!==null){
+      if(v&&typeof v==='object'&&!Array.isArray(v))mergeInto(t[k],v);
+    }
+    else if(v!==undefined&&v!==null)t[k]=v;
   });
 }
 function load(){
@@ -634,14 +635,14 @@ function load(){
   if(!d.day||typeof d.day!=='object')d.day={d:'',s:0,min:0,pomos:0};
   if(!d.tot||typeof d.tot!=='object')d.tot={s:0,min:0,pomos:0};
   if(!d.prefs||typeof d.prefs!=='object')d.prefs={f:25,b:5,auto:true};
-  if(typeof d.prefs.f!=='number')d.prefs.f=25;
-  if(typeof d.prefs.b!=='number')d.prefs.b=5;
+  if(typeof d.prefs.f!=='number'||d.prefs.f<5)d.prefs.f=25;
+  if(typeof d.prefs.b!=='number'||d.prefs.b<1)d.prefs.b=5;
   if(d.unlocked.indexOf(d.theme)<0)d.theme='default';
   return d;
 }
 function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 
-var S=load(); /* <-- state exists before anything else runs */
+var S=load();
 
 /* ================= helpers ================= */
 function $(id){return document.getElementById(id);}
@@ -838,7 +839,7 @@ function onPomoFocusComplete(){
   addFocus(P.dur);
 }
 
-/* ================= render loop ================= */
+/* ================= render ================= */
 function livePomoSec(){
   if(!P.running||P.phase!=='focus')return 0;
   var elapsedPhase=P.dur-Math.max(0,P.remaining-(Date.now()-P.ended));
@@ -985,6 +986,17 @@ function swResetFn(){
 function claimedFlag(k){var c=S.claimed[k];return c&&c[todayStr]===1?1:0;}
 function isClaimed(m){var c=S.claimed[m.id];return !!(c&&c[todayStr]);}
 function isMeta(m){return m.kind==='comm2'||m.kind==='commAll';}
+function basicTotal(){
+  var n=0;DAY_MISSIONS.forEach(function(m){if(!isMeta(m))n++;});return n;
+}
+function basicDoneCount(){
+  var n=0;
+  DAY_MISSIONS.forEach(function(m){
+    if(isMeta(m))return;
+    if(isClaimed(m)||progressOf(m)>=m.target)n++;
+  });
+  return n;
+}
 function progressOf(m){
   var todayMin=Math.floor(S.day.min);
   switch(m.kind){
@@ -1008,17 +1020,6 @@ function progressOf(m){
     case 'commAll':return basicDoneCount()>=basicTotal()?1:0;
   }
   return 0;
-}
-function basicTotal(){
-  var n=0;DAY_MISSIONS.forEach(function(m){if(!isMeta(m))n++;});return n;
-}
-function basicDoneCount(){
-  var n=0;
-  DAY_MISSIONS.forEach(function(m){
-    if(isMeta(m))return;
-    if(isClaimed(m)||progressOf(m)>=m.target)n++;
-  });
-  return n;
 }
 function paintMissionNote(){
   var ms=msToMidnight();
@@ -1059,8 +1060,7 @@ function claimMission(m){
   bumpCoin();
   toast('gem','Commission complete!','"'+m.name+'" · +'+m.reward+' Primogems.');
   sfxCoin();
-  var metas=DAY_MISSIONS.filter(isMeta);
-  if(basicDoneCount()>=basicTotal()&&metas.length<3){
+  if(basicDoneCount()>=basicTotal()){
     setTimeout(function(){toast('🏅','All base commissions cleared','The Adventurers\' Guild salutes you.');},700);
   }
   save();renderMissions();checkAch();updateStats();
@@ -1109,13 +1109,13 @@ function drainAch(){
 /* ================= themes ================= */
 function findTheme(id){for(var i=0;i<THEMES.length;i++)if(THEMES[i].id===id)return THEMES[i];return THEMES[0];}
 function applyTheme(t){
-  if(S.bgActive>=0&&S.bgs[S.bgActive]&&S.bgs[S.bgActive].data)return; /* custom realm owns the palette */
+  if(S.bgActive>=0&&S.bgs[S.bgActive]&&S.bgs[S.bgActive].data)return;
   var r=document.documentElement.style;
   r.setProperty('--bg1',t.c1);r.setProperty('--bg2',t.c2);
   r.setProperty('--acc',t.acc);r.setProperty('--acc2',t.acc2);
   r.setProperty('--accSoft',rgba(t.acc2,.35));r.setProperty('--muted',t.muted);
   r.setProperty('--panel','rgba(15,23,52,.52)');r.setProperty('--line','rgba(255,255,255,.16)');r.setProperty('--line2','rgba(255,255,255,.08)');
-  r.setProperty('--txtsh','0 1px 3px rgba(0,0,0,.55)');
+  r.setProperty('--txtsh','0 1px 3px rgba(0,0,0,.55)');r.setProperty('--ink','#eef1fb');
   document.body.setAttribute('data-theme',t.id);
   document.body.classList.remove('custom');
   bgScrim.style.background='none';
@@ -1175,6 +1175,7 @@ function buildShop(){
 }
 
 /* ================= custom backgrounds ================= */
+var pendSlot=-1;
 function renderSlots(){
   bgSlots.innerHTML='';
   for(var i=0;i<3;i++){
@@ -1207,7 +1208,6 @@ function renderSlots(){
     })(i);
   }
 }
-var pendSlot=-1;
 fileInput.addEventListener('change',function(){
   var f=fileInput.files&&fileInput.files[0];
   if(!f||pendSlot<0)return;
@@ -1262,7 +1262,6 @@ $('btnClearBg').addEventListener('click',function(){
   toast('🌌','Theme sky restored','Using the '+findTheme(S.theme).name+' palette.');
 });
 
-/* material-style adaptation from the image */
 function quantize(px,k){
   function rangeOf(b){
     var mn=[255,255,255],mx=[0,0,0];
@@ -1274,9 +1273,9 @@ function quantize(px,k){
     boxes.sort(function(a,b){return rangeOf(b)-rangeOf(a);});
     var t=boxes.shift();
     if(!t||t.px.length<2){if(t)boxes.push(t);break;}
-    var ch=0,rr=rangeOf(t);
     var mn=[255,255,255],mx=[0,0,0];
     t.px.forEach(function(p){for(var i=0;i<3;i++){if(p[i]<mn[i])mn[i]=p[i];if(p[i]>mx[i])mx[i]=p[i];}});
+    var rr=rangeOf(t),ch=0;
     for(var c2=0;c2<3;c2++){if(mx[c2]-mn[c2]===rr){ch=c2;break;}}
     t.px.sort(function(a,b){return a[ch]-b[ch];});
     var mid=Math.floor(t.px.length/2);
@@ -1329,7 +1328,11 @@ function openModal(kind,titleText,build){
   var head=el('div','shead');
   head.appendChild(el('span','dia'));
   head.appendChild(txt('h2',null,titleText));
-  if(kind==='ach')head.appendChild(txt('span',null,S.ach.length+' / '+ACH.length)).style.cssText='font-size:12px;color:var(--muted);font-weight:800';
+  if(kind==='ach'){
+    var prog=txt('span',null,S.ach.length+' / '+ACH.length);
+    prog.style.cssText='font-size:12px;color:var(--muted);font-weight:800';
+    head.appendChild(prog);
+  }
   var x=txt('button','icobtn mclose','✕');
   x.addEventListener('click',closeModal);
   head.appendChild(x);
