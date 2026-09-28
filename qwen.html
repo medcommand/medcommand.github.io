@@ -6,7 +6,7 @@
 <title>Kisatsu Study — Demon Slayer Focus Dojo</title>
 <meta name="description" content="A Demon Slayer inspired focus dojo: Pomodoro 25/5, stopwatch, coins, daily missions, achievements and unlockable themes. Total Concentration — study!">
 <meta name="theme-color" content="#04100c">
-<!-- Link preview: Google / Telegram / Twitter. After deploying, replace og:image with an ABSOLUTE URL, e.g. https://your-domain/cover.png -->
+<!-- Link preview: Google / Telegram / Twitter. After deploying, replace cover.png with an ABSOLUTE URL like https://your-domain/cover.png -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kisatsu Study">
 <meta property="og:title" content="Kisatsu Study — Demon Slayer Focus Dojo">
@@ -20,8 +20,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Yuji+Syuku&family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+<script>
+/* Bootstrap error catcher: lives in its own script block so even a fatal error in the main block becomes visible. */
+window.onerror = function(msg, src, line){
+  var d = document.getElementById('errBar');
+  if(d){ d.textContent = 'Script error — ' + msg + ' (line ' + line + ')'; d.style.display = 'block'; }
+  return false;
+};
+</script>
 <style>
-/* ============ CORE / TOKENS ============ */
 :root{
   --acc:#3ee6a8; --acc2:#a9f7d4;
   --g1:#04100c; --g2:#082018; --g3:#0f3a2a;
@@ -32,18 +39,17 @@
   --r-lg:22px; --r-md:14px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
 body{
   font-family:var(--fb); color:var(--ink); min-height:100vh; overflow-x:hidden;
   background:
     radial-gradient(1200px 700px at 85% -10%, var(--g3), transparent 60%),
     radial-gradient(900px 600px at -10% 110%, var(--g3), transparent 55%),
     linear-gradient(160deg, var(--g1), var(--g2) 55%, var(--g1));
-  background-attachment:fixed;
-  transition:color .4s;
+  background-attachment:fixed; transition:color .4s;
 }
 ::selection{background:var(--acc);color:#04120c}
-/* ============ AMBIENT LAYERS ============ */
+#errBar{display:none;position:fixed;left:0;right:0;top:0;z-index:99;background:#8d1b2e;color:#fff;
+  font-family:monospace;font-size:12.5px;padding:10px 16px;box-shadow:0 4px 18px rgba(0,0,0,.4)}
 #bgLayer{position:fixed;inset:0;z-index:-3;display:none}
 body.hasbg #bgLayer{display:block}
 #bgImg{position:absolute;inset:-40px;background-size:cover;background-position:center;transform:scale(1.06);transition:filter .3s}
@@ -54,7 +60,6 @@ body.hasbg #bgLayer{display:block}
 .kanji{position:fixed;z-index:-2;font-family:var(--fd);color:var(--ink);opacity:.05;pointer-events:none;user-select:none;line-height:1}
 .k1{font-size:min(38vw,420px);right:-4vw;top:6vh;transform:rotate(-8deg)}
 .k2{font-size:min(20vw,200px);left:-2vw;bottom:4vh;transform:rotate(6deg)}
-/* ============ SHELL ============ */
 #app{max-width:1180px;margin:0 auto;padding:18px 20px 40px;position:relative;z-index:1}
 .glass{
   background:var(--glass); border:1px solid var(--glass-brd); border-radius:var(--r-lg);
@@ -64,7 +69,6 @@ body.hasbg #bgLayer{display:block}
 }
 .glass::before{content:'';position:absolute;left:8%;right:8%;top:0;height:1px;
   background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);opacity:.5;pointer-events:none}
-/* topbar */
 .topbar{display:flex;align-items:center;gap:14px;padding:12px 18px;margin-bottom:18px;flex-wrap:wrap;animation:drop .6s cubic-bezier(.2,.9,.3,1.2) both}
 .brand{display:flex;align-items:center;gap:12px;margin-right:auto}
 .haori{width:34px;height:34px;border-radius:9px;flex:none;
@@ -75,8 +79,7 @@ body.hasbg #bgLayer{display:block}
 .brand small{display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--ink-dim);margin-top:3px}
 .hud{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .pill{display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:999px;
-  background:var(--glass);border:1px solid var(--glass-brd);font-weight:900;font-size:14px;
-  backdrop-filter:blur(10px)}
+  background:var(--glass);border:1px solid var(--glass-brd);font-weight:900;font-size:14px;backdrop-filter:blur(10px)}
 #coinsPill{color:var(--acc2)}
 #coinsPill.pop{animation:pop .45s}
 .iconbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--glass-brd);background:var(--glass);
@@ -84,14 +87,12 @@ body.hasbg #bgLayer{display:block}
   transition:transform .18s, box-shadow .18s, background .18s;backdrop-filter:blur(10px)}
 .iconbtn:hover{transform:translateY(-2px) scale(1.06);box-shadow:0 8px 20px rgba(0,0,0,.3), 0 0 0 1px var(--acc);background:rgba(255,255,255,.08)}
 .iconbtn:active{transform:scale(.94)}
-/* layout */
 .grid{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:start}
 .col-main,.col-side{display:flex;flex-direction:column;gap:18px}
 .card{padding:22px;animation:rise .55s ease both}
 .col-side .card:nth-child(2){animation-delay:.1s}
 .h2{font-family:var(--fd);font-size:19px;font-weight:400;display:flex;align-items:center;gap:9px;margin-bottom:14px}
 .h2 .sub{font-family:var(--fb);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ink-dim);margin-left:auto}
-/* ============ TIMER ============ */
 .timer-card{padding:24px 24px 20px}
 .tabs{display:flex;gap:6px;background:rgba(0,0,0,.22);padding:5px;border-radius:999px;width:max-content;margin:0 auto 20px;border:1px solid var(--glass-brd)}
 .tab{border:0;background:transparent;color:var(--ink-dim);font-family:var(--fb);font-weight:900;font-size:13px;
@@ -128,19 +129,17 @@ body.running .btn.prime{animation:breathe 2.4s ease-in-out infinite}
 .coinbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));transition:width .3s;border-radius:99px}
 .swcenter{text-align:center;padding:8px 0 2px}
 .swcenter .bigtime{font-size:clamp(52px,9vw,76px)}
-/* stats */
 .tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .tile{background:rgba(0,0,0,.2);border:1px solid var(--glass-brd);border-radius:var(--r-md);padding:13px 14px;transition:transform .2s}
 .tile:hover{transform:translateY(-3px)}
 .tile b{display:block;font-size:21px;font-weight:900;font-variant-numeric:tabular-nums}
 .tile.big b{font-size:27px;color:var(--acc2)}
 .tile span{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-dim)}
-/* missions */
 .mission{display:flex;gap:11px;align-items:flex-start;padding:12px;border-radius:var(--r-md);
-  background:rgba(0,0,0,.18);border:1px solid var(--glass-brd);margin-bottom:9px;transition:.3s;position:relative}
+  background:rgba(0,0,0,.18);border:1px solid var(--glass-brd);margin-bottom:9px;transition:.3s}
 .mission:hover{transform:translateX(3px)}
 .mission .ic{font-size:19px;line-height:1.2}
-.mission .tx{flex:1;font-size:13.5px;font-weight:700;line-height:1.35}
+.mission .tx{font-size:13.5px;font-weight:700;line-height:1.35}
 .mission .rw{font-size:11px;font-weight:900;color:var(--acc2);white-space:nowrap;padding:3px 9px;border-radius:99px;border:1px solid var(--glass-brd)}
 .mbar{height:5px;border-radius:99px;background:rgba(0,0,0,.3);margin-top:8px;overflow:hidden}
 .mbar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--acc),var(--acc2));border-radius:99px;transition:width .5s}
@@ -148,8 +147,6 @@ body.running .btn.prime{animation:breathe 2.4s ease-in-out infinite}
 .mission.done{opacity:.6}
 .mission.done .tx{text-decoration:line-through}
 .mission.done .rw{background:var(--acc);color:#05130c;border-color:transparent}
-.mission.flash{animation:flash .8s}
-/* achievements */
 .achwrap{max-height:330px;overflow:auto;padding-right:6px}
 .achwrap::-webkit-scrollbar{width:6px}.achwrap::-webkit-scrollbar-thumb{background:var(--glass-brd);border-radius:9px}
 .ach{display:flex;gap:11px;align-items:center;padding:9px 10px;border-radius:12px;margin-bottom:6px;border:1px solid transparent;transition:.25s}
@@ -159,7 +156,6 @@ body.running .btn.prime{animation:breathe 2.4s ease-in-out infinite}
 .ach.lock{filter:grayscale(1);opacity:.42}
 .ach.win{border-color:var(--glass-brd);background:rgba(0,0,0,.16)}
 .ach .st{margin-left:auto;font-size:15px}
-/* toasts */
 #toasts{position:fixed;top:18px;right:18px;z-index:60;display:flex;flex-direction:column;gap:9px;max-width:min(340px,86vw)}
 .toast{display:flex;gap:11px;align-items:center;padding:12px 15px;border-radius:16px;
   background:var(--glass);border:1px solid var(--glass-brd);backdrop-filter:blur(20px) saturate(1.4);
@@ -170,7 +166,6 @@ body.running .btn.prime{animation:breathe 2.4s ease-in-out infinite}
 .toast .ti{font-size:21px;flex:none}
 .toast b{font-size:13.5px;display:block}
 .toast span{font-size:11.5px;color:var(--ink-dim)}
-/* modals */
 .modal{position:fixed;inset:0;z-index:50;display:none;place-items:center;padding:20px;
   background:rgba(2,8,7,.55);backdrop-filter:blur(8px)}
 .modal.open{display:grid}
@@ -205,13 +200,11 @@ input[type=range]{flex:1;accent-color:var(--acc);height:4px}
 .check{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;margin-top:10px;cursor:pointer;color:var(--ink-dim)}
 .check input{accent-color:var(--acc);width:15px;height:15px}
 footer{text-align:center;margin-top:26px;font-size:11px;color:var(--ink-dim);letter-spacing:.12em}
-/* ============ ANIM ============ */
 @keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
 @keyframes drop{from{opacity:0;transform:translateY(-18px)}to{opacity:1;transform:none}}
 @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @keyframes sheet{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:none}}
 @keyframes pop{0%{transform:scale(1)}40%{transform:scale(1.22)}100%{transform:scale(1)}}
-@keyframes flash{0%{box-shadow:0 0 0 0 var(--acc)}100%{box-shadow:0 0 0 14px transparent}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
 @keyframes breathe{0%,100%{box-shadow:0 8px 26px -6px var(--acc)}50%{box-shadow:0 8px 36px -2px var(--acc)}}
 @media(max-width:960px){.grid{grid-template-columns:1fr}.tiles{grid-template-columns:repeat(2,1fr)}}
@@ -219,13 +212,13 @@ footer{text-align:center;margin-top:26px;font-size:11px;color:var(--ink-dim);let
 </style>
 </head>
 <body>
+<div id="errBar"></div>
 <div id="bgLayer"><div id="bgImg"></div><div id="bgScrim"></div></div>
 <canvas id="fx"></canvas>
 <div class="kanji k1">集中</div>
 <div class="kanji k2">全集中</div>
 
 <div id="app">
-  <!-- TOP BAR -->
   <header class="glass topbar">
     <div class="brand">
       <div class="haori"></div>
@@ -234,21 +227,20 @@ footer{text-align:center;margin-top:26px;font-size:11px;color:var(--ink-dim);let
     <div class="hud">
       <div class="pill" id="coinsPill" title="Coins — earn 1 per minute studied">🪙 <b id="coins">0</b></div>
       <div class="pill" id="streakPill" title="Day streak">🔥 <b id="streak">0</b></div>
-      <button class="iconbtn" id="sndBtn" title="Sound on/off">🔊</button>
-      <button class="iconbtn" id="bakBtn" title="Backup progress (JSON)">💾</button>
-      <button class="iconbtn" id="resBtn" title="Restore from backup">📂</button>
-      <button class="iconbtn" id="thmBtn" title="Theme shop">🎨</button>
-      <button class="iconbtn" id="bgBtn" title="Custom backgrounds">🖼️</button>
+      <button class="iconbtn" id="sndBtn" title="Sound on/off" type="button">🔊</button>
+      <button class="iconbtn" id="bakBtn" title="Backup progress (JSON)" type="button">💾</button>
+      <button class="iconbtn" id="resBtn" title="Restore from backup" type="button">📂</button>
+      <button class="iconbtn" id="thmBtn" title="Theme shop" type="button">🎨</button>
+      <button class="iconbtn" id="bgBtn" title="Custom backgrounds" type="button">🖼️</button>
     </div>
   </header>
 
   <div class="grid">
     <div class="col-main">
-      <!-- TIMER -->
       <section class="glass card timer-card">
         <div class="tabs">
-          <button class="tab on" id="tabPomo">🍅 Pomodoro</button>
-          <button class="tab" id="tabSw">⏱ Stopwatch</button>
+          <button class="tab on" id="tabPomo" type="button">🍅 Pomodoro</button>
+          <button class="tab" id="tabSw" type="button">⏱ Stopwatch</button>
         </div>
 
         <div class="pane on" id="panePomo">
@@ -266,9 +258,9 @@ footer{text-align:center;margin-top:26px;font-size:11px;color:var(--ink-dim);let
           </div>
           <div class="dots" id="dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
           <div class="ctls">
-            <button class="btn prime" id="pStart">▶ Start</button>
-            <button class="btn" id="pReset">Reset</button>
-            <button class="btn" id="pSkip">Skip ⏭</button>
+            <button class="btn prime" id="pStart" type="button">▶ Start</button>
+            <button class="btn" id="pReset" type="button">Reset</button>
+            <button class="btn" id="pSkip" type="button">Skip ⏭</button>
           </div>
           <div class="rate"><span>25 min focus · 5 min break</span><span>+10 🪙 per completed pomodoro</span></div>
         </div>
@@ -280,14 +272,13 @@ footer{text-align:center;margin-top:26px;font-size:11px;color:var(--ink-dim);let
             <div class="coinbar"><i id="coinBar"></i></div>
           </div>
           <div class="ctls">
-            <button class="btn prime" id="sStart">▶ Start</button>
-            <button class="btn" id="sReset">Reset</button>
+            <button class="btn prime" id="sStart" type="button">▶ Start</button>
+            <button class="btn" id="sReset" type="button">Reset</button>
           </div>
           <div class="rate"><span>+1 🪙 for every full minute</span><span>Space toggles start / pause</span></div>
         </div>
       </section>
 
-      <!-- STATS -->
       <section class="glass card">
         <div class="h2">⛩️ Records <span class="sub">Focus Ledger</span></div>
         <div class="tiles">
@@ -302,12 +293,10 @@ footer{text-align:center;margin-top:26px;font-size:11px;color:var(--ink-dim);let
     </div>
 
     <div class="col-side">
-      <!-- MISSIONS -->
       <section class="glass card">
-        <div class="h2">🎯 Daily Missions <span class="sub" id="msNext">new in --:--</span></div>
+        <div class="h2">🎯 Daily Missions <span class="sub" id="msNext">new in --:--:--</span></div>
         <div id="msList"></div>
       </section>
-      <!-- ACHIEVEMENTS -->
       <section class="glass card">
         <div class="h2">🏅 Achievements <span class="sub" id="achCount">0 / 0</span></div>
         <div class="achwrap" id="achList"></div>
@@ -320,300 +309,395 @@ footer{text-align:center;margin-top:26px;font-size:11px;color:var(--ink-dim);let
 
 <div id="toasts"></div>
 
-<!-- THEME SHOP -->
 <div class="modal" id="mTheme">
   <div class="glass sheet">
-    <h3>🎨 Haori Collection <button class="iconbtn mClose" data-close="mTheme">✕</button></h3>
+    <h3>🎨 Haori Collection <button class="iconbtn mClose" data-close="mTheme" type="button">✕</button></h3>
     <div class="hint">Spend coins to unlock breathing-style color themes. Tanjiro is free — the rest must be earned.</div>
     <div class="tgrid" id="thGrid"></div>
   </div>
 </div>
 
-<!-- BACKGROUND STUDIO -->
 <div class="modal" id="mBg">
   <div class="glass sheet">
-    <h3>🖼️ Background Studio <button class="iconbtn mClose" data-close="mBg">✕</button></h3>
+    <h3>🖼️ Background Studio <button class="iconbtn mClose" data-close="mBg" type="button">✕</button></h3>
     <div class="hint">50 🪙 per background · JPG, PNG, WebP, GIF, BMP, AVIF · images are auto-cropped to fill the screen · colors adapt to your picture (Material You style).</div>
     <div class="slider-row"><span>Blur</span><input type="range" id="blurRange" min="0" max="24" step="1" value="4"><b id="blurVal">4px</b></div>
-    <label class="check"><input type="checkbox" id="bgMatch" checked> Dynamic color — adapt UI &amp; text to the image</label>
+    <label class="check"><input type="checkbox" id="bgMatch" checked> Dynamic color — adapt UI and text to the image</label>
     <div class="bgrid" id="bgGrid"></div>
   </div>
 </div>
 
 <input type="file" id="bgFile" accept="image/*" hidden>
 <input type="file" id="resFile" accept=".json,application/json" hidden>
+<noscript><div style="padding:20px;text-align:center">This app requires JavaScript.</div></noscript>
 
 <script>
-/* ================================================================
-   KISATSU STUDY — Demon Slayer Focus Dojo
-   All state persists in localStorage. No external data. No backticks.
-   ================================================================ */
+/* ==========================================================
+   KISATSU STUDY v2 — hardened rebuild
+   ========================================================== */
 'use strict';
-var KEY = 'kisatsu.study.v1';
-var RING_C = 728.85;
-var REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ---------- tiny helpers ---------- */
+var KEY = 'kisatsu.study.v2';
+var RING_C = 728.85;
+var REDUCED = false;
+try { REDUCED = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch(e) {}
+
+function showErr(msg){
+  var d = document.getElementById('errBar');
+  if(d){ d.textContent = 'Script error — ' + msg; d.style.display = 'block'; }
+}
+
+/* ---------- helpers ---------- */
 function $(id){ return document.getElementById(id); }
 function pad2(n){ return (n < 10 ? '0' : '') + n; }
-function clampN(v,a,b){ return Math.max(a, Math.min(b, v)); }
+function clampN(v, a, b){ return Math.max(a, Math.min(b, v)); }
 function esc(s){ return String(s).split('&').join('&amp;').split('<').join('&lt;').split('>').join('&gt;'); }
-function fmtMS(sec){ sec = Math.max(0, Math.floor(sec)); return pad2(Math.floor(sec/60)) + ':' + pad2(sec%60); }
-function fmtHMS(sec){ sec = Math.max(0, Math.floor(sec)); var h = Math.floor(sec/3600);
-  if(h > 0){ return h + ':' + pad2(Math.floor(sec%3600/60)) + ':' + pad2(sec%60); }
-  return pad2(Math.floor(sec/60)) + ':' + pad2(sec%60); }
-function fmtDur(ms){ var m = Math.floor(ms/60000);
+function fmtMS(sec){ sec = Math.max(0, Math.floor(sec)); return pad2(Math.floor(sec / 60)) + ':' + pad2(sec % 60); }
+function fmtHMS(sec){
+  sec = Math.max(0, Math.floor(sec));
+  var h = Math.floor(sec / 3600);
+  if(h > 0){ return h + ':' + pad2(Math.floor((sec % 3600) / 60)) + ':' + pad2(sec % 60); }
+  return pad2(Math.floor(sec / 60)) + ':' + pad2(sec % 60);
+}
+function fmtDur(ms){
+  var m = Math.floor(ms / 60000);
   if(m < 60){ return m + 'm'; }
-  var h = Math.floor(m/60), r = m%60;
-  if(h < 48){ return h + 'h' + (r ? ' ' + r + 'm' : ''); }
-  return Math.floor(h/24) + 'd ' + (h%24) + 'h'; }
-function hexRGB(hx){ hx = hx.replace('#',''); if(hx.length === 3){ hx = hx[0]+hx[0]+hx[1]+hx[1]+hx[2]+hx[2]; }
-  return [parseInt(hx.substr(0,2),16), parseInt(hx.substr(2,2),16), parseInt(hx.substr(4,2),16)]; }
-function rgba(hx,a){ var c = hexRGB(hx); return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
-function lumRGB(r,g,b){ var f = function(x){ x = x/255; return x <= 0.03928 ? x/12.92 : Math.pow((x+0.055)/1.055, 2.4); };
-  return 0.2126*f(r) + 0.7152*f(g) + 0.0722*f(b); }
-function rgb2hsl(r,g,b){ r/=255; g/=255; b/=255; var mx=Math.max(r,g,b), mn=Math.min(r,g,b), h=0, s=0, l=(mx+mn)/2;
-  if(mx!==mn){ var d=mx-mn; s = l>0.5 ? d/(2-mx-mn) : d/(mx+mn);
-    if(mx===r){ h=(g-b)/d + (g<b?6:0); } else if(mx===g){ h=(b-r)/d + 2; } else { h=(r-g)/d + 4; } h/=6; }
-  return [h,s,l]; }
-function hsl2rgb(h,s,l){ var r,g,b;
-  if(s===0){ r=g=b=l; } else {
-    var q = l<0.5 ? l*(1+s) : l+s-l*s, p = 2*l-q;
-    var f = function(t){ if(t<0)t+=1; if(t>1)t-=1;
-      if(t<1/6) return p+(q-p)*6*t; if(t<1/2) return q; if(t<2/3) return p+(q-p)*(2/3-t)*6; return p; };
-    r=f(h+1/3); g=f(h); b=f(h-1/3); }
-  return [Math.round(r*255), Math.round(g*255), Math.round(b*255)]; }
-/* deterministic PRNG: same day → same missions in every browser */
-function xmur(s){ var h = 1779033703 ^ s.length;
-  for(var i=0;i<s.length;i++){ h = Math.imul(h ^ s.charCodeAt(i), 3432918353); h = (h<<13)|(h>>>19); } return h>>>0; }
-function mulberry(a){ return function(){ a|=0; a = (a + 0x6D2B79F5)|0;
-  var t = Math.imul(a ^ (a>>>15), 1|a); t = (t + Math.imul(t ^ (t>>>7), 61|t)) ^ t;
-  return ((t ^ (t>>>14))>>>0)/4294967296; }; }
+  var h = Math.floor(m / 60), r = m % 60;
+  if(h < 48){ return h + 'h' + (r > 0 ? ' ' + r + 'm' : ''); }
+  return Math.floor(h / 24) + 'd ' + (h % 24) + 'h';
+}
+function hexRGB(hx){
+  hx = String(hx).replace('#', '');
+  if(hx.length === 3){ hx = hx.charAt(0) + hx.charAt(0) + hx.charAt(1) + hx.charAt(1) + hx.charAt(2) + hx.charAt(2); }
+  return [parseInt(hx.substr(0, 2), 16), parseInt(hx.substr(2, 2), 16), parseInt(hx.substr(4, 2), 16)];
+}
+function rgba(hx, a){ var c = hexRGB(hx); return 'rgba(' + c[0] + ',' + c[1] + ',' + c[2] + ',' + a + ')'; }
+function rgbaArr(c, a){ return 'rgba(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ',' + a + ')'; }
+function rgbCss(c){ return 'rgb(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ')'; }
+function darken(c, f){ return [c[0] * f, c[1] * f, c[2] * f]; }
+function lumRGB(r, g, b){
+  var f = function(x){ x = x / 255; return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4); };
+  return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b);
+}
+function rgb2hsl(r, g, b){
+  r /= 255; g /= 255; b /= 255;
+  var mx = Math.max(r, g, b), mn = Math.min(r, g, b), h = 0, s = 0, l = (mx + mn) / 2;
+  if(mx !== mn){
+    var d = mx - mn;
+    s = l > 0.5 ? d / (2 - mx - mn) : d / (mx + mn);
+    if(mx === r){ h = (g - b) / d + (g < b ? 6 : 0); }
+    else if(mx === g){ h = (b - r) / d + 2; }
+    else { h = (r - g) / d + 4; }
+    h /= 6;
+  }
+  return [h, s, l];
+}
+function hsl2rgb(h, s, l){
+  var r, g, b;
+  if(s === 0){ r = g = b = l; }
+  else{
+    var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    var p = 2 * l - q;
+    var f = function(t){
+      if(t < 0){ t += 1; } if(t > 1){ t -= 1; }
+      if(t < 1 / 6){ return p + (q - p) * 6 * t; }
+      if(t < 1 / 2){ return q; }
+      if(t < 2 / 3){ return p + (q - p) * (2 / 3 - t) * 6; }
+      return p;
+    };
+    r = f(h + 1 / 3); g = f(h); b = f(h - 1 / 3);
+  }
+  return [Math.round(r * 255), Math.round(g * 255), Math.round(b * 255)];
+}
+/* deterministic PRNG — same date gives the same missions in every browser */
+function xmur(s){
+  var h = 1779033703 ^ s.length;
+  for(var i = 0; i < s.length; i++){
+    h = Math.imul(h ^ s.charCodeAt(i), 3432918353);
+    h = (h << 13) | (h >>> 19);
+  }
+  return h >>> 0;
+}
+function mulberry(a){
+  return function(){
+    a |= 0; a = (a + 0x6D2B79F5) | 0;
+    var t = Math.imul(a ^ (a >>> 15), 1 | a);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
 
-/* ---------- THEMES (20) ---------- */
+/* ---------- 20 THEMES ---------- */
 var THEMES = [
- {id:'tanjiro', n:'Tanjiro',   jp:'竈門炭治郎', c:0,   a:'#3ee6a8', b:'#a9f7d4', g:['#04100c','#082018','#0f3a2a']},
- {id:'nezuko',  n:'Nezuko',    jp:'竈門禰豆子', c:60,  a:'#ff7fa9', b:'#ffc9dd', g:['#160812','#2a0f1e','#47172f']},
- {id:'zenitsu', n:'Zenitsu',   jp:'我妻善逸',  c:60,  a:'#ffd23f', b:'#ffe89a', g:['#141003','#241c06','#3d2f0a']},
- {id:'inosuke', n:'Inosuke',   jp:'嘴平伊之助', c:80,  a:'#9ec7e8', b:'#dbeeff', g:['#0a0f14','#141d26','#22303c']},
- {id:'rengoku', n:'Rengoku',   jp:'煉獄杏寿郎', c:100, a:'#ff8a2a', b:'#ffd08a', g:['#180a04','#2c1206','#4a1e08']},
- {id:'shinobu', n:'Shinobu',   jp:'胡蝶しのぶ', c:100, a:'#c08bff', b:'#e6d4ff', g:['#100a1c','#1c1233','#2c1c52']},
- {id:'mitsuri', n:'Mitsuri',   jp:'甘露寺蜜璃', c:100, a:'#ff9ecb', b:'#d7ff9e', g:['#1c0f16','#2e1626','#4a1f3a']},
- {id:'muichiro',n:'Muichiro',  jp:'時透無一郎', c:100, a:'#8fe3d9', b:'#e8fffb', g:['#081416','#0f2226','#1a3a3d']},
- {id:'giyu',    n:'Giyu',      jp:'富岡義勇',  c:120, a:'#5aa7ff', b:'#bcd9ff', g:['#060d18','#0c1a2e','#133051']},
- {id:'tengen',  n:'Tengen',    jp:'宇髄天元',  c:120, a:'#e86fff', b:'#ffd1f4', g:['#150618','#260b2c','#3f1148']},
- {id:'sanemi',  n:'Sanemi',    jp:'不死川実弥', c:120, a:'#b6f09c', b:'#efffdc', g:['#0c130a','#16240f','#24401a']},
- {id:'obanai',  n:'Obanai',    jp:'伊黒小芭内', c:140, a:'#d6c8ff', b:'#f1ecff', g:['#100e18','#1b1828','#2b2542']},
- {id:'gyomei',  n:'Gyomei',    jp:'悲鳴嶼行冥', c:140, a:'#e8c39a', b:'#fff1dc', g:['#12100c','#201c14','#362e20']},
- {id:'kanae',   n:'Kanae',     jp:'胡蝶カナエ', c:140, a:'#e05a86', b:'#8a4a63', g:['#fdeef2','#fbd9e2','#f3bdcd'], darkInk:true},
- {id:'urokodaki',n:'Urokodaki',jp:'鱗滝左近次', c:160, a:'#7fb4d9', b:'#ffd7c9', g:['#081119','#0f1f2c','#1a3346']},
- {id:'wisteria',n:'Wisteria',  jp:'藤の花',    c:160, a:'#b490ff', b:'#e3d6ff', g:['#0b0a1a','#171436','#251f57']},
- {id:'nichirin',n:'Nichirin',  jp:'日輪刀',    c:180, a:'#ff4d6d', b:'#ffe9c7', g:['#050505','#101014','#1e1420']},
- {id:'muzan',   n:'Muzan',     jp:'鬼舞辻無惨', c:200, a:'#ff3b5c', b:'#a4133c', g:['#070308','#12060e','#22091a']},
- {id:'moon',    n:'Upper Moon',jp:'上弦の月',  c:200, a:'#ff5470', b:'#ffb199', g:['#0d0510','#1c0a1e','#330f2e']},
- {id:'hashira', n:'Hashira',   jp:'柱',        c:250, a:'#ffd76a', b:'#9ff0ff', g:['#0b0f1a','#161e33','#24304f']}
+  {id:'tanjiro', n:'Tanjiro', jp:'竈門炭治郎', c:0, a:'#3ee6a8', b:'#a9f7d4', g:['#04100c','#082018','#0f3a2a']},
+  {id:'nezuko', n:'Nezuko', jp:'竈門禰豆子', c:60, a:'#ff7fa9', b:'#ffc9dd', g:['#160812','#2a0f1e','#47172f']},
+  {id:'zenitsu', n:'Zenitsu', jp:'我妻善逸', c:60, a:'#ffd23f', b:'#ffe89a', g:['#141003','#241c06','#3d2f0a']},
+  {id:'inosuke', n:'Inosuke', jp:'嘴平伊之助', c:80, a:'#9ec7e8', b:'#dbeeff', g:['#0a0f14','#141d26','#22303c']},
+  {id:'rengoku', n:'Rengoku', jp:'煉獄杏寿郎', c:100, a:'#ff8a2a', b:'#ffd08a', g:['#180a04','#2c1206','#4a1e08']},
+  {id:'shinobu', n:'Shinobu', jp:'胡蝶しのぶ', c:100, a:'#c08bff', b:'#e6d4ff', g:['#100a1c','#1c1233','#2c1c52']},
+  {id:'mitsuri', n:'Mitsuri', jp:'甘露寺蜜璃', c:100, a:'#ff9ecb', b:'#d7ff9e', g:['#1c0f16','#2e1626','#4a1f3a']},
+  {id:'muichiro', n:'Muichiro', jp:'時透無一郎', c:100, a:'#8fe3d9', b:'#e8fffb', g:['#081416','#0f2226','#1a3a3d']},
+  {id:'giyu', n:'Giyu', jp:'富岡義勇', c:120, a:'#5aa7ff', b:'#bcd9ff', g:['#060d18','#0c1a2e','#133051']},
+  {id:'tengen', n:'Tengen', jp:'宇髄天元', c:120, a:'#e86fff', b:'#ffd1f4', g:['#150618','#260b2c','#3f1148']},
+  {id:'sanemi', n:'Sanemi', jp:'不死川実弥', c:120, a:'#b6f09c', b:'#efffdc', g:['#0c130a','#16240f','#24401a']},
+  {id:'obanai', n:'Obanai', jp:'伊黒小芭内', c:140, a:'#d6c8ff', b:'#f1ecff', g:['#100e18','#1b1828','#2b2542']},
+  {id:'gyomei', n:'Gyomei', jp:'悲鳴嶼行冥', c:140, a:'#e8c39a', b:'#fff1dc', g:['#12100c','#201c14','#362e20']},
+  {id:'kanae', n:'Kanae', jp:'胡蝶カナエ', c:140, a:'#e05a86', b:'#8a4a63', g:['#fdeef2','#fbd9e2','#f3bdcd'], darkInk:true},
+  {id:'urokodaki', n:'Urokodaki', jp:'鱗滝左近次', c:160, a:'#7fb4d9', b:'#ffd7c9', g:['#081119','#0f1f2c','#1a3346']},
+  {id:'wisteria', n:'Wisteria', jp:'藤の花', c:160, a:'#b490ff', b:'#e3d6ff', g:['#0b0a1a','#171436','#251f57']},
+  {id:'nichirin', n:'Nichirin', jp:'日輪刀', c:180, a:'#ff4d6d', b:'#ffe9c7', g:['#050505','#101014','#1e1420']},
+  {id:'muzan', n:'Muzan', jp:'鬼舞辻無惨', c:200, a:'#ff3b5c', b:'#a4133c', g:['#070308','#12060e','#22091a']},
+  {id:'moon', n:'Upper Moon', jp:'上弦の月', c:200, a:'#ff5470', b:'#ffb199', g:['#0d0510','#1c0a1e','#330f2e']},
+  {id:'hashira', n:'Hashira', jp:'柱', c:250, a:'#ffd76a', b:'#9ff0ff', g:['#0b0f1a','#161e33','#24304f']}
 ];
-function themeById(id){ for(var i=0;i<THEMES.length;i++){ if(THEMES[i].id===id) return THEMES[i]; } return THEMES[0]; }
+function themeById(id){
+  for(var i = 0; i < THEMES.length; i++){ if(THEMES[i].id === id){ return THEMES[i]; } }
+  return THEMES[0];
+}
 
-/* ---------- MISSION POOL (113 missions, 4 shown per day) ---------- */
+/* ---------- 113 MISSIONS (4 shown per day, seeded by date) ---------- */
 var MP = [];
-function addM(t,v,x,r){ MP.push({t:t, v:v, x:x, r:r}); }
-(function build(){
-  var i,j;
-  var MIN_T=[5,8,10,12,15,20,25,30,40,45,50,60,75,90,120,150,180];
-  var MIN_X=['Total Concentration! Focus for {v} minutes.','Forge your blade: {v} minutes of deep study.','Breathing, First Form: {v} solid minutes.'];
-  for(i=0;i<MIN_T.length;i++){ for(j=0;j<3;j++){ addM('min', MIN_T[i], MIN_X[j], Math.max(3, Math.round(MIN_T[i]*0.5))); } }
-  var POMO_T=[1,2,3,4,5,6];
-  var POMO_X=['Complete {v} Pomodoro session(s).','Slay {v} demon-sized pomodoros.','Run {v} full cycles of 25/5.'];
-  for(i=0;i<POMO_T.length;i++){ for(j=0;j<3;j++){ addM('pomo', POMO_T[i], POMO_X[j], POMO_T[i]*6+2); } }
-  var SW_T=[10,15,20,25,30,45,60];
-  var SW_X=['March the stopwatch for {v} minutes.','Endless training arc: {v} minutes on the stopwatch.'];
-  for(i=0;i<SW_T.length;i++){ for(j=0;j<2;j++){ addM('sw', SW_T[i], SW_X[j], Math.round(SW_T[i]*0.45)+2); } }
-  var CO_T=[10,15,20,25,35,50];
-  var CO_X=['Earn {v} coins from studying.','Treasure of the dojo: collect {v} coins.'];
-  for(i=0;i<CO_T.length;i++){ for(j=0;j<2;j++){ addM('coin', CO_T[i], CO_X[j], Math.round(CO_T[i]*0.5)+3); } }
-  var RUN_T=[15,20,25,30,45];
-  var RUN_X=['One unbroken focus run of {v} minutes.','Keep the blade steady: {v} minutes without pause.'];
-  for(i=0;i<RUN_T.length;i++){ for(j=0;j<2;j++){ addM('run', RUN_T[i], RUN_X[j], Math.round(RUN_T[i]*0.6)+3); } }
-  addM('early',1,'Dawn Training — start a session before 9:00 AM.',6);
-  addM('night',1,'Moonlit Meditation — study after 10:00 PM.',6);
-  addM('theme',2,'Collector: own 2 color themes.',8);
-  addM('theme',4,'Wardrobe of Blades: own 4 color themes.',14);
-  addM('theme',7,'Hashira Collector: own 7 color themes.',25);
-  addM('bg',1,'Scenic Grounds: set a custom background.',10);
-  addM('dual',1,'Dual Training — 2 pomodoros AND 15 stopwatch minutes.',15);
-  addM('np',1,'Flawless Form — finish a pomodoro without pausing once.',8);
+function addM(t, v, x, r){ MP.push({t:t, v:v, x:x, r:r}); }
+(function(){
+  var i, j;
+  var MIN_T = [5,8,10,12,15,20,25,30,40,45,50,60,75,90,120,150,180];
+  var MIN_X = ['Total Concentration! Focus for {v} minutes.','Forge your blade: {v} minutes of deep study.','Breathing, First Form: {v} solid minutes.'];
+  for(i = 0; i < MIN_T.length; i++){ for(j = 0; j < 3; j++){ addM('min', MIN_T[i], MIN_X[j], Math.max(3, Math.round(MIN_T[i] * 0.5))); } }
+  var POMO_T = [1,2,3,4,5,6];
+  var POMO_X = ['Complete {v} Pomodoro session(s).','Slay {v} demon-sized pomodoros.','Run {v} full cycles of 25/5.'];
+  for(i = 0; i < POMO_T.length; i++){ for(j = 0; j < 3; j++){ addM('pomo', POMO_T[i], POMO_X[j], POMO_T[i] * 6 + 2); } }
+  var SW_T = [10,15,20,25,30,45,60];
+  var SW_X = ['March the stopwatch for {v} minutes.','Endless training arc: {v} minutes on the stopwatch.'];
+  for(i = 0; i < SW_T.length; i++){ for(j = 0; j < 2; j++){ addM('sw', SW_T[i], SW_X[j], Math.round(SW_T[i] * 0.45) + 2); } }
+  var CO_T = [10,15,20,25,35,50];
+  var CO_X = ['Earn {v} coins from studying.','Treasure of the dojo: collect {v} coins.'];
+  for(i = 0; i < CO_T.length; i++){ for(j = 0; j < 2; j++){ addM('coin', CO_T[i], CO_X[j], Math.round(CO_T[i] * 0.5) + 3); } }
+  var RUN_T = [15,20,25,30,45];
+  var RUN_X = ['One unbroken focus run of {v} minutes.','Keep the blade steady: {v} minutes without pause.'];
+  for(i = 0; i < RUN_T.length; i++){ for(j = 0; j < 2; j++){ addM('run', RUN_T[i], RUN_X[j], Math.round(RUN_T[i] * 0.6) + 3); } }
+  addM('early', 1, 'Dawn Training — start a session before 9:00 AM.', 6);
+  addM('night', 1, 'Moonlit Meditation — study after 10:00 PM.', 6);
+  addM('theme', 2, 'Collector: own 2 color themes.', 8);
+  addM('theme', 4, 'Wardrobe of Blades: own 4 color themes.', 14);
+  addM('theme', 7, 'Hashira Collector: own 7 color themes.', 25);
+  addM('bg', 1, 'Scenic Grounds: set a custom background.', 10);
+  addM('dual', 1, 'Dual Training — 2 pomodoros AND 15 stopwatch minutes.', 15);
+  addM('np', 1, 'Flawless Form — finish a pomodoro without pausing once.', 8);
 })();
 
-/* ---------- ACHIEVEMENTS ---------- */
-var ACH = [
- {id:'m1', e:'🌱', n:'First Breath', d:'Study your first minute', r:3, f:function(){return S.tot.ms>=60000;}},
- {id:'m10',e:'🌊', n:'Water Surface Slash', d:'Reach 10 total minutes', r:6, f:function(){return S.tot.ms>=600000;}},
- {id:'m60',e:'🫁', n:'Total Concentration', d:'Reach 1 total hour', r:15, f:function(){return S.tot.ms>=3600000;}},
- {id:'m300',e:'🔥', n:'Flame of Training', d:'Reach 5 total hours', r:40, f:function(){return S.tot.ms>=18000000;}},
- {id:'m1000',e:'⚔️', n:'Blade of Ten Thousand Minutes', d:'Reach 1000 total minutes', r:100, f:function(){return S.tot.ms>=60000000;}},
- {id:'m3000',e:'🏯', n:'Infinity Castle Scholar', d:'Reach 50 total hours', r:250, f:function(){return S.tot.ms>=180000000;}},
- {id:'p1', e:'🍅', n:'First Demon Slain', d:'Complete 1 pomodoro', r:5, f:function(){return S.tot.pomos>=1;}},
- {id:'p10',e:'🗡️', n:'Slayer Rank: Kinoe', d:'Complete 10 pomodoros', r:20, f:function(){return S.tot.pomos>=10;}},
- {id:'p25',e:'🩸', n:'Demon Hunter', d:'Complete 25 pomodoros', r:50, f:function(){return S.tot.pomos>=25;}},
- {id:'p50',e:'🌉', n:'Bridge of Blades', d:'Complete 50 pomodoros', r:120, f:function(){return S.tot.pomos>=50;}},
- {id:'p100',e:'☀️', n:'Sun Breathing Master', d:'Complete 100 pomodoros', r:250, f:function(){return S.tot.pomos>=100;}},
- {id:'c100',e:'👛', n:'Coin Pouch', d:'Earn 100 lifetime coins', r:10, f:function(){return S.tot.coins>=100;}},
- {id:'c500',e:'💰', n:'Wisteria Treasury', d:'Earn 500 lifetime coins', r:40, f:function(){return S.tot.coins>=500;}},
- {id:'c2000',e:'🐉', n:'Dragon Hoard', d:'Earn 2000 lifetime coins', r:150, f:function(){return S.tot.coins>=2000;}},
- {id:'t2', e:'🎽', n:'New Haori', d:'Own 2 themes', r:6, f:function(){return S.themes.length>=2;}},
- {id:'t6', e:'🧵', n:'Woven Styles', d:'Own 6 themes', r:25, f:function(){return S.themes.length>=6;}},
- {id:'t12',e:'👘', n:'Master Tailor', d:'Own 12 themes', r:70, f:function(){return S.themes.length>=12;}},
- {id:'t20',e:'🌈', n:'Every Breathing Style', d:'Own all 20 themes', r:200, f:function(){return S.themes.length>=20;}},
- {id:'bg1',e:'🖼️', n:'Scenic Grounds', d:'Set a custom background', r:10, f:function(){return S.bgs.length>=1;}},
- {id:'ms5',e:'📜', n:'Mission Rookie', d:'Complete 5 daily missions', r:12, f:function(){return S.tot.mis>=5;}},
- {id:'ms25',e:'📯', n:'Mission Hunter', d:'Complete 25 daily missions', r:35, f:function(){return S.tot.mis>=25;}},
- {id:'ms100',e:'🏹', n:'Mission Pillar', d:'Complete 100 daily missions', r:120, f:function(){return S.tot.mis>=100;}},
- {id:'s3', e:'🔥', n:'Kindled Flame', d:'3-day study streak', r:15, f:function(){return S.streak>=3;}},
- {id:'s7', e:'🌋', n:'Unquenchable', d:'7-day study streak', r:45, f:function(){return S.streak>=7;}},
- {id:'night',e:'🌙', n:'Moon Demon', d:'Study after 10 PM', r:8, f:function(){return !!S.flags.night;}},
- {id:'early',e:'🌅', n:'Dawn Blade', d:'Study before 7 AM', r:8, f:function(){return !!S.flags.early;}},
- {id:'r30',e:'🛡️', n:'Unbroken Blade', d:'One run of 30+ minutes', r:25, f:function(){return S.tot.maxrun>=1800;}},
- {id:'d7', e:'🗓️', n:'Week of Training', d:'Study on 7 different days', r:40, f:function(){return (S.tot.days||0)>=7;}}
-];
-
 /* ---------- STATE ---------- */
-function DEF(){ return {
-  coins:0, theme:'tanjiro', themes:['tanjiro'], sound:true,
-  blur:4, bgs:[], bgAct:-1, bgMatch:true,
-  streak:0, lastAct:'', ach:[], cprog:0, rt:null,
-  tot:{ms:0, pomos:0, coins:0, mis:0, maxrun:0, days:0},
-  flags:{},
-  d:{date:'', ms:0, pomos:0, sw:0, coins:0, maxrun:0, early:false, night:false, np:0, done:{}, ids:null}
-};}
-var S = DEF();
+var S = null;
+function DEF(){
+  return {
+    coins:0, theme:'tanjiro', themes:['tanjiro'], sound:true,
+    blur:4, bgs:[], bgAct:-1, bgMatch:true,
+    streak:0, lastAct:'', ach:[], cprog:0, rt:null,
+    tot:{ms:0, pomos:0, coins:0, mis:0, maxrun:0, days:0},
+    flags:{},
+    d:{date:'', ms:0, pomos:0, sw:0, coins:0, maxrun:0, early:false, night:false, np:0, done:{}, ids:null}
+  };
+}
 function mergeState(src){
   var out = DEF(), k;
   if(src && typeof src === 'object'){
-    for(k in out){ if(Object.prototype.hasOwnProperty.call(src,k) && typeof src[k] === typeof out[k]){ out[k] = src[k]; } }
-    var tk, groups = ['tot','flags','d'];
-    for(var gi=0; gi<groups.length; gi++){
-      var g = groups[gi];
-      if(src[g] && typeof src[g] === 'object'){ for(tk in out[g]){ if(Object.prototype.hasOwnProperty.call(src[g],tk)){ out[g][tk] = src[g][tk]; } } }
+    for(k in out){
+      if(typeof src[k] !== 'undefined' && typeof src[k] === typeof out[k]){ out[k] = src[k]; }
+    }
+    var groups = ['tot', 'flags', 'd'], gi, tk, g;
+    for(gi = 0; gi < groups.length; gi++){
+      g = groups[gi];
+      if(src[g] && typeof src[g] === 'object'){
+        for(tk in out[g]){ if(typeof src[g][tk] !== 'undefined'){ out[g][tk] = src[g][tk]; } }
+      }
     }
   }
-  if(!Array.isArray(out.themes) || out.themes.length===0){ out.themes = ['tanjiro']; }
-  if(!Array.isArray(out.bgs)){ out.bgs = []; }
-  if(!Array.isArray(out.ach)){ out.ach = []; }
+  if(!out.themes || out.themes.length === 0){ out.themes = ['tanjiro']; }
+  if(!out.bgs){ out.bgs = []; }
+  if(!out.ach){ out.ach = []; }
   if(!themeById(out.theme)){ out.theme = 'tanjiro'; }
   return out;
 }
 function load(){
-  try{ var raw = localStorage.getItem(KEY); if(raw){ S = mergeState(JSON.parse(raw)); return true; } }catch(e){}
+  try{
+    var raw = localStorage.getItem(KEY);
+    if(!raw){ raw = localStorage.getItem('kisatsu.study.v1'); }
+    if(raw){ S = mergeState(JSON.parse(raw)); return true; }
+  }catch(e){ showErr('load: ' + e.message); }
   return false;
 }
 var saveWarned = false;
 function save(){
-  S.rt = {tab:T.tab, ts:Date.now(),
-    p:{mode:T.pomo.mode, total:T.pomo.total, rem:T.pomo.rem, run:T.pomo.run, end:T.pomo.end, np:T.pomo.np},
-    s:{el:T.sw.el, run:T.sw.run}};
-  try{ localStorage.setItem(KEY, JSON.stringify(S)); }
-  catch(e){ if(!saveWarned){ saveWarned = true; toast('Storage is full','Remove a background so progress can save','err'); } }
+  try{
+    S.rt = {tab:T.tab, ts:Date.now(),
+      p:{mode:T.pomo.mode, total:T.pomo.total, rem:T.pomo.rem, run:T.pomo.run, end:T.pomo.end, np:T.pomo.np},
+      s:{el:T.sw.el, run:T.sw.run}};
+    localStorage.setItem(KEY, JSON.stringify(S));
+  }catch(e){
+    if(!saveWarned){ saveWarned = true; toast('Storage is full', 'Remove a background so progress can save', 'err'); }
+  }
 }
 
-/* ---------- calendar / daily ---------- */
-function todayKey(){ var d = new Date(); return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); }
-function prevKey(k){ var p = k.split('-'); var d = new Date(+p[0], +p[1]-1, +p[2]); d.setDate(d.getDate()-1);
-  return d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate(); }
+/* ---------- daily / missions ---------- */
+function todayKey(){ var d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+function prevKey(k){
+  var p = k.split('-');
+  var d = new Date(parseInt(p[0], 10), parseInt(p[1], 10) - 1, parseInt(p[2], 10));
+  d.setDate(d.getDate() - 1);
+  return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
+}
 function rollDaily(){
   var k = todayKey();
-  if(S.d && S.d.date === k) return;
+  if(S.d && S.d.date === k){ return; }
   S.d = {date:k, ms:0, pomos:0, sw:0, coins:0, maxrun:0, early:false, night:false, np:0, done:{}, ids:null};
-  dailyIds(); save(); renderMissions();
+  dailyIds();
+  renderMissions();
+  save();
 }
 function touchDay(){
   var k = todayKey();
-  if(S.lastAct === k) return;
-  S.streak = (S.lastAct === prevKey(k)) ? (S.streak||0)+1 : 1;
+  if(S.lastAct === k){ return; }
+  S.streak = (S.lastAct === prevKey(k)) ? (S.streak || 0) + 1 : 1;
   S.lastAct = k;
-  S.tot.days = (S.tot.days||0)+1;
+  S.tot.days = (S.tot.days || 0) + 1;
 }
-/* seeded pick: exactly 4 missions, identical for a given date everywhere */
 function dailyIds(){
-  if(S.d.ids && S.d.ids.length) return S.d.ids;
+  if(S.d.ids && S.d.ids.length){ return S.d.ids; }
   var rnd = mulberry(xmur('kisatsu-' + S.d.date));
   var idx = [], i, j, tmp;
-  for(i=0;i<MP.length;i++){ idx.push(i); }
-  for(i=MP.length-1;i>0;i--){ j = Math.floor(rnd()*(i+1)); tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp; }
-  S.d.ids = idx.slice(0,4);
+  for(i = 0; i < MP.length; i++){ idx.push(i); }
+  for(i = MP.length - 1; i > 0; i--){
+    j = Math.floor(rnd() * (i + 1));
+    tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
+  }
+  S.d.ids = idx.slice(0, 4);
   return S.d.ids;
 }
 function missionProg(m){
+  if(!m){ return 0; }
   switch(m.t){
-    case 'min': return Math.floor(S.d.ms/60000);
+    case 'min': return Math.floor(S.d.ms / 60000);
     case 'pomo': return S.d.pomos;
-    case 'sw': return Math.floor(S.d.sw/60000);
+    case 'sw': return Math.floor(S.d.sw / 60000);
     case 'coin': return S.d.coins;
-    case 'run': return Math.floor(Math.max(runSec, S.d.maxrun)/60);
+    case 'run': return Math.floor(Math.max(runSec, S.d.maxrun) / 60);
     case 'early': return S.d.early ? 1 : 0;
     case 'night': return S.d.night ? 1 : 0;
     case 'theme': return S.themes.length;
     case 'bg': return S.bgs.length >= 1 ? 1 : 0;
-    case 'dual': return Math.min(Math.floor(S.d.pomos/2), Math.floor(Math.floor(S.d.sw/60000)/15));
+    case 'dual': return Math.min(Math.floor(S.d.pomos / 2), Math.floor(Math.floor(S.d.sw / 60000) / 15));
     case 'np': return S.d.np || 0;
   }
   return 0;
 }
 
+/* ---------- ACHIEVEMENTS ---------- */
+var ACH = [
+  {id:'m1', e:'🌱', n:'First Breath', d:'Study your first minute', r:3, f:function(){ return S.tot.ms >= 60000; }},
+  {id:'m10', e:'🌊', n:'Water Surface Slash', d:'Reach 10 total minutes', r:6, f:function(){ return S.tot.ms >= 600000; }},
+  {id:'m60', e:'🫁', n:'Total Concentration', d:'Reach 1 total hour', r:15, f:function(){ return S.tot.ms >= 3600000; }},
+  {id:'m300', e:'🔥', n:'Flame of Training', d:'Reach 5 total hours', r:40, f:function(){ return S.tot.ms >= 18000000; }},
+  {id:'m1000', e:'⚔️', n:'Blade of Ten Thousand Minutes', d:'Reach 1000 total minutes', r:100, f:function(){ return S.tot.ms >= 60000000; }},
+  {id:'m3000', e:'🏯', n:'Infinity Castle Scholar', d:'Reach 50 total hours', r:250, f:function(){ return S.tot.ms >= 180000000; }},
+  {id:'p1', e:'🍅', n:'First Demon Slain', d:'Complete 1 pomodoro', r:5, f:function(){ return S.tot.pomos >= 1; }},
+  {id:'p10', e:'🗡️', n:'Slayer Rank: Kinoe', d:'Complete 10 pomodoros', r:20, f:function(){ return S.tot.pomos >= 10; }},
+  {id:'p25', e:'🩸', n:'Demon Hunter', d:'Complete 25 pomodoros', r:50, f:function(){ return S.tot.pomos >= 25; }},
+  {id:'p50', e:'🌉', n:'Bridge of Blades', d:'Complete 50 pomodoros', r:120, f:function(){ return S.tot.pomos >= 50; }},
+  {id:'p100', e:'☀️', n:'Sun Breathing Master', d:'Complete 100 pomodoros', r:250, f:function(){ return S.tot.pomos >= 100; }},
+  {id:'c100', e:'👛', n:'Coin Pouch', d:'Earn 100 lifetime coins', r:10, f:function(){ return S.tot.coins >= 100; }},
+  {id:'c500', e:'💰', n:'Wisteria Treasury', d:'Earn 500 lifetime coins', r:40, f:function(){ return S.tot.coins >= 500; }},
+  {id:'c2000', e:'🐉', n:'Dragon Hoard', d:'Earn 2000 lifetime coins', r:150, f:function(){ return S.tot.coins >= 2000; }},
+  {id:'t2', e:'🎽', n:'New Haori', d:'Own 2 themes', r:6, f:function(){ return S.themes.length >= 2; }},
+  {id:'t6', e:'🧵', n:'Woven Styles', d:'Own 6 themes', r:25, f:function(){ return S.themes.length >= 6; }},
+  {id:'t12', e:'👘', n:'Master Tailor', d:'Own 12 themes', r:70, f:function(){ return S.themes.length >= 12; }},
+  {id:'t20', e:'🌈', n:'Every Breathing Style', d:'Own all 20 themes', r:200, f:function(){ return S.themes.length >= 20; }},
+  {id:'bg1', e:'🖼️', n:'Scenic Grounds', d:'Set a custom background', r:10, f:function(){ return S.bgs.length >= 1; }},
+  {id:'ms5', e:'📜', n:'Mission Rookie', d:'Complete 5 daily missions', r:12, f:function(){ return S.tot.mis >= 5; }},
+  {id:'ms25', e:'📯', n:'Mission Hunter', d:'Complete 25 daily missions', r:35, f:function(){ return S.tot.mis >= 25; }},
+  {id:'ms100', e:'🏹', n:'Mission Pillar', d:'Complete 100 daily missions', r:120, f:function(){ return S.tot.mis >= 100; }},
+  {id:'s3', e:'🔥', n:'Kindled Flame', d:'3-day study streak', r:15, f:function(){ return S.streak >= 3; }},
+  {id:'s7', e:'🌋', n:'Unquenchable', d:'7-day study streak', r:45, f:function(){ return S.streak >= 7; }},
+  {id:'night', e:'🌙', n:'Moon Demon', d:'Study after 10 PM', r:8, f:function(){ return !!S.flags.night; }},
+  {id:'early', e:'🌅', n:'Dawn Blade', d:'Study before 7 AM', r:8, f:function(){ return !!S.flags.early; }},
+  {id:'r30', e:'🛡️', n:'Unbroken Blade', d:'One run of 30+ minutes', r:25, f:function(){ return S.tot.maxrun >= 1800; }},
+  {id:'d7', e:'🗓️', n:'Week of Training', d:'Study on 7 different days', r:40, f:function(){ return (S.tot.days || 0) >= 7; }}
+];
+
 /* ---------- economy ---------- */
-function coinPop(){ var p = $('coinsPill'); p.classList.remove('pop'); void p.offsetWidth; p.classList.add('pop'); }
+function coinPop(){
+  var p = $('coinsPill');
+  if(!p){ return; }
+  p.classList.remove('pop');
+  void p.offsetWidth;
+  p.classList.add('pop');
+}
 function grantRaw(n){ S.coins += n; S.tot.coins += n; S.d.coins += n; coinPop(); }
 function grantMinute(){
   grantRaw(1);
-  toast('+1 coin forged', 'Study minute ' + Math.floor(S.d.ms/60000) + ' of today', 'coin');
+  toast('+1 coin forged', 'Study minute ' + Math.floor(S.d.ms / 60000) + ' of today', 'coin');
   afterStats();
 }
 function spend(n){
-  if(S.coins < n){ sfx('err'); toast('Not enough coins','Keep studying, slayer — coins come by the minute','err'); return false; }
+  if(S.coins < n){ sfx('err'); toast('Not enough coins', 'Keep studying, slayer — coins come by the minute', 'err'); return false; }
   S.coins -= n; coinPop(); return true;
 }
 
-/* ---------- audio (WebAudio, no files) ---------- */
+/* ---------- audio ---------- */
 var AC = null;
-function ac(){ if(!AC){ var C = window.AudioContext || window.webkitAudioContext; if(C){ AC = new C(); } }
-  if(AC && AC.state === 'suspended'){ AC.resume(); } return AC; }
+function ac(){
+  try{
+    if(!AC){ var C = window.AudioContext || window.webkitAudioContext; if(C){ AC = new C(); } }
+    if(AC && AC.state === 'suspended'){ AC.resume(); }
+  }catch(e){}
+  return AC;
+}
 function tone(f, delay, dur, type, vol){
-  var c = ac(); if(!c || !S.sound) return;
-  var t = c.currentTime + (delay||0);
+  var c = ac();
+  if(!c || !S.sound){ return; }
+  var t = c.currentTime + (delay || 0);
   var o = c.createOscillator(), g = c.createGain();
-  o.type = type || 'sine'; o.frequency.setValueAtTime(f, t);
+  o.type = type || 'sine';
+  o.frequency.setValueAtTime(f, t);
   g.gain.setValueAtTime(0.0001, t);
   g.gain.exponentialRampToValueAtTime(vol || 0.15, t + 0.015);
   g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-  o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05);
+  o.connect(g); g.connect(c.destination);
+  o.start(t); o.stop(t + dur + 0.05);
 }
 function sfx(kind){
-  if(!S.sound) return;
+  if(!S || !S.sound){ return; }
   var i, seq;
-  if(kind === 'toast'){ tone(880,0,.14,'sine',.13); tone(1318.5,.09,.2,'sine',.11); }
-  else if(kind === 'coin'){ tone(1567.98,0,.1,'triangle',.1); tone(2093,.06,.12,'triangle',.08); }
-  else if(kind === 'pomo'){ seq=[523.25,659.25,783.99,1046.5]; for(i=0;i<4;i++){ tone(seq[i], i*0.11, .24, 'triangle', .16); } tone(1567.98,.46,.5,'sine',.13); }
-  else if(kind === 'break'){ tone(659.25,0,.2,'sine',.12); tone(523.25,.16,.32,'sine',.12); }
-  else if(kind === 'ach'){ seq=[659.25,783.99,987.77,1318.5,1567.98]; for(i=0;i<5;i++){ tone(seq[i], i*0.09, .3, 'sine', .13); } }
-  else if(kind === 'err'){ tone(196,0,.16,'square',.05); tone(147,.12,.24,'square',.05); }
-  else if(kind === 'click'){ tone(1100,0,.05,'triangle',.05); }
+  if(kind === 'toast'){ tone(880, 0, .14, 'sine', .13); tone(1318.5, .09, .2, 'sine', .11); }
+  else if(kind === 'coin'){ tone(1567.98, 0, .1, 'triangle', .1); tone(2093, .06, .12, 'triangle', .08); }
+  else if(kind === 'pomo'){ seq = [523.25, 659.25, 783.99, 1046.5]; for(i = 0; i < 4; i++){ tone(seq[i], i * 0.11, .24, 'triangle', .16); } tone(1567.98, .46, .5, 'sine', .13); }
+  else if(kind === 'break'){ tone(659.25, 0, .2, 'sine', .12); tone(523.25, .16, .32, 'sine', .12); }
+  else if(kind === 'ach'){ seq = [659.25, 783.99, 987.77, 1318.5, 1567.98]; for(i = 0; i < 5; i++){ tone(seq[i], i * 0.09, .3, 'sine', .13); } }
+  else if(kind === 'err'){ tone(196, 0, .16, 'square', .05); tone(147, .12, .24, 'square', .05); }
+  else if(kind === 'click'){ tone(1100, 0, .05, 'triangle', .05); }
 }
-document.addEventListener('pointerdown', function(){ ac(); }, {once:true});
+document.addEventListener('pointerdown', function(){ ac(); });
 
 /* ---------- toasts ---------- */
 var TICONS = {coin:'🪙', pomo:'🔥', ach:'🏆', mission:'🎯', err:'⚠️', ok:'✅', theme:'🎨', bg:'🖼️', info:'✦'};
 function toast(title, sub, kind){
   kind = kind || 'info';
-  var w = $('toasts'), d = document.createElement('div');
+  var w = $('toasts');
+  if(!w){ return; }
+  var d = document.createElement('div');
   d.className = 'toast';
-  d.innerHTML = '<div class="ti">' + (TICONS[kind]||'✦') + '</div><div><b>' + esc(title) + '</b>' + (sub ? '<span>' + esc(sub) + '</span>' : '') + '</div>';
+  d.innerHTML = '<div class="ti">' + (TICONS[kind] || '✦') + '</div><div><b>' + esc(title) + '</b>' + (sub ? '<span>' + esc(sub) + '</span>' : '') + '</div>';
   w.appendChild(d);
   while(w.children.length > 4){ w.removeChild(w.firstChild); }
   requestAnimationFrame(function(){ d.classList.add('in'); });
-  setTimeout(function(){ d.classList.add('out'); setTimeout(function(){ if(d.parentNode){ d.parentNode.removeChild(d); }, 450); }, 3400);
-  if(kind === 'pomo'){ sfx('pomo'); } else if(kind === 'ach'){ sfx('ach'); }
-  else if(kind === 'coin'){ sfx('coin'); } else if(kind === 'err'){ sfx('err'); }
-  else if(kind === 'break'){ sfx('break'); } else { sfx('toast'); }
+  setTimeout(function(){
+    d.classList.add('out');
+    setTimeout(function(){ if(d.parentNode){ d.parentNode.removeChild(d); } }, 450);
+  }, 3400);
+  if(kind === 'pomo'){ sfx('pomo'); }
+  else if(kind === 'ach'){ sfx('ach'); }
+  else if(kind === 'coin'){ sfx('coin'); }
+  else if(kind === 'err'){ sfx('err'); }
+  else if(kind === 'break'){ sfx('break'); }
+  else { sfx('toast'); }
 }
 
 /* ---------- timers ---------- */
@@ -623,6 +707,8 @@ var T = {
   pomo:{mode:'focus', total:1500, rem:1500, run:false, end:0, np:true},
   sw:{el:0, run:false}
 };
+var lastTick = Date.now();
+
 function markSessionFlags(){
   var h = new Date().getHours();
   if(h < 9){ S.d.early = true; }
@@ -630,10 +716,11 @@ function markSessionFlags(){
   if(h < 7){ S.flags.early = true; }
 }
 function addFocus(dt, isSw){
+  if(dt <= 0){ return; }
   touchDay();
-  S.d.ms += dt*1000; S.tot.ms += dt*1000;
+  S.d.ms += dt * 1000; S.tot.ms += dt * 1000;
   if(isSw){
-    S.d.sw += dt*1000; runSec += dt;
+    S.d.sw += dt * 1000; runSec += dt;
     if(runSec > S.d.maxrun){ S.d.maxrun = runSec; }
     if(runSec > S.tot.maxrun){ S.tot.maxrun = runSec; }
   }
@@ -644,60 +731,64 @@ function addFocus(dt, isSw){
 function pomoComplete(away){
   if(T.pomo.mode === 'focus'){
     S.d.pomos++; S.tot.pomos++;
-    if(T.pomo.np){ S.d.np = (S.d.np||0)+1; }
+    if(T.pomo.np){ S.d.np = (S.d.np || 0) + 1; }
     grantRaw(10);
-    if(!away){ toast('Pomodoro complete!','+10 coins — enjoy a 5 minute break','pomo'); }
-    else { toast('Pomodoro finished while you were away','+10 coins added','pomo'); }
+    if(away){ toast('Pomodoro finished while you were away', '+10 coins added', 'pomo'); }
+    else { toast('Pomodoro complete!', '+10 coins — enjoy a 5 minute break', 'pomo'); }
     T.pomo.mode = 'break'; T.pomo.total = 300; T.pomo.rem = 300;
     T.pomo.end = Date.now() + 300000; T.pomo.run = true; T.pomo.np = true;
   } else {
-    if(!away){ toast('Break over','Next round: 25 minutes of focus','break'); }
-    T.pomo.mode = 'focus'; T.pomo.total = 1500; T.pomo.rem = 1500; T.pomo.run = false; T.pomo.np = true;
+    if(!away){ toast('Break over', 'Next round: 25 minutes of focus', 'break'); }
+    T.pomo.mode = 'focus'; T.pomo.total = 1500; T.pomo.rem = 1500;
+    T.pomo.run = false; T.pomo.np = true;
   }
+  syncButtons();
   afterStats();
 }
-function step(){
-  rollDaily();
+function tick(){
   var now = Date.now();
+  var dt = Math.min((now - lastTick) / 1000, 120);
+  lastTick = now;
+  rollDaily();
   if(T.pomo.run){
-    T.pomo.rem = Math.max(0, (T.pomo.end - now)/1000);
-    if(T.pomo.mode === 'focus'){ addFocus(Math.min((now - step.last)/1000, 120), false); }
+    T.pomo.rem = Math.max(0, (T.pomo.end - now) / 1000);
+    if(T.pomo.mode === 'focus'){ addFocus(dt, false); }
     if(T.pomo.rem <= 0){ pomoComplete(false); }
   }
   if(T.sw.run){
-    var dt = Math.min((now - step.last)/1000, 120);
     T.sw.el += dt;
     addFocus(dt, true);
   }
+  uiTick();
 }
-step.last = Date.now();
-
 function togglePomo(){
   sfx('click');
   if(T.pomo.run){
     T.pomo.run = false;
-    T.pomo.rem = Math.max(0, (T.pomo.end - Date.now())/1000);
+    T.pomo.rem = Math.max(0, (T.pomo.end - Date.now()) / 1000);
     if(T.pomo.mode === 'focus'){ T.pomo.np = false; }
   } else {
     markSessionFlags();
-    T.pomo.end = Date.now() + T.pomo.rem*1000;
+    T.pomo.end = Date.now() + T.pomo.rem * 1000;
     T.pomo.run = true;
   }
   syncButtons(); save();
 }
 function resetPomo(){
   sfx('click');
-  T.pomo.run = false; T.pomo.rem = T.pomo.total; T.pomo.np = true;
+  T.pomo.run = false;
+  T.pomo.rem = T.pomo.total;
+  T.pomo.np = true;
   syncButtons(); save();
 }
 function skipPomo(){
   sfx('click');
   if(T.pomo.mode === 'focus'){
     T.pomo.mode = 'break'; T.pomo.total = 300; T.pomo.rem = 300; T.pomo.run = false;
-    toast('Skipped to break','No reward for an abandoned round','info');
+    toast('Skipped to break', 'No reward for an abandoned round', 'info');
   } else {
     T.pomo.mode = 'focus'; T.pomo.total = 1500; T.pomo.rem = 1500; T.pomo.run = false; T.pomo.np = true;
-    toast('Back to focus','25 minutes on the blade','info');
+    toast('Back to focus', '25 minutes on the blade', 'info');
   }
   syncButtons(); save();
 }
@@ -716,57 +807,67 @@ function toggleSw(){
 }
 function resetSw(){
   sfx('click');
-  if(T.sw.run){ /* committing run */ }
   if(runSec > S.d.maxrun){ S.d.maxrun = runSec; }
   if(runSec > S.tot.maxrun){ S.tot.maxrun = runSec; }
   runSec = 0; T.sw.el = 0; T.sw.run = false;
   syncButtons(); afterStats(); save();
 }
 function syncButtons(){
-  $('pStart').textContent = T.pomo.run ? '⏸ Pause' : '▶ Start';
-  $('sStart').textContent = T.sw.run ? '⏸ Pause' : '▶ Start';
+  var ps = $('pStart'), ss = $('sStart');
+  if(ps){ ps.textContent = T.pomo.run ? '⏸ Pause' : '▶ Start'; }
+  if(ss){ ss.textContent = T.sw.run ? '⏸ Pause' : '▶ Start'; }
   document.body.classList.toggle('running', T.pomo.run || T.sw.run);
 }
-
-/* restore running timers after reload */
 function restoreTimers(){
-  var r = S.rt; if(!r) return;
-  T.tab = r.tab === 'sw' ? 'sw' : 'pomo';
+  var r = S.rt;
+  if(!r){ return; }
+  T.tab = (r.tab === 'sw') ? 'sw' : 'pomo';
   var now = Date.now();
   if(r.p){
-    T.pomo.mode = r.p.mode === 'break' ? 'break' : 'focus';
+    T.pomo.mode = (r.p.mode === 'break') ? 'break' : 'focus';
     T.pomo.total = r.p.total || (T.pomo.mode === 'break' ? 300 : 1500);
     if(r.p.run && r.p.end){
       if(now >= r.p.end){
-        var away = Math.min(T.pomo.total, Math.max(0, (r.p.end - (r.ts||r.p.end))/1000));
+        var away = Math.min(T.pomo.total, Math.max(0, (r.p.end - (r.ts || r.p.end)) / 1000));
         if(T.pomo.mode === 'focus'){ addFocus(away, false); }
         pomoComplete(true);
       } else {
-        T.pomo.rem = (r.p.end - now)/1000; T.pomo.end = r.p.end;
-        T.pomo.run = true; T.pomo.np = !!r.p.np;
+        T.pomo.rem = (r.p.end - now) / 1000;
+        T.pomo.end = r.p.end;
+        T.pomo.run = true;
+        T.pomo.np = !!r.p.np;
       }
     } else {
       T.pomo.rem = (typeof r.p.rem === 'number') ? r.p.rem : T.pomo.total;
       T.pomo.run = false;
     }
   }
-  if(r.s && r.s.run){
-    var dt = Math.min(3600, Math.max(0, (now - (r.ts||now))/1000));
-    T.sw.el = (r.s.el||0) + dt;
-    runSec = dt; T.sw.run = true;
-  } else if(r.s){ T.sw.el = r.s.el || 0; }
-  setTab(T.tab); syncButtons();
+  if(r.s){
+    if(r.s.run){
+      var dt = Math.min(3600, Math.max(0, (now - (r.ts || now)) / 1000));
+      T.sw.el = (r.s.el || 0) + dt;
+      runSec = dt;
+      T.sw.run = true;
+    } else {
+      T.sw.el = r.s.el || 0;
+    }
+  }
+  setTab(T.tab);
+  syncButtons();
 }
 
-/* ---------- missions / achievements ---------- */
+/* ---------- missions / achievements checks ---------- */
 function checkMissions(){
-  var ids = dailyIds(), changed = false;
-  for(var i=0;i<ids.length;i++){
-    var idx = ids[i], m = MP[idx];
-    if(!S.d.done[idx] && missionProg(m) >= m.v){
-      S.d.done[idx] = 1; S.tot.mis++;
+  var ids = dailyIds();
+  var changed = false;
+  for(var i = 0; i < ids.length; i++){
+    var idx = ids[i];
+    var m = MP[idx];
+    if(m && !S.d.done[idx] && missionProg(m) >= m.v){
+      S.d.done[idx] = 1;
+      S.tot.mis++;
       grantRaw(m.r);
-      toast('Mission complete!', m.x.split('{v}').join(m.v) + '  (+' + m.r + ' coins)', 'mission');
+      toast('Mission complete!', m.x.split('{v}').join(m.v) + ' (+' + m.r + ' coins)', 'mission');
       changed = true;
     }
   }
@@ -774,63 +875,77 @@ function checkMissions(){
 }
 function checkAch(){
   var unlocked = false;
-  for(var i=0;i<ACH.length;i++){
+  for(var i = 0; i < ACH.length; i++){
     var a = ACH[i];
     if(S.ach.indexOf(a.id) === -1 && a.f()){
-      S.ach.push(a.id); grantRaw(a.r);
-      toast('Achievement — ' + a.n, a.d + '  (+' + a.r + ' coins)', 'ach');
+      S.ach.push(a.id);
+      grantRaw(a.r);
+      toast('Achievement — ' + a.n, a.d + ' (+' + a.r + ' coins)', 'ach');
       unlocked = true;
     }
   }
   if(unlocked){ renderAch(); }
 }
 function afterStats(){
-  renderStats(); checkMissions(); checkAch();
+  renderStats();
+  checkMissions();
+  checkAch();
 }
 
 /* ---------- rendering ---------- */
 function renderStats(){
-  $('coins').textContent = S.coins;
-  $('streak').textContent = S.streak || 0;
+  $('coins').textContent = String(S.coins);
+  $('streak').textContent = String(S.streak || 0);
   $('sToday').textContent = fmtDur(S.d.ms);
   $('sTotal').textContent = fmtDur(S.tot.ms);
-  $('sPomoT').textContent = S.d.pomos;
-  $('sPomoA').textContent = S.tot.pomos;
-  $('sCoinT').textContent = S.d.coins;
+  $('sStreak').textContent = String(S.streak || 0);
+  $('sPomoT').textContent = String(S.d.pomos);
+  $('sPomoA').textContent = String(S.tot.pomos);
+  $('sCoinT').textContent = String(S.d.coins);
 }
 var MROWS = [];
 function renderMissions(){
-  var box = $('msList'); box.innerHTML = ''; MROWS = [];
+  var box = $('msList');
+  if(!box){ return; }
+  box.innerHTML = '';
+  MROWS = [];
   var ids = dailyIds();
-  for(var i=0;i<ids.length;i++){
+  for(var i = 0; i < ids.length; i++){
     var m = MP[ids[i]];
+    if(!m){ continue; }
     var done = !!S.d.done[ids[i]];
     var row = document.createElement('div');
     row.className = 'mission' + (done ? ' done' : '');
-    var txt = m.x.split('{v}').join(m.v);
-    row.innerHTML = '<div class="ic">' + (done ? '✅' : '🎯') + '</div>' +
-      '<div style="flex:1"><div class="tx">' + esc(txt) + '</div>' +
+    row.innerHTML =
+      '<div class="ic">' + (done ? '✅' : '🎯') + '</div>' +
+      '<div style="flex:1"><div class="tx">' + esc(m.x.split('{v}').join(m.v)) + '</div>' +
       '<div class="mbar"><i></i></div><div class="pg"></div></div>' +
       '<div class="rw">+' + m.r + ' 🪙</div>';
     box.appendChild(row);
-    MROWS.push({m:m, el:row, bar:row.querySelector('.mbar i'), pg:row.querySelector('.pg')});
+    MROWS.push({m:m, bar:row.querySelector('.mbar i'), pg:row.querySelector('.pg'), done:done});
   }
   updateMissionBars();
 }
 function updateMissionBars(){
-  for(var i=0;i<MROWS.length;i++){
-    var r = MROWS[i], p = Math.min(r.m.v, missionProg(r.m));
-    r.bar.style.width = Math.round(100*p/r.m.v) + '%';
+  for(var i = 0; i < MROWS.length; i++){
+    var r = MROWS[i];
+    if(r.done){ r.bar.style.width = '100%'; r.pg.textContent = r.m.v + ' / ' + r.m.v; continue; }
+    var p = Math.min(r.m.v, missionProg(r.m));
+    r.bar.style.width = Math.round(100 * p / r.m.v) + '%';
     r.pg.textContent = p + ' / ' + r.m.v;
   }
 }
 function renderAch(){
-  var box = $('achList'); box.innerHTML = '';
-  for(var i=0;i<ACH.length;i++){
-    var a = ACH[i], win = S.ach.indexOf(a.id) !== -1;
+  var box = $('achList');
+  if(!box){ return; }
+  box.innerHTML = '';
+  for(var i = 0; i < ACH.length; i++){
+    var a = ACH[i];
+    var win = S.ach.indexOf(a.id) !== -1;
     var el = document.createElement('div');
     el.className = 'ach ' + (win ? 'win' : 'lock');
-    el.innerHTML = '<div class="em">' + (win ? a.e : '🔒') + '</div>' +
+    el.innerHTML =
+      '<div class="em">' + (win ? a.e : '🔒') + '</div>' +
       '<div><b>' + esc(a.n) + '</b><small>' + esc(a.d) + ' · +' + a.r + ' 🪙</small></div>' +
       '<div class="st">' + (win ? '✔' : '') + '</div>';
     box.appendChild(el);
@@ -838,48 +953,59 @@ function renderAch(){
   $('achCount').textContent = S.ach.length + ' / ' + ACH.length;
 }
 function renderThemes(){
-  var g = $('thGrid'); g.innerHTML = '';
-  for(var i=0;i<THEMES.length;i++){
+  var g = $('thGrid');
+  if(!g){ return; }
+  g.innerHTML = '';
+  for(var i = 0; i < THEMES.length; i++){
     (function(t){
       var owned = S.themes.indexOf(t.id) !== -1;
       var active = S.theme === t.id;
       var c = document.createElement('div');
       c.className = 'tcard' + (active ? ' active' : '') + (!owned && S.coins < t.c ? ' na' : '');
-      c.innerHTML = '<div class="sw" style="background:linear-gradient(120deg,' + t.g[0] + ',' + t.g[2] + ' 55%,' + t.a + ')"></div>' +
+      c.innerHTML =
+        '<div class="sw" style="background:linear-gradient(120deg,' + t.g[0] + ',' + t.g[2] + ' 55%,' + t.a + ')"></div>' +
         '<b>' + esc(t.n) + '</b><small>' + esc(t.jp) + '</small>' +
         '<span class="cost">' + (owned ? (active ? 'ACTIVE' : 'OWNED') : t.c + ' 🪙') + '</span>';
       c.addEventListener('click', function(){
-        if(owned){ S.theme = t.id; applyPalette(); renderThemes(); save(); sfx('click'); toast('Theme equipped', t.n + ' · ' + t.jp, 'theme'); }
-        else if(spend(t.c)){
+        if(owned){
+          S.theme = t.id; applyPalette(); renderThemes(); save(); sfx('click');
+          toast('Theme equipped', t.n + ' · ' + t.jp, 'theme');
+        } else if(spend(t.c)){
           S.themes.push(t.id); S.theme = t.id;
           applyPalette(); renderThemes(); afterStats(); save();
           toast('Theme unlocked!', t.n + ' style woven into your haori', 'theme');
-        } else { c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake'); }
+        } else {
+          c.classList.remove('shake'); void c.offsetWidth; c.classList.add('shake');
+        }
       });
       g.appendChild(c);
     })(THEMES[i]);
   }
 }
-var PAL = {};
 function renderBgs(){
-  var g = $('bgGrid'); g.innerHTML = '';
-  for(var i=0;i<S.bgs.length;i++){
+  var g = $('bgGrid');
+  if(!g){ return; }
+  g.innerHTML = '';
+  for(var i = 0; i < S.bgs.length; i++){
     (function(b, idx){
       var el = document.createElement('div');
       el.className = 'bslot' + (S.bgAct === idx ? ' active' : '');
-      el.innerHTML = '<div class="th" style="background-image:url(\'' + b.d + '\')"></div>' +
-        '<div class="nm"><span>' + esc(b.n) + '</span><button class="del" title="Remove">✕</button></div>';
+      el.innerHTML =
+        '<div class="th" style="background-image:url(\'' + b.d + '\')"></div>' +
+        '<div class="nm"><span>' + esc(b.n) + '</span><button class="del" title="Remove" type="button">✕</button></div>';
       el.addEventListener('click', function(ev){
-        if(ev.target.className === 'del'){
+        if(ev.target && ev.target.className === 'del'){
           if(confirm('Remove this background? No refund.')){
-            S.bgs.splice(idx,1);
+            S.bgs.splice(idx, 1);
             if(S.bgAct === idx){ S.bgAct = -1; }
             else if(S.bgAct > idx){ S.bgAct--; }
-            PAL = {}; renderBgs(); applyPalette(); save();
+            PAL = {};
+            renderBgs(); applyPalette(); save();
           }
           return;
         }
-        S.bgAct = idx; renderBgs(); applyPalette(); save(); sfx('click');
+        S.bgAct = idx;
+        renderBgs(); applyPalette(); save(); sfx('click');
         toast('Background set', b.n, 'bg');
       });
       g.appendChild(el);
@@ -892,17 +1018,32 @@ function renderBgs(){
   g.appendChild(add);
   if(S.bgs.length >= 5){ add.style.display = 'none'; }
 }
-
-/* ---------- palette / Material You adaptation ---------- */
-function setVars(o){
-  var r = document.documentElement.style;
-  for(var k in o){ r.setProperty(k, o[k]); }
+function renderAll(){
+  renderStats();
+  renderMissions();
+  renderAch();
+  renderThemes();
+  renderBgs();
+  $('blurRange').value = String(S.blur || 0);
+  $('blurVal').textContent = (S.blur || 0) + 'px';
+  $('bgMatch').checked = (S.bgMatch !== false);
+  $('sndBtn').textContent = S.sound ? '🔊' : '🔇';
 }
-function paintCommon(acc, acc2, ink){
-  document.getElementById('sgA').setAttribute('stop-color', acc);
-  document.getElementById('sgB').setAttribute('stop-color', acc2);
+
+/* ---------- palette / dynamic color ---------- */
+var PCOL = ['#3ee6a8', '#a9f7d4', '#ffffff'];
+var PAL = {};
+function setVars(o){
+  var st = document.documentElement.style;
+  for(var k in o){ if(Object.prototype.hasOwnProperty.call(o, k)){ st.setProperty(k, o[k]); } }
+}
+function paintCommon(acc, acc2){
+  var a = $('sgA'), b = $('sgB');
+  if(a){ a.setAttribute('stop-color', acc); }
+  if(b){ b.setAttribute('stop-color', acc2); }
   PCOL = [acc, acc2, '#ffffff'];
-  document.querySelector('meta[name="theme-color"]').setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--g1').trim() || '#04100c');
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if(meta){ meta.setAttribute('content', getComputedStyle(document.documentElement).getPropertyValue('--g1').trim() || '#04100c'); }
 }
 function applyThemeVars(t){
   var darkInk = !!t.darkInk;
@@ -910,97 +1051,106 @@ function applyThemeVars(t){
   var dim = darkInk ? 'rgba(60,18,38,.68)' : 'rgba(242,251,246,.66)';
   var glass = darkInk ? 'rgba(255,255,255,.5)' : rgba(t.g[2], .46);
   var brd = darkInk ? rgba(t.a, .45) : rgba(t.b, .22);
-  setVars({'--acc':t.a, '--acc2':t.b, '--g1':t.g[0], '--g2':t.g[1], '--g3':t.g[2],
-    '--ink':ink, '--ink-dim':dim, '--glass':glass, '--glass-brd':brd, '--scr': darkInk ? 'rgba(255,255,255,.35)' : 'rgba(2,8,6,.5)'});
-  document.body.classList.remove('hasbg');
-  paintCommon(t.a, t.b, ink);
+  setVars({
+    '--acc':t.a, '--acc2':t.b, '--g1':t.g[0], '--g2':t.g[1], '--g3':t.g[2],
+    '--ink':ink, '--ink-dim':dim, '--glass':glass, '--glass-brd':brd,
+    '--scr': darkInk ? 'rgba(255,255,255,.35)' : 'rgba(2,8,6,.5)'
+  });
+  paintCommon(t.a, t.b);
 }
 function applyDyn(p){
   var hsl = rgb2hsl(p.acc[0], p.acc[1], p.acc[2]);
   var h = hsl[0], s = clampN(hsl[1], .5, .92);
-  var light = p.mood === 'dark'; /* light ink on dark image */
+  var light = (p.mood === 'dark');
   var lAcc = light ? clampN(hsl[2], .55, .75) : clampN(hsl[2], .28, .45);
   var acc = hsl2rgb(h, s, lAcc);
-  var acc2 = hsl2rgb((h + 0.07) % 1, clampN(s-.05,0,1), clampN(lAcc + (light ? .14 : -.1), .05, .9));
-  var accS = 'rgb(' + acc.join(',') + ')', acc2S = 'rgb(' + acc2.join(',') + ')';
+  var acc2 = hsl2rgb((h + 0.07) % 1, clampN(s - .05, 0, 1), clampN(lAcc + (light ? .14 : -.1), .05, .9));
+  var accS = rgbCss(acc), acc2S = rgbCss(acc2);
   var ink = light ? '#f4f8f7' : '#171214';
   var dim = light ? 'rgba(244,248,247,.68)' : 'rgba(23,18,20,.66)';
   var glass = light ? 'rgba(10,14,16,.44)' : 'rgba(255,255,255,.52)';
-  var brd = light ? rgbaHex(acc, .34) : rgbaHex(acc, .42);
-  setVars({'--acc':accS, '--acc2':acc2S,
-    '--g1': rgbCss(darken(p.avg, light ? .25 : .8)), '--g2': rgbCss(darken(p.avg, light ? .35 : .9)), '--g3': rgbCss(p.avg),
-    '--ink':ink, '--ink-dim':dim, '--glass':glass, '--glass-brd':brd,
-    '--scr': light ? 'rgba(3,7,9,.55)' : 'rgba(255,255,255,.4)'});
+  setVars({
+    '--acc':accS, '--acc2':acc2S,
+    '--g1':rgbCss(darken(p.avg, light ? .25 : .8)),
+    '--g2':rgbCss(darken(p.avg, light ? .35 : .9)),
+    '--g3':rgbCss(p.avg),
+    '--ink':ink, '--ink-dim':dim, '--glass':glass,
+    '--glass-brd':rgbaArr(acc, light ? .34 : .42),
+    '--scr': light ? 'rgba(3,7,9,.55)' : 'rgba(255,255,255,.4)'
+  });
   document.body.classList.add('hasbg');
-  paintCommon(accS, acc2S, ink);
+  paintCommon(accS, acc2S);
 }
-function rgbaHex(rgbArr, a){ return 'rgba(' + rgbArr[0] + ',' + rgbArr[1] + ',' + rgbArr[2] + ',' + a + ')'; }
-function rgbCss(c){ return 'rgb(' + Math.round(c[0]) + ',' + Math.round(c[1]) + ',' + Math.round(c[2]) + ')'; }
-function darken(c, f){ return [c[0]*f, c[1]*f, c[2]*f]; }
+function drawCover(img, W, H, ctx){
+  var iw = img.naturalWidth || img.width;
+  var ih = img.naturalHeight || img.height;
+  if(!iw || !ih){ return; }
+  var s = Math.max(W / iw, H / ih);
+  var dw = iw * s, dh = ih * s;
+  ctx.drawImage(img, (W - dw) / 2, (H - dh) / 2, dw, dh);
+}
 function paletteFrom(data, cb){
   var im = new Image();
   im.onload = function(){
     try{
-      var c = document.createElement('canvas'); c.width = 64; c.height = 36;
+      var c = document.createElement('canvas');
+      c.width = 64; c.height = 36;
       var x = c.getContext('2d');
       drawCover(im, 64, 36, x);
-      var d = x.getImageData(0,0,64,36).data;
-      var sum = [0,0,0], lumSum = 0, n = d.length/4, buckets = {};
-      for(var i=0;i<d.length;i+=4){
-        var r=d[i], g=d[i+1], b=d[i+2];
-        sum[0]+=r; sum[1]+=g; sum[2]+=b; lumSum += lumRGB(r,g,b);
-        var key = (r>>3)<<10 | (g>>3)<<5 | (b>>3);
-        var bk = buckets[key] || (buckets[key] = {n:0, r:0, g:0, b:0, sat:0});
-        bk.n++; bk.r+=r; bk.g+=g; bk.b+=b;
-        var mx=Math.max(r,g,b), mn=Math.min(r,g,b);
-        bk.sat += mx===0 ? 0 : (mx-mn)/mx;
+      var d = x.getImageData(0, 0, 64, 36).data;
+      var sum = [0, 0, 0], lumSum = 0, n = d.length / 4, buckets = {};
+      for(var i = 0; i < d.length; i += 4){
+        var r = d[i], g = d[i + 1], b = d[i + 2];
+        sum[0] += r; sum[1] += g; sum[2] += b;
+        lumSum += lumRGB(r, g, b);
+        var key = ((r >> 3) << 10) | ((g >> 3) << 5) | (b >> 3);
+        var bk = buckets[key];
+        if(!bk){ bk = buckets[key] = {n:0, r:0, g:0, b:0, sat:0}; }
+        bk.n++; bk.r += r; bk.g += g; bk.b += b;
+        var mx = Math.max(r, g, b), mn = Math.min(r, g, b);
+        bk.sat += (mx === 0) ? 0 : (mx - mn) / mx;
       }
-      var best = null;
-      for(var k in buckets){
+      var best = null, k;
+      for(k in buckets){
         var bb = buckets[k];
-        var score = bb.n * (0.3 + (bb.sat/bb.n));
+        var score = bb.n * (0.3 + (bb.sat / bb.n));
         if(!best || score > best.score){ best = {score:score, b:bb}; }
       }
-      var avg = [sum[0]/n, sum[1]/n, sum[2]/n];
-      var acc = best ? [best.b.r/best.b.n, best.b.g/best.b.n, best.b.b/best.b.n] : avg;
-      cb({mood: (lumSum/n) < 0.5 ? 'dark' : 'light', avg:avg, acc:acc});
+      var avg = [sum[0] / n, sum[1] / n, sum[2] / n];
+      var acc = best ? [best.b.r / best.b.n, best.b.g / best.b.n, best.b.b / best.b.n] : avg;
+      cb({mood:(lumSum / n) < 0.5 ? 'dark' : 'light', avg:avg, acc:acc});
     }catch(e){ cb(null); }
   };
   im.onerror = function(){ cb(null); };
   im.src = data;
 }
 function applyPalette(){
-  var bi = S.bgAct, hasBg = bi >= 0 && S.bgs[bi];
+  var bi = S.bgAct;
+  var hasBg = bi >= 0 && S.bgs[bi];
   if(hasBg){
     var img = $('bgImg');
     img.style.backgroundImage = 'url("' + S.bgs[bi].d + '")';
-    img.style.filter = 'blur(' + (S.blur||0) + 'px)';
-  }
-  if(hasBg && S.bgMatch !== false){
-    var p = PAL[bi];
-    if(p){ applyDyn(p); }
-    else {
-      paletteFrom(S.bgs[bi].d, function(res){
-        if(res){ PAL[bi] = res; if(S.bgAct === bi){ applyDyn(res); } }
-        else { applyThemeVars(themeById(S.theme)); }
-      });
-      applyThemeVars(themeById(S.theme)); /* instant fallback, replaced when sampling finishes */
-    }
-  } else if(hasBg){
-    applyThemeVars(themeById(S.theme));
+    img.style.filter = 'blur(' + (S.blur || 0) + 'px)';
     document.body.classList.add('hasbg');
+    if(S.bgMatch !== false){
+      var p = PAL[bi];
+      if(p){ applyDyn(p); }
+      else{
+        applyThemeVars(themeById(S.theme));
+        paletteFrom(S.bgs[bi].d, function(res){
+          if(res){ PAL[bi] = res; if(S.bgAct === bi){ applyDyn(res); } }
+        });
+      }
+    } else {
+      applyThemeVars(themeById(S.theme));
+    }
   } else {
+    document.body.classList.remove('hasbg');
     applyThemeVars(themeById(S.theme));
   }
 }
 
 /* ---------- background upload ---------- */
-function drawCover(img, W, H, ctx){
-  var iw = img.naturalWidth || img.width, ih = img.naturalHeight || img.height;
-  if(!iw || !ih){ return; }
-  var s = Math.max(W/iw, H/ih), dw = iw*s, dh = ih*s;
-  ctx.drawImage(img, (W-dw)/2, (H-dh)/2, dw, dh);
-}
 function encodeCanvas(cv, type){
   try{
     if(type.indexOf('png') === -1 && type.indexOf('gif') === -1){
@@ -1013,124 +1163,149 @@ function encodeCanvas(cv, type){
 }
 function handleBgFile(file){
   if(!file){ return; }
-  if(file.type.indexOf('image/') !== 0){ toast('Unsupported file','Please choose an image file','err'); return; }
-  if(S.bgs.length >= 5){ toast('All 5 slots used','Remove a background first','err'); return; }
-  if(S.coins < 50){ sfx('err'); toast('Need 50 coins','Each background costs 50 coins','err'); return; }
+  if(file.type.indexOf('image/') !== 0){ toast('Unsupported file', 'Please choose an image file', 'err'); return; }
+  if(S.bgs.length >= 5){ toast('All 5 slots used', 'Remove a background first', 'err'); return; }
+  if(S.coins < 50){ sfx('err'); toast('Need 50 coins', 'Each background costs 50 coins', 'err'); return; }
   var reader = new FileReader();
   reader.onload = function(){
     var img = new Image();
     img.onload = function(){
       try{
-        var cv = document.createElement('canvas'); cv.width = 1600; cv.height = 900;
+        var cv = document.createElement('canvas');
+        cv.width = 1600; cv.height = 900;
         var cx = cv.getContext('2d');
         drawCover(img, 1600, 900, cx);
         var data = encodeCanvas(cv, file.type || 'image/jpeg');
         if(!spend(50)){ return; }
-        var name = (file.name || 'background').slice(0, 26);
-        S.bgs.push({n:name, d:data});
+        S.bgs.push({n:String(file.name || 'background').slice(0, 26), d:data});
         S.bgAct = S.bgs.length - 1;
         PAL = {};
         renderBgs(); applyPalette(); afterStats(); save();
-        toast('Background forged', name + ' — colors now adapt to it', 'bg');
-      }catch(e){ toast('Could not process image', String(e), 'err'); }
+        toast('Background forged', 'Colors now adapt to it', 'bg');
+      }catch(e){ toast('Could not process image', e.message, 'err'); }
     };
-    img.onerror = function(){ toast('Could not read image','The file may be corrupted','err'); };
+    img.onerror = function(){ toast('Could not read image', 'The file may be corrupted', 'err'); };
     img.src = reader.result;
   };
-  reader.onerror = function(){ toast('Could not read file','','err'); };
+  reader.onerror = function(){ toast('Could not read file', '', 'err'); };
   reader.readAsDataURL(file);
 }
 
-/* ---------- backup / restore (File System Access API + fallback) ---------- */
+/* ---------- backup / restore ---------- */
 function backupJSON(){
   return JSON.stringify({app:'kisatsu-study', v:2, at:new Date().toISOString(), state:S}, null, 2);
 }
-async function doBackup(){
-  var txt = backupJSON();
-  var name = 'kisatsu-study-backup-' + todayKey() + '.json';
-  if(window.showSaveFilePicker){
-    try{
-      var handle = await window.showSaveFilePicker({suggestedName:name, types:[{description:'JSON backup', accept:{'application/json':['.json']}}]});
-      var w = await handle.createWritable();
-      await w.write(txt);
-      await w.close();
-      toast('Backup saved','Progress + backgrounds (base64) exported','ok');
-      return;
-    }catch(e){ if(e && e.name === 'AbortError'){ return; } }
-  }
+function fallbackDownload(txt, name){
   var blob = new Blob([txt], {type:'application/json'});
   var u = URL.createObjectURL(blob);
   var a = document.createElement('a');
   a.href = u; a.download = name;
-  document.body.appendChild(a); a.click(); a.remove();
+  document.body.appendChild(a);
+  a.click();
+  a.parentNode.removeChild(a);
   setTimeout(function(){ URL.revokeObjectURL(u); }, 5000);
   toast('Backup downloaded', name, 'ok');
 }
+function doBackup(){
+  var txt = backupJSON();
+  var name = 'kisatsu-study-backup-' + todayKey() + '.json';
+  if(window.showSaveFilePicker){
+    window.showSaveFilePicker({suggestedName:name, types:[{description:'JSON backup', accept:{'application/json':['.json']}}]})
+      .then(function(handle){
+        return handle.createWritable().then(function(w){
+          return w.write(txt).then(function(){ return w.close(); });
+        });
+      })
+      .then(function(){ toast('Backup saved', 'Progress and backgrounds exported', 'ok'); })
+      .catch(function(e){
+        if(e && e.name === 'AbortError'){ return; }
+        fallbackDownload(txt, name);
+      });
+  } else {
+    fallbackDownload(txt, name);
+  }
+}
 function applyRestore(txt){
-  var o;
-  try{ o = JSON.parse(txt); }catch(e){ toast('Invalid backup','File is not valid JSON','err'); return; }
+  var o = null;
+  try{ o = JSON.parse(txt); }catch(e){ toast('Invalid backup', 'File is not valid JSON', 'err'); return; }
   if(!o || typeof o !== 'object' || !o.state || typeof o.state.coins !== 'number'){
-    toast('Invalid backup','Not a Kisatsu Study backup file','err'); return;
+    toast('Invalid backup', 'Not a Kisatsu Study backup file', 'err');
+    return;
   }
   if(!confirm('Restore this backup? Current progress will be replaced.')){ return; }
   S = mergeState(o.state);
   S.rt = null;
   T.pomo = {mode:'focus', total:1500, rem:1500, run:false, end:0, np:true};
-  T.sw = {el:0, run:false}; runSec = 0;
+  T.sw = {el:0, run:false};
+  runSec = 0;
   PAL = {};
   rollDaily();
   save();
-  renderAll(); applyPalette(); syncButtons();
-  toast('Backup restored','Welcome back, slayer','ok');
+  renderAll();
+  applyPalette();
+  syncButtons();
+  toast('Backup restored', 'Welcome back, slayer', 'ok');
 }
-async function doRestore(){
+function doRestore(){
   if(window.showOpenFilePicker){
-    try{
-      var arr = await window.showOpenFilePicker({multiple:false, types:[{description:'JSON backup', accept:{'application/json':['.json']}}]});
-      var f = await arr[0].getFile();
-      applyRestore(await f.text());
-      return;
-    }catch(e){ if(e && e.name === 'AbortError'){ return; } }
+    window.showOpenFilePicker({multiple:false, types:[{description:'JSON backup', accept:{'application/json':['.json']}}]})
+      .then(function(handles){ return handles[0].getFile(); })
+      .then(function(file){ return file.text(); })
+      .then(function(txt){ applyRestore(txt); })
+      .catch(function(e){
+        if(e && e.name === 'AbortError'){ return; }
+        $('resFile').click();
+      });
+  } else {
+    $('resFile').click();
   }
-  $('resFile').click();
 }
 
 /* ---------- particles ---------- */
-var PCOL = ['#3ee6a8','#a9f7d4','#ffffff'];
-var fxcv = $('fx'), fxctx = fxcv.getContext('2d'), PARTS = [], FW = 0, FH = 0;
+var fxcv = $('fx'), fxctx = fxcv.getContext('2d');
+var PARTS = [], FW = 0, FH = 0;
+function newPart(any){
+  return {
+    x:Math.random() * FW,
+    y:any ? Math.random() * FH : FH + 10,
+    r:0.7 + Math.random() * 1.9,
+    s:0.14 + Math.random() * 0.5,
+    o:0.25 + Math.random() * 0.5,
+    ph:Math.random() * 6.28,
+    ci:Math.floor(Math.random() * 3)
+  };
+}
 function fxResize(){
   var dpr = Math.min(2, window.devicePixelRatio || 1);
   FW = window.innerWidth; FH = window.innerHeight;
-  fxcv.width = FW*dpr; fxcv.height = FH*dpr;
+  fxcv.width = FW * dpr; fxcv.height = FH * dpr;
   fxcv.style.width = FW + 'px'; fxcv.style.height = FH + 'px';
-  fxctx.setTransform(dpr,0,0,dpr,0,0);
-  var n = Math.min(80, Math.floor(FW*FH/22000));
+  fxctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  var n = Math.min(80, Math.floor(FW * FH / 22000));
   PARTS = [];
-  for(var i=0;i<n;i++){ PARTS.push(newPart(true)); }
-}
-function newPart(any){
-  return {x:Math.random()*FW, y:any ? Math.random()*FH : FH+10,
-    r:.7 + Math.random()*1.9, s:.14 + Math.random()*.5,
-    o:.25 + Math.random()*.5, ph:Math.random()*6.28, ci:Math.floor(Math.random()*3)};
+  for(var i = 0; i < n; i++){ PARTS.push(newPart(true)); }
 }
 function fxLoop(tm){
-  fxctx.clearRect(0,0,FW,FH);
-  /* soft drifting orbs */
-  for(var o=0;o<3;o++){
-    var ox = FW*(0.2 + 0.3*o) + Math.sin(tm/9000 + o*2.1)*FW*0.08;
-    var oy = FH*(0.25 + 0.22*o) + Math.cos(tm/11000 + o*1.7)*FH*0.07;
-    var orad = 130 + o*70;
-    var gr = fxctx.createRadialGradient(ox,oy,0,ox,oy,orad);
-    gr.addColorStop(0, PCOL[o%2]); gr.addColorStop(1, 'rgba(0,0,0,0)');
-    fxctx.globalAlpha = .07; fxctx.fillStyle = gr;
-    fxctx.beginPath(); fxctx.arc(ox,oy,orad,0,6.283); fxctx.fill();
+  fxctx.clearRect(0, 0, FW, FH);
+  var o, i;
+  for(o = 0; o < 3; o++){
+    var ox = FW * (0.2 + 0.3 * o) + Math.sin(tm / 9000 + o * 2.1) * FW * 0.08;
+    var oy = FH * (0.25 + 0.22 * o) + Math.cos(tm / 11000 + o * 1.7) * FH * 0.07;
+    var orad = 130 + o * 70;
+    var gr = fxctx.createRadialGradient(ox, oy, 0, ox, oy, orad);
+    gr.addColorStop(0, PCOL[o % 2]);
+    gr.addColorStop(1, 'rgba(0,0,0,0)');
+    fxctx.globalAlpha = .07;
+    fxctx.fillStyle = gr;
+    fxctx.beginPath(); fxctx.arc(ox, oy, orad, 0, 6.283); fxctx.fill();
   }
   fxctx.globalAlpha = 1;
-  for(var i=0;i<PARTS.length;i++){
+  for(i = 0; i < PARTS.length; i++){
     var p = PARTS[i];
-    p.y -= p.s; p.x += Math.sin(tm/1600 + p.ph)*.25;
+    p.y -= p.s;
+    p.x += Math.sin(tm / 1600 + p.ph) * 0.25;
     if(p.y < -12){ PARTS[i] = newPart(false); continue; }
-    fxctx.globalAlpha = p.o * (0.7 + 0.3*Math.sin(tm/700 + p.ph));
+    fxctx.globalAlpha = p.o * (0.7 + 0.3 * Math.sin(tm / 700 + p.ph));
     fxctx.fillStyle = PCOL[p.ci];
     fxctx.beginPath(); fxctx.arc(p.x, p.y, p.r, 0, 6.283); fxctx.fill();
   }
@@ -1142,8 +1317,8 @@ document.addEventListener('visibilitychange', function(){
 });
 window.addEventListener('resize', fxResize);
 
-/* ---------- UI tick ---------- */
-var lastT = {pomo:'', sw:'', sub:'', next:''};
+/* ---------- per-frame UI ---------- */
+var lastTxt = {pomo:'', sw:'', sub:'', next:''};
 function setTab(t){
   T.tab = t;
   $('tabPomo').classList.toggle('on', t === 'pomo');
@@ -1152,60 +1327,40 @@ function setTab(t){
   $('paneSw').classList.toggle('on', t === 'sw');
 }
 function uiTick(){
-  /* pomodoro display */
   var ps = fmtMS(T.pomo.rem);
-  if(ps !== lastT.pomo){ $('tPomo').textContent = ps; lastT.pomo = ps; }
+  if(ps !== lastTxt.pomo){ $('tPomo').textContent = ps; lastTxt.pomo = ps; }
   var frac = clampN(T.pomo.rem / T.pomo.total, 0, 1);
   $('ringP').style.strokeDashoffset = String(RING_C * (1 - frac));
-  var phase = T.pomo.mode === 'focus' ? 'Focus' : 'Break';
   var subTxt = T.pomo.run ? (T.pomo.mode === 'focus' ? 'Total Concentration…' : 'Breathe and recover') : 'Ready, slayer';
-  if(subTxt !== lastT.sub){
-    $('phaseChip').textContent = phase;
+  if(subTxt !== lastTxt.sub){
+    $('phaseChip').textContent = (T.pomo.mode === 'focus') ? 'Focus' : 'Break';
     $('phaseChip').classList.toggle('hot', T.pomo.mode === 'focus');
-    $('phaseSub').textContent = subTxt; lastT.sub = subTxt;
+    $('phaseSub').textContent = subTxt;
+    lastTxt.sub = subTxt;
   }
-  $('sessChip').textContent = 'Session ' + (S.d.pomos + (T.pomo.mode === 'focus' ? 1 : 0) + 1);
-  /* cycle dots */
-  var filled = S.d.pomos % 4, dots = $('dots').children;
-  for(var i=0;i<4;i++){ dots[i].classList.toggle('f', i < filled || (filled === 0 && S.d.pomos > 0 && i < 4 && S.d.pomos % 4 === 0 && false)); dots[i].classList.toggle('f', i < filled); }
-  /* stopwatch */
+  $('sessChip').textContent = 'Session ' + (S.d.pomos + 1);
+  var filled = S.d.pomos % 4;
+  var dots = $('dots').children;
+  for(var i = 0; i < 4; i++){ dots[i].classList.toggle('f', i < filled); }
   var st = fmtHMS(T.sw.el);
-  if(st !== lastT.sw){ $('tSw').textContent = st; lastT.sw = st; }
+  if(st !== lastTxt.sw){ $('tSw').textContent = st; lastTxt.sw = st; }
   var into = Math.floor(S.cprog % 60);
-  $('coinBar').style.width = Math.round(100*(S.cprog%60)/60) + '%';
+  $('coinBar').style.width = Math.round(100 * (S.cprog % 60) / 60) + '%';
   var nx = 'Next coin in ' + (60 - into) + 's';
-  if(nx !== lastT.next){ $('swNext').textContent = nx; lastT.next = nx; }
-  /* mission countdown */
-  var now = new Date(), mid = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1, 0, 0, 0);
-  var secs = Math.max(0, Math.floor((mid - now)/1000));
-  $('msNext').textContent = 'new in ' + pad2(Math.floor(secs/3600)) + ':' + pad2(Math.floor(secs%3600/60)) + ':' + pad2(secs%60);
-  /* title */
-  if(T.pomo.run){ document.title = ps + ' · ' + phase + ' — Kisatsu Study'; }
+  if(nx !== lastTxt.next){ $('swNext').textContent = nx; lastTxt.next = nx; }
+  var now = new Date();
+  var mid = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+  var secs = Math.max(0, Math.floor((mid - now) / 1000));
+  $('msNext').textContent = 'new in ' + pad2(Math.floor(secs / 3600)) + ':' + pad2(Math.floor((secs % 3600) / 60)) + ':' + pad2(secs % 60);
+  if(T.pomo.run){ document.title = ps + ' · ' + ((T.pomo.mode === 'focus') ? 'Focus' : 'Break') + ' — Kisatsu Study'; }
   else if(T.sw.run){ document.title = st + ' · Focus — Kisatsu Study'; }
   else { document.title = 'Kisatsu Study — Demon Slayer Focus Dojo'; }
   updateMissionBars();
 }
 
-/* ---------- render all / init ---------- */
-function renderAll(){
-  renderStats(); renderMissions(); renderAch(); renderThemes(); renderBgs();
-  $('blurRange').value = S.blur || 0;
-  $('blurVal').textContent = (S.blur||0) + 'px';
-  $('bgMatch').checked = S.bgMatch !== false;
-  $('sndBtn').textContent = S.sound ? '🔊' : '🔇';
-}
-function init(){
-  var fresh = !load();
-  rollDaily();
-  restoreTimers();
-  renderAll();
-  applyPalette();
-  syncButtons();
-  fxResize();
-  if(!REDUCED){ requestAnimationFrame(fxLoop); }
-  if(fresh){ setTimeout(function(){ toast('Welcome to the dojo','Finish pomodoros and minutes to earn coins','info'); }, 600); }
-
-  /* bindings */
+/* ---------- init ---------- */
+var tickCount = 0;
+function bindEvents(){
   $('tabPomo').addEventListener('click', function(){ sfx('click'); setTab('pomo'); save(); });
   $('tabSw').addEventListener('click', function(){ sfx('click'); setTab('sw'); save(); });
   $('pStart').addEventListener('click', togglePomo);
@@ -1214,8 +1369,10 @@ function init(){
   $('sStart').addEventListener('click', toggleSw);
   $('sReset').addEventListener('click', resetSw);
   $('sndBtn').addEventListener('click', function(){
-    S.sound = !S.sound; $('sndBtn').textContent = S.sound ? '🔊' : '🔇';
-    if(S.sound){ sfx('toast'); } save();
+    S.sound = !S.sound;
+    $('sndBtn').textContent = S.sound ? '🔊' : '🔇';
+    if(S.sound){ sfx('toast'); }
+    save();
   });
   $('thmBtn').addEventListener('click', function(){ renderThemes(); $('mTheme').classList.add('open'); });
   $('bgBtn').addEventListener('click', function(){ renderBgs(); $('mBg').classList.add('open'); });
@@ -1223,48 +1380,75 @@ function init(){
   $('resBtn').addEventListener('click', doRestore);
   $('bgFile').addEventListener('change', function(){ handleBgFile(this.files[0]); this.value = ''; });
   $('resFile').addEventListener('change', function(){
-    var f = this.files[0]; this.value = '';
+    var f = this.files[0];
+    this.value = '';
     if(!f){ return; }
     var rd = new FileReader();
     rd.onload = function(){ applyRestore(rd.result); };
     rd.readAsText(f);
   });
   $('blurRange').addEventListener('input', function(){
-    S.blur = +this.value; $('blurVal').textContent = S.blur + 'px';
-    $('bgImg').style.filter = 'blur(' + S.blur + 'px)'; save();
+    S.blur = parseInt(this.value, 10) || 0;
+    $('blurVal').textContent = S.blur + 'px';
+    $('bgImg').style.filter = 'blur(' + S.blur + 'px)';
+    save();
   });
   $('bgMatch').addEventListener('click', function(){
-    S.bgMatch = this.checked; applyPalette(); save();
+    S.bgMatch = this.checked;
+    applyPalette();
+    save();
   });
   var closes = document.querySelectorAll('.mClose');
-  for(var c=0;c<closes.length;c++){
-    closes[c].addEventListener('click', function(){ $(this.getAttribute('data-close')).classList.remove('open'); });
+  for(var c = 0; c < closes.length; c++){
+    closes[c].addEventListener('click', function(){
+      var id = this.getAttribute('data-close');
+      var m = $(id);
+      if(m){ m.classList.remove('open'); }
+    });
   }
   $('mTheme').addEventListener('click', function(e){ if(e.target === this){ this.classList.remove('open'); } });
   $('mBg').addEventListener('click', function(e){ if(e.target === this){ this.classList.remove('open'); } });
   document.addEventListener('keydown', function(e){
-    if(e.code === 'Escape'){ $('mTheme').classList.remove('open'); $('mBg').classList.remove('open'); }
-    if(e.code === 'Space' && e.target === document.body){
+    if(e.key === 'Escape'){
+      $('mTheme').classList.remove('open');
+      $('mBg').classList.remove('open');
+    }
+    if(e.key === ' ' && e.target === document.body){
       e.preventDefault();
       if(T.tab === 'pomo'){ togglePomo(); } else { toggleSw(); }
     }
   });
   window.addEventListener('beforeunload', save);
-
-  /* main loop: timestamp-based so timers stay exact even in background tabs */
+}
+function init(){
+  var fresh = !load();
+  if(!S){ S = DEF(); }
+  rollDaily();
+  restoreTimers();
+  renderAll();
+  applyPalette();
+  syncButtons();
+  bindEvents();
+  fxResize();
+  if(!REDUCED){ requestAnimationFrame(fxLoop); }
+  lastTick = Date.now();
   setInterval(function(){
-    var now = Date.now();
-    step.last = step.last || now - 300;
-    step();
-    step.last = now;
-    uiTick();
+    tick();
     tickCount++;
     if(tickCount % 10 === 0){ save(); }
   }, 300);
   uiTick();
+  if(fresh){
+    setTimeout(function(){ toast('Welcome to the dojo', 'Finish pomodoros and minutes to earn coins', 'info'); }, 600);
+  }
+  /* self-check */
+  if($('msList').children.length === 0){ showErr('Missions failed to render'); }
 }
-var tickCount = 0;
-init();
+try{
+  init();
+}catch(e){
+  showErr('init: ' + e.message);
+}
 </script>
 </body>
 </html>
