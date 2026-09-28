@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Total Concentration: Focus</title>
+    
+    <!-- Link Preview Metadata -->
+    <meta name="description" content="A Demon Slayer themed study focus app with Pomodoro, Stopwatch, and rewards.">
+    <meta property="og:title" content="Total Concentration: Focus">
+    <meta property="og:description" content="Achieve total concentration breathing in your studies. Track time, unlock themes, and complete missions.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Demon_Slayer_Logo.png/800px-Demon_Slayer_Logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Total Concentration: Focus">
+    <meta name="twitter:description" content="Study focus app featuring Pomodoro, Stopwatch, and unlockable themes.">
+    
+    <style>
+        :root {
+            --primary-color: #8b0000;
+            --bg-blur: 10px;
+            --ui-bg: rgba(20, 20, 20, 0.6);
+            --ui-border: rgba(255, 255, 255, 0.1);
+            --text-color: #ffffff;
+            --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+        
+        * { box-sizing: border-box; }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0d0d0d;
+            color: var(--text-color);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            transition: color 0.3s, background-image 0.5s;
+        }
+
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .container {
+            z-index: 2;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        .glass-panel {
+            background: var(--ui-bg);
+            backdrop-filter: blur(var(--bg-blur));
+            -webkit-backdrop-filter: blur(var(--bg-blur));
+            border: 1px solid var(--ui-border);
+            border-radius: 20px;
+            box-shadow: var(--glass-shadow);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+
+        /* Layout */
+        .sidebar { flex: 1; min-width: 250px; max-width: 300px; display: flex; gap: 15px; }
+        .main-content { flex: 2; display: flex; justify-content: center; align-items: center; text-align: center; }
+        .right-panel { flex: 1; min-width: 250px; max-width: 300px; display: flex; gap: 15px; }
+
+        h2, h3 { margin-top: 0; border-bottom: 2px solid var(--primary-color); padding-bottom: 5px; font-weight: 300; letter-spacing: 2px;}
+
+        /* Timer UI */
+        .timer-display {
+            font-size: 6rem;
+            font-weight: bold;
+            margin: 20px 0;
+            text-shadow: 0 0 15px var(--primary-color);
+            letter-spacing: 5px;
+        }
+
+        .timer-controls button, .btn {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--primary-color);
+            color: var(--text-color);
+            padding: 10px 20px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 5px;
+            transition: 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .timer-controls button:hover, .btn:hover {
+            background: var(--primary-color);
+            box-shadow: 0 0 10px var(--primary-color);
+        }
+
+        .mode-selector { margin-bottom: 20px; }
+        .mode-selector label { margin: 0 10px; cursor: pointer; font-size: 1.1rem; }
+
+        /* Stats & Coins */
+        .stat-box { margin-bottom: 15px; font-size: 1.1rem; }
+        .stat-value { font-weight: bold; color: var(--primary-color); font-size: 1.3rem; text-shadow: 0 0 5px var(--primary-color); }
+
+        /* Themes & Shop */
+        .theme-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-top: 10px; }
+        .theme-btn {
+            width: 30px; height: 30px; border-radius: 50%; border: 2px solid transparent; cursor: pointer;
+        }
+        .theme-btn.locked { opacity: 0.3; cursor: not-allowed; position: relative; }
+        .theme-btn.locked::after { content: "🔒"; position: absolute; left: 5px; top: 2px; font-size: 12px; }
+
+        /* Sliders & Inputs */
+        input[type="range"] { width: 100%; margin: 10px 0; accent-color: var(--primary-color); }
+        .custom-bg-btn { width: 100%; margin-top: 10px; }
+
+        /* Missions & Achievements */
+        .list-item {
+            background: rgba(255,255,255,0.05);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--primary-color);
+            font-size: 0.9rem;
+        }
+
+        /* Toasts */
+        #toast-container {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .toast {
+            background: var(--ui-bg); border: 1px solid var(--primary-color);
+            backdrop-filter: blur(5px); color: var(--text-color);
+            padding: 15px 30px; border-radius: 10px; box-shadow: var(--glass-shadow);
+            animation: slideUp 0.3s, fadeOut 0.5s 4.5s forwards;
+        }
+
+        /* Top Icons */
+        .top-bar { position: absolute; top: 20px; right: 20px; z-index: 10; display: flex; gap: 10px; }
+        .icon-btn {
+            background: rgba(0,0,0,0.5); border: 1px solid var(--primary-color);
+            color: var(--text-color); width: 40px; height: 40px; border-radius: 50%;
+            cursor: pointer; display: flex; justify-content: center; align-items: center;
+            font-size: 18px; transition: 0.2s;
+        }
+        .icon-btn:hover { background: var(--primary-color); }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeOut { to { opacity: 0; visibility: hidden; } }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--primary-color); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="particles"></canvas>
+
+    <div class="top-bar">
+        <button class="icon-btn" onclick="backupData()" title="Backup Data">💾</button>
+        <button class="icon-btn" onclick="restoreData()" title="Restore Data">📂</button>
+    </div>
+
+    <div class="container">
+        <!-- Left Sidebar: Stats & Themes -->
+        <div class="glass-panel sidebar" style="overflow-y: auto;">
+            <h2>Slayer Profile</h2>
+            <div class="stat-box">Coins: <span class="stat-value" id="coinCount">0</span> 🪙</div>
+            <div class="stat-box">Daily Focus: <span class="stat-value" id="dailyTime">0</span> mins</div>
+            <div class="stat-box">Total Focus: <span class="stat-value" id="totalTime">0</span> mins</div>
+            
+            <h3 style="margin-top: 20px;">Theme Shop (20 coins)</h3>
+            <div class="theme-grid" id="themeGrid"></div>
+
+            <h3 style="margin-top: 20px;">Custom Background</h3>
+            <p style="font-size: 0.8rem; margin:0;">Costs 50 coins to apply a new background. UI adapts automatically.</p>
+            <input type="file" id="bgUpload" accept="image/*" style="display:none;" onchange="handleBgUpload(event)">
+            <button class="btn custom-bg-btn" onclick="document.getElementById('bgUpload').click()">Upload Image (50 🪙)</button>
+            <label style="font-size: 0.9rem; margin-top:10px; display:block;">Glass Blur Amount</label>
+            <input type="range" id="blurSlider" min="0" max="30" value="10" onchange="updateBlur()">
+        </div>
+
+        <!-- Main Content: Timer -->
+        <div class="glass-panel main-content">
+            <div style="width: 100%;">
+                <h2 style="border: none; font-size: 2rem;" id="timerStatus">Total Concentration Breathing</h2>
+                
+                <div class="mode-selector">
+                    <label><input type="radio" name="mode" value="pomodoro" checked onchange="setMode('pomodoro')"> Pomodoro (25/5)</label>
+                    <label><input type="radio" name="mode" value="stopwatch" onchange="setMode('stopwatch')"> Stopwatch</label>
+                </div>
+
+                <div class="timer-display" id="timerDisplay">25:00</div>
+                
+                <div class="timer-controls">
+                    <button onclick="startTimer()" id="startBtn">Start</button>
+                    <button onclick="pauseTimer()">Pause</button>
+                    <button onclick="resetTimer()">Reset</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar: Missions & Achievements -->
+        <div class="glass-panel right-panel" style="overflow-y: auto;">
+            <h2>Daily Missions</h2>
+            <div id="missionsList"></div>
+
+            <h2 style="margin-top: 20px;">Achievements</h2>
+            <div id="achievementsList"></div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // --- DATA & STATE ---
+        var appData = {
+            coins: 0,
+            totalMinutes: 0,
+            dailyMinutes: 0,
+            lastDate: new Date().toDateString(),
+            unlockedThemes: ['#8b0000'],
+            currentTheme: '#8b0000',
+            achievements: [],
+            customBg: '',
+            blurAmount: 10,
+            textColor: '#ffffff',
+            uiBg: 'rgba(20, 20, 20, 0.6)'
+        };
+
+        var timerInterval = null;
+        var isRunning = false;
+        var mode = 'pomodoro'; // pomodoro, break, stopwatch
+        var timerSeconds = 25 * 60;
+        var stopwatchSeconds = 0;
+        var secondsAccumulator = 0; // for coin generation
+
+        // 20 Themes
+        var themeColors = [
+            '#8b0000', '#1c39bb', '#ffcc00', '#8b8b8b', '#800080', 
+            '#ff4500', '#ff1493', '#add8e6', '#2e8b57', '#9acd32',
+            '#ffb6c1', '#a9a9a9', '#483d8b', '#ff0000', '#8a0303',
+            '#ba55d3', '#32cd32', '#000080', '#708090', '#ffc0cb'
+        ];
+
+        // Generate 100 Missions programmatically without backticks
+        var missionVerbs = ["Study", "Read", "Code", "Review notes", "Meditate", "Practice", "Outline", "Write", "Research", "Brainstorm"];
+        var missionMods = ["for 10 minutes", "for 25 minutes", "for 1 hour", "for 2 Pomodoros", "intensely without distraction", "with a new technique", "while taking notes", "on a difficult topic", "on your weakest subject", "to prepare for next week"];
+        var allMissions = [];
+        for (var i = 0; i < missionVerbs.length; i++) {
+            for (var j = 0; j < missionMods.length; j++) {
+                allMissions.push(missionVerbs[i] + ' ' + missionMods[j]);
+            }
+        }
+
+        var achievementMilestones = [
+            { id: 'a1', min: 10, title: 'Novice Slayer (10 mins)' },
+            { id: 'a2', min: 60, title: 'Breathing Style Master (1 Hour)' },
+            { id: 'a3', min: 300, title: 'Hashira Level (5 Hours)' },
+            { id: 'a4', min: 600, title: 'Demon Moons Fear You (10 Hours)' },
+            { id: 'a5', min: 1500, title: 'Sun Breathing Awakened (25 Hours)' }
+        ];
+
+        // --- INITIALIZATION ---
+        function init() {
+            loadData();
+            checkDailyReset();
+            updateUI();
+            buildThemeShop();
+            buildMissions();
+            buildAchievements();
+            applyThemeColors();
+            initParticles();
+        }
+
+        function loadData() {
+            var saved = localStorage.getItem('slayerFocusData');
+            if (saved) {
+                try {
+                    var parsed = JSON.parse(saved);
+                    for (var key in parsed) { appData[key] = parsed[key]; }
+                } catch(e) { console.error("Error parsing save data"); }
+            }
+            document.getElementById('blurSlider').value = appData.blurAmount;
+            if (appData.customBg) {
+                document.body.style.backgroundImage = "url('" + appData.customBg + "')";
+            }
+        }
+
+        function saveData() {
+            localStorage.setItem('slayerFocusData', JSON.stringify(appData));
+        }
+
+        function checkDailyReset() {
+            var today = new Date().toDateString();
+            if (appData.lastDate !== today) {
+                appData.dailyMinutes = 0;
+                appData.lastDate = today;
+                saveData();
+            }
+        }
+
+        // --- TIMER LOGIC ---
+        function setMode(newMode) {
+            pauseTimer();
+            mode = newMode;
+            if (mode === 'pomodoro') {
+                timerSeconds = 25 * 60;
+                document.getElementById('timerStatus').innerText = "Total Concentration Breathing";
+            } else if (mode === 'stopwatch') {
+                stopwatchSeconds = 0;
+                document.getElementById('timerStatus').innerText = "Endless Training";
+            }
+            updateTimerDisplay();
+        }
+
+        function updateTimerDisplay() {
+            var secs = mode === 'stopwatch' ? stopwatchSeconds : timerSeconds;
+            var m = Math.floor(secs / 60);
+            var s = secs % 60;
+            document.getElementById('timerDisplay').innerText = 
+                (m < 10 ? '0' + m : m) + ':' + (s < 10 ? '0' + s : s);
+        }
+
+        function startTimer() {
+            if (isRunning) return;
+            isRunning = true;
+            document.getElementById('startBtn').innerText = "Running...";
+            timerInterval = setInterval(timerTick, 1000);
+        }
+
+        function pauseTimer() {
+            isRunning = false;
+            clearInterval(timerInterval);
+            document.getElementById('startBtn').innerText = "Start";
+        }
+
+        function resetTimer() {
+            pauseTimer();
+            if (mode === 'pomodoro' || mode === 'break') {
+                mode = 'pomodoro';
+                timerSeconds = 25 * 60;
+                document.getElementById('timerStatus').innerText = "Total Concentration Breathing";
+            } else {
+                stopwatchSeconds = 0;
+            }
+            secondsAccumulator = 0;
+            updateTimerDisplay();
+        }
+
+        function timerTick() {
+            secondsAccumulator++;
+            if (secondsAccumulator >= 60) {
+                secondsAccumulator = 0;
+                addMinute();
+            }
+
+            if (mode === 'stopwatch') {
+                stopwatchSeconds++;
+                if (stopwatchSeconds > 0 && stopwatchSeconds % (25 * 60) === 0) {
+                    notify("25 Minutes passed! Excellent focus!");
+                }
+            } else {
+                timerSeconds--;
+                if (timerSeconds <= 0) {
+                    if (mode === 'pomodoro') {
+                        notify("Pomodoro Complete! Take a 5 minute rest.");
+                        mode = 'break';
+                        timerSeconds = 5 * 60;
+                        document.getElementById('timerStatus').innerText = "Rest Recovery Breathing";
+                    } else if (mode === 'break') {
+                        notify("Break over! Resume training.");
+                        mode = 'pomodoro';
+                        timerSeconds = 25 * 60;
+                        document.getElementById('timerStatus').innerText = "Total Concentration Breathing";
+                    }
+                }
+            }
+            updateTimerDisplay();
+        }
+
+        function addMinute() {
+            appData.coins += 1;
+            appData.totalMinutes += 1;
+            appData.dailyMinutes += 1;
+            saveData();
+            updateUI();
+            checkAchievements();
+        }
+
+        // --- UI & UPDATES ---
+        function updateUI() {
+            document.getElementById('coinCount').innerText = appData.coins;
+            document.getElementById('dailyTime').innerText = appData.dailyMinutes;
+            document.getElementById('totalTime').innerText = appData.totalMinutes;
+        }
+
+        function updateBlur() {
+            var val = document.getElementById('blurSlider').value;
+            appData.blurAmount = val;
+            document.documentElement.style.setProperty('--bg-blur', val + 'px');
+            saveData();
+        }
+
+        function notify(message) {
+            playBeep();
+            var container = document.getElementById('toast-container');
+            var toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerText = message;
+            container.appendChild(toast);
+            setTimeout(function() {
+                if (container.contains(toast)) container.removeChild(toast);
+            }, 5000);
+        }
+
+        function playBeep() {
+            try {
+                var ctx = new (window.AudioContext || window.webkitAudioContext)();
+                var osc = ctx.createOscillator();
+                var gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, ctx.currentTime);
+                gain.gain.setValueAtTime(0.5, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.5);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.5);
+            } catch(e) { console.log("Audio not supported"); }
+        }
+
+        // --- MISSIONS & ACHIEVEMENTS ---
+        function getDailyHash() {
+            var dateStr = appData.lastDate;
+            var hash = 0;
+            for (var i = 0; i < dateStr.length; i++) {
+                hash = ((hash << 5) - hash) + dateStr.charCodeAt(i);
+                hash |= 0;
+            }
+            return Math.abs(hash);
+        }
+
+        function buildMissions() {
+            var hash = getDailyHash();
+            var mList = document.getElementById('missionsList');
+            mList.innerHTML = '';
+            for (var i = 0; i < 3; i++) {
+                var idx = (hash + (i * 17)) % allMissions.length;
+                var div = document.createElement('div');
+                div.className = 'list-item';
+                div.innerText = "🎯 " + allMissions[idx];
+                mList.appendChild(div);
+            }
+        }
+
+        function checkAchievements() {
+            for (var i = 0; i < achievementMilestones.length; i++) {
+                var a = achievementMilestones[i];
+                if (appData.totalMinutes >= a.min && appData.achievements.indexOf(a.id) === -1) {
+                    appData.achievements.push(a.id);
+                    notify("Achievement Unlocked: " + a.title + "!");
+                    appData.coins += 10; // Bonus
+                    saveData();
+                    buildAchievements();
+                    updateUI();
+                }
+            }
+        }
+
+        function buildAchievements() {
+            var aList = document.getElementById('achievementsList');
+            aList.innerHTML = '';
+            for (var i = 0; i < achievementMilestones.length; i++) {
+                var a = achievementMilestones[i];
+                var unlocked = appData.achievements.indexOf(a.id) !== -1;
+                var div = document.createElement('div');
+                div.className = 'list-item';
+                div.style.opacity = unlocked ? '1' : '0.5';
+                div.innerText = (unlocked ? '🏆 ' : '🔒 ') + a.title;
+                aList.appendChild(div);
+            }
+        }
+
+        // --- THEMES & SHOP ---
+        function buildThemeShop() {
+            var grid = document.getElementById('themeGrid');
+            grid.innerHTML = '';
+            for (var i = 0; i < themeColors.length; i++) {
+                var color = themeColors[i];
+                var btn = document.createElement('div');
+                btn.className = 'theme-btn';
+                btn.style.backgroundColor = color;
+                
+                if (color === appData.currentTheme) {
+                    btn.style.borderColor = '#fff';
+                }
+
+                if (appData.unlockedThemes.indexOf(color) === -1) {
+                    btn.className += ' locked';
+                    btn.onclick = (function(c) { 
+                        return function() { buyTheme(c); } 
+                    })(color);
+                } else {
+                    btn.onclick = (function(c) { 
+                        return function() { applyTheme(c); } 
+                    })(color);
+                }
+                grid.appendChild(btn);
+            }
+        }
+
+        function buyTheme(color) {
+            if (appData.coins >= 20) {
+                appData.coins -= 20;
+                appData.unlockedThemes.push(color);
+                saveData();
+                updateUI();
+                applyTheme(color);
+                notify("New breathing style form unlocked!");
+            } else {
+                notify("Not enough coins! Need 20.");
+            }
+        }
+
+        function applyTheme(color) {
+            appData.currentTheme = color;
+            saveData();
+            applyThemeColors();
+            buildThemeShop();
+        }
+
+        function applyThemeColors() {
+            document.documentElement.style.setProperty('--primary-color', appData.currentTheme);
+            document.documentElement.style.setProperty('--bg-blur', appData.blurAmount + 'px');
+            document.documentElement.style.setProperty('--text-color', appData.textColor);
+            document.documentElement.style.setProperty('--ui-bg', appData.uiBg);
+            document.documentElement.style.setProperty('--ui-border', appData.textColor === '#000000' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)');
+        }
+
+        // --- CUSTOM BACKGROUND & MATERIAL DESIGN ---
+        function handleBgUpload(event) {
+            var file = event.target.files[0];
+            if (!file) return;
+            if (appData.coins < 50) {
+                notify("Not enough coins to set background. Need 50.");
+                return;
+            }
+            
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                appData.coins -= 50;
+                var dataUrl = e.target.result;
+                appData.customBg = dataUrl;
+                document.body.style.backgroundImage = "url('" + dataUrl + "')";
+                extractColors(dataUrl);
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function extractColors(dataUrl) {
+            var img = new Image();
+            img.onload = function() {
+                var canvas = document.createElement('canvas');
+                canvas.width = 1;
+                canvas.height = 1;
+                var ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 1, 1);
+                var data = ctx.getImageData(0, 0, 1, 1).data;
+                var r = data[0], g = data[1], b = data[2];
+                
+                // Calculate luminance
+                var luminance = (0.299 * r + 0.587 * g + 0.114 * b);
+                if (luminance > 128) {
+                    appData.textColor = '#000000';
+                    appData.uiBg = 'rgba(255, 255, 255, 0.4)';
+                } else {
+                    appData.textColor = '#ffffff';
+                    appData.uiBg = 'rgba(20, 20, 20, 0.6)';
+                }
+                saveData();
+                updateUI();
+                applyThemeColors();
+                notify("Background applied and colors adapted!");
+            };
+            img.src = dataUrl;
+        }
+
+        // --- BACKUP & RESTORE ---
+        async function backupData() {
+            var dataStr = JSON.stringify(appData);
+            try {
+                if (window.showSaveFilePicker) {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: 'slayer_focus_backup.json',
+                        types: [{ description: 'JSON File', accept: {'application/json': ['.json']} }]
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(dataStr);
+                    await writable.close();
+                    notify("Backup saved successfully!");
+                } else {
+                    // Fallback
+                    var blob = new Blob([dataStr], {type: 'application/json'});
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'slayer_focus_backup.json';
+                    a.click();
+                    notify("Backup downloaded!");
+                }
+            } catch(e) {
+                console.error("Backup failed or cancelled", e);
+            }
+        }
+
+        async function restoreData() {
+            try {
+                if (window.showOpenFilePicker) {
+                    const [handle] = await window.showOpenFilePicker({
+                        types: [{ description: 'JSON File', accept: {'application/json': ['.json']} }]
+                    });
+                    const file = await handle.getFile();
+                    const text = await file.text();
+                    applyBackup(text);
+                } else {
+                    // Fallback
+                    var input = document.createElement('input');
+                    input.type = 'file';
+                    input.accept = '.json';
+                    input.onchange = function(e) {
+                        var file = e.target.files[0];
+                        var reader = new FileReader();
+                        reader.onload = function(evt) { applyBackup(evt.target.result); };
+                        reader.readAsText(file);
+                    };
+                    input.click();
+                }
+            } catch(e) {
+                console.error("Restore failed or cancelled", e);
+            }
+        }
+
+        function applyBackup(jsonStr) {
+            try {
+                var parsed = JSON.parse(jsonStr);
+                if (parsed.coins !== undefined) {
+                    localStorage.setItem('slayerFocusData', jsonStr);
+                    notify("Restore complete! Reloading...");
+                    setTimeout(function() { location.reload(); }, 1500);
+                } else {
+                    notify("Invalid backup file format.");
+                }
+            } catch(e) {
+                notify("Error parsing backup file.");
+            }
+        }
+
+        // --- PARTICLES (Demon Slayer Sparks) ---
+        function initParticles() {
+            var canvas = document.getElementById('particles');
+            var ctx = canvas.getContext('2d');
+            var particlesArray = [];
+            
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', function() {
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+            });
+
+            function Particle() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 100;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * -2 - 1;
+                this.color = Math.random() > 0.5 ? '#ff4500' : '#ffffff';
+            }
+
+            Particle.prototype.update = function() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.size > 0.1) this.size -= 0.01;
+            };
+
+            Particle.prototype.draw = function() {
+                ctx.globalAlpha = 0.6;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            };
+
+            function handleParticles() {
+                if (particlesArray.length < 100) {
+                    particlesArray.push(new Particle());
+                }
+                for (var i = 0; i < particlesArray.length; i++) {
+                    particlesArray[i].update();
+                    particlesArray[i].draw();
+                    if (particlesArray[i].size <= 0.2 || particlesArray[i].y < 0) {
+                        particlesArray.splice(i, 1);
+                        i--;
+                    }
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                handleParticles();
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
+        // Start
+        window.onload = init;
+    </script>
+</body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Kimetsu Focus | Demon Slayer Study Timer - Stopwatch and Pomodoro</title>
+<meta name="description" content="A Demon Slayer inspired study focus app: stopwatch, Pomodoro 25/5, coins, achievements, daily missions, 20 unlockable themes and custom backgrounds.">
+<meta name="theme-color" content="#0c2a1f">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://YOUR-DOMAIN/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8C%8A%3C/text%3E%3C/svg%3E">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kimetsu Focus">
+<meta property="og:title" content="Kimetsu Focus | Demon Slayer Study Timer">
+<meta property="og:description" content="Total Concentration! Stopwatch + Pomodoro, coins, achievements, daily missions and 20 themes.">
+<meta property="og:url" content="https://YOUR-DOMAIN/">
+<meta property="og:image" content="https://YOUR-DOMAIN/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kimetsu Focus study timer">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kimetsu Focus | Demon Slayer Study Timer">
+<meta name="twitter:description" content="Total Concentration! Stopwatch + Pomodoro, coins, achievements, daily missions and 20 themes.">
+<meta name="twitter:image" content="https://YOUR-DOMAIN/og-image.png">
+<meta name="twitter:image:alt" content="Kimetsu Focus study timer">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"WebApplication","name":"Kimetsu Focus","applicationCategory":"EducationalApplication","operatingSystem":"Any","description":"Demon Slayer inspired study timer with stopwatch, Pomodoro, coins and daily missions."}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--a:#2fbf7a;--b:#ff6b3d;--on:#000;--ink:#f4f7f5;--glass:rgba(255,255,255,.1);--g1:#0c2a1f;--g2:#040c09;--blur:6px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{min-height:100vh;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--g1),var(--g2)) fixed;overflow-x:hidden}
+#bg{position:fixed;inset:-50px;z-index:-4;background:center/cover no-repeat;filter:blur(var(--blur));display:none}
+#bg.on{display:block}
+#glow{position:fixed;inset:0;z-index:-3;background:radial-gradient(circle at 12% 8%,color-mix(in srgb,var(--a) 34%,transparent),transparent 45%),radial-gradient(circle at 92% 92%,color-mix(in srgb,var(--b) 30%,transparent),transparent 45%);transition:opacity .5s}
+#glow.dim{opacity:.3}
+#chk{position:fixed;inset:0;z-index:-2;background:conic-gradient(rgba(255,255,255,.045) 25%,transparent 0 50%,rgba(255,255,255,.045) 0 75%,transparent 0) 0 0/88px 88px;transition:opacity .5s}
+#fx{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);border:1px solid rgba(255,255,255,.22);border-radius:26px;box-shadow:inset 0 1px 1px rgba(255,255,255,.4),inset 0 -10px 24px rgba(255,255,255,.04),0 10px 40px rgba(0,0,0,.35);position:relative;isolation:isolate;overflow:hidden}
+.glass::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(115deg,rgba(255,255,255,.2),transparent 38%,transparent 70%,rgba(255,255,255,.07))}
+.wrap{max-width:1100px;margin:auto;padding:16px;display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+.hd{grid-column:1/-1;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 20px}
+.kj{display:block;font-size:.72rem;letter-spacing:.35em;color:var(--a);font-weight:700}
+h1,h2{font-family:"Shippori Mincho B1",serif;font-weight:800;line-height:1.1}
+h1{font-size:1.6rem}
+.acts{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.coin{display:flex;align-items:center;gap:6px;padding:8px 14px;border-radius:99px;font-weight:700;background:color-mix(in srgb,var(--a) 22%,transparent);border:1px solid color-mix(in srgb,var(--a) 55%,transparent)}
+.pop{animation:pop .5s}
+@keyframes pop{40%{transform:scale(1.25)}}
+.ib{width:40px;height:40px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink);font-size:18px;cursor:pointer;transition:.2s}
+.ib:hover{transform:translateY(-2px);background:color-mix(in srgb,var(--a) 30%,transparent)}
+.card{padding:22px}
+#tm{grid-row:span 2}
+.tabs{display:flex;gap:6px;padding:5px;border-radius:99px;background:color-mix(in srgb,var(--ink) 10%,transparent);width:max-content;margin:0 auto 18px}
+.tab{border:0;background:none;color:var(--ink);padding:9px 20px;border-radius:99px;font-weight:600;font-size:14px;font-family:inherit;cursor:pointer}
+.tab.on{background:linear-gradient(135deg,var(--a),var(--b));color:var(--on)}
+.rg{position:relative;width:min(300px,78vw);margin:auto}
+.ring{width:100%;display:block}
+.tr{fill:none;stroke:color-mix(in srgb,var(--ink) 16%,transparent);stroke-width:9}
+.pr{fill:none;stroke:url(#gr);stroke-width:9;stroke-linecap:round;stroke-dasharray:552.9;stroke-dashoffset:552.9;transition:stroke-dashoffset .3s linear}
+.rc{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 40px}
+#tt{font:800 clamp(2.2rem,9vw,3.3rem)/1 "Shippori Mincho B1",serif;font-variant-numeric:tabular-nums}
+.dim{opacity:.78}
+.ctl{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.btn{border:1px solid color-mix(in srgb,var(--ink) 25%,transparent);background:color-mix(in srgb,var(--ink) 10%,transparent);color:var(--ink);padding:11px 22px;border-radius:99px;font-weight:600;font-size:15px;font-family:inherit;cursor:pointer;transition:.2s}
+.btn:hover{transform:translateY(-2px)}
+.btn.pri{background:linear-gradient(135deg,var(--a),var(--b));color:var(--on);border:0;min-width:130px;box-shadow:0 6px 22px color-mix(in srgb,var(--a) 45%,transparent)}
+.hint{text-align:center;margin-top:16px;font-size:.85rem}
+h2{font-size:1.25rem;margin-bottom:12px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.st{padding:12px 14px;border-radius:18px;background:color-mix(in srgb,var(--ink) 8%,transparent);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.st small,.ms small{display:block;opacity:.75;font-size:.72rem;text-transform:uppercase;letter-spacing:.06em}
+.st b{font-size:1.3rem;font-variant-numeric:tabular-nums}
+.wk{display:flex;gap:8px;align-items:flex-end;height:84px;margin-top:14px}
+.wk div{flex:1;text-align:center;font-size:.7rem;display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.wk i{display:block;border-radius:8px 8px 3px 3px;background:linear-gradient(var(--a),var(--b));min-height:4px;margin-bottom:3px}
+.ms{display:flex;gap:10px;align-items:center;padding:11px 14px;border-radius:16px;margin-top:8px;background:color-mix(in srgb,var(--ink) 8%,transparent);border:1px solid color-mix(in srgb,var(--ink) 14%,transparent)}
+.ms.dn{opacity:.75}
+.rw2{margin-left:auto;font-weight:700;white-space:nowrap;text-align:right}
+.bar{height:6px;border-radius:9px;background:color-mix(in srgb,var(--ink) 15%,transparent);margin-top:6px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));border-radius:9px;transition:width .4s}
+#md{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;padding:16px;background:rgba(0,0,0,.28)}
+#md.open{display:flex}
+#mb{width:min(760px,100%);max-height:88vh;overflow:auto;padding:24px}
+.mh{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.mh h2{margin:0}
+.gr{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:12px}
+.it{padding:12px;border-radius:18px;border:1px solid color-mix(in srgb,var(--ink) 18%,transparent);background:color-mix(in srgb,var(--ink) 8%,transparent);color:var(--ink);text-align:left;font-family:inherit;font-size:inherit;cursor:pointer}
+button.it:hover{background:color-mix(in srgb,var(--a) 22%,transparent)}
+.it.act{outline:2px solid var(--a)}
+.it.lk .sw{filter:grayscale(.6)}
+.sw{height:44px;border-radius:12px;margin-bottom:8px}
+input[type=range]{width:100%;accent-color:var(--a);margin-top:6px}
+#ts{position:fixed;top:14px;right:14px;z-index:99;display:flex;flex-direction:column;gap:10px;width:min(340px,calc(100vw - 28px));pointer-events:none}
+.toast{padding:12px 16px;border-radius:18px;animation:in .35s cubic-bezier(.2,.9,.3,1.2);transition:opacity .4s,transform .4s}
+.toast b{display:block}
+.toast span{opacity:.88;font-size:.9rem}
+@keyframes in{from{opacity:0;transform:translateY(-14px) scale(.95)}}
+@media(max-width:820px){.wrap{grid-template-columns:1fr}#tm{grid-row:auto}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="bg"></div><div id="glow"></div><div id="chk"></div><canvas id="fx"></canvas>
+<div class="wrap">
+<header class="glass hd">
+<div><span class="kj">全集中 · TOTAL CONCENTRATION</span><h1>Kimetsu Focus</h1></div>
+<div class="acts">
+<div class="coin" id="coin">🪙 <b id="cn">0</b></div>
+<button class="ib" data-a="ach" title="Achievements" aria-label="Achievements">🏆</button>
+<button class="ib" data-a="shop" title="Themes" aria-label="Themes">🎨</button>
+<button class="ib" data-a="bgm" title="Custom background" aria-label="Custom background">🖼️</button>
+<button class="ib" data-a="snd" id="sn" title="Sound" aria-label="Sound">🔊</button>
+<button class="ib" data-a="bak" title="Backup (save JSON)" aria-label="Backup">💾</button>
+<button class="ib" data-a="res" title="Restore (load JSON)" aria-label="Restore">📂</button>
+</div>
+</header>
+<section class="glass card" id="tm">
+<div class="tabs"><button class="tab" data-a="m" data-i="sw" id="t1">Stopwatch</button><button class="tab" data-a="m" data-i="po" id="t2">Pomodoro 25/5</button></div>
+<div class="rg">
+<svg class="ring" viewBox="0 0 200 200"><defs><linearGradient id="gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--a)"/><stop offset="1" style="stop-color:var(--b)"/></linearGradient></defs><circle class="tr" cx="100" cy="100" r="88"/><circle class="pr" id="pg" cx="100" cy="100" r="88" transform="rotate(-90 100 100)"/></svg>
+<div class="rc"><div id="tt">00:00</div><div class="dim" id="lb" style="margin-top:6px;font-size:.85rem"></div></div>
+</div>
+<div class="ctl"><button class="btn pri" id="go" data-a="go">Start</button><button class="btn" data-a="rs">Reset</button><button class="btn" id="sk" data-a="sk">Skip</button></div>
+<p class="hint dim" id="hn"></p>
+</section>
+<section class="glass card">
+<h2>Focus Log</h2>
+<div class="g2">
+<div class="st"><small>Today</small><b id="s1">0m</b></div>
+<div class="st"><small>Total</small><b id="s2">0m</b></div>
+<div class="st"><small>Pomodoros today / all</small><b id="s3">0</b></div>
+<div class="st"><small>Day streak</small><b id="s4">0</b></div>
+</div>
+<div class="wk" id="wk"></div>
+</section>
+<section class="glass card">
+<h2>Daily Missions</h2>
+<div id="ml"></div>
+<p class="hint dim" style="text-align:left">1 🪙 per focused minute. Same 5 missions all day, refreshed at midnight.</p>
+</section>
+</div>
+<div id="md"><div id="mb" class="glass"></div></div>
+<div id="ts"></div>
+<input type="file" id="bf" accept="image/*,.webp,.avif,.gif,.bmp,.svg,.png,.jpg,.jpeg" hidden>
+<input type="file" id="rf" accept=".json,application/json" hidden>
+<script>
+(function(){
+"use strict";
+var $=function(s){return document.querySelector(s)},KEY="kimetsu_focus_v1",BGK="kimetsu_focus_bg_v1",BGC=50,FOC=1500,BRK=300,CI=552.9,BGM=null,PAL=null,S,ticks=0;
+var TH=[["Tanjiro","#2fbf7a","#ff6b3d","#0c2a1f","#040c09",0],["Nezuko","#ff7eb6","#ffb86b","#2c0f22","#10050c",40],["Zenitsu","#ffd23f","#ff9f1c","#2b2408","#0f0b02",40],["Inosuke","#7fb4d6","#b56576","#12212b","#060c10",60],["Giyu","#3aa0ff","#5fe3d0","#08213d","#030b16",60],["Shinobu","#b57cff","#7be0ff","#22103b","#0a0514",80],["Rengoku","#ff7a1a","#ffd166","#3a1204","#140501",80],["Tengen","#ff4fa3","#ffe066","#2a0d2a","#0e040e",100],["Mitsuri","#ff8fab","#7ee081","#33121f","#12060b",100],["Muichiro","#7fd6e6","#9aa5ff","#10262e","#051013",120],["Obanai","#8bd450","#f2e94e","#182b12","#070f05",120],["Sanemi","#e0e6ea","#e5484d","#1f2529","#0a0d0f",150],["Gyomei","#f0b56a","#a0a8b8","#2b1f12","#0f0a05",150],["Kanao","#c792ff","#ff9ecb","#241338","#0b0512",180],["Muzan","#ff2e63","#8e44ad","#2b0714","#0c0206",180],["Akaza","#ff5d8f","#4cc9f0","#1a1230","#070510",220],["Douma","#9be7ff","#ffb3d1","#10283a","#050e16",220],["Kokushibo","#a78bfa","#f43f5e","#1b1033","#08040f",260],["Tamayo","#ffb86c","#b8f2c8","#2a1a0e","#0e0803",300],["Genya","#6ee7b7","#f87171","#0f2a25","#040d0b",400]];
+var ST=["Water","Flame","Thunder","Beast","Mist","Insect","Love","Sound","Stone","Wind","Sun","Moon","Serpent","Flower"];
+var p2=function(n){return(n<10?"0":"")+n};
+function dk(o){var t=new Date();t.setDate(t.getDate()-(o||0));return t.getFullYear()+"-"+p2(t.getMonth()+1)+"-"+p2(t.getDate())}
+function hash(s){var h=2166136261;for(var i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+function rng(a){return function(){a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+/* ---------- missions: 101 templates, 5 picked per date via seeded PRNG ---------- */
+var MT=[
+["F","a",[10,15,20,25,30,35,40,45,50,60,70,75,80,90,100,120,150,180,200,240],function(v){return"Focus for "+v+" minutes today"},function(v){return Math.ceil(v/5)+2}],
+["C","a",[10,20,30,45,60,90],function(v){return"Earn "+v+" study coins today"},function(v){return Math.ceil(v/5)+2}],
+["FP","a",[[30,1],[40,1],[45,1],[50,2],[60,2],[75,3],[80,3],[90,3],[100,4],[120,4],[125,5],[150,6]],function(v){return"Focus "+v[0]+" min and finish "+v[1]+" Pomodoro"+(v[1]>1?"s":"")},function(v){return Math.ceil(v[0]/6)+4*v[1]}],
+["NF","a",[[2,30],[2,45],[2,60],[2,90],[3,60],[3,90]],function(v){return"Study "+v[1]+" min across "+v[0]+"+ sessions"},function(v){return Math.ceil(v[1]/6)+3*v[0]}],
+["P","b",[1,2,3,4,5,6,7,8],function(v){return"Complete "+v+" Pomodoro"+(v>1?"s":"")},function(v){return 6*v}],
+["L","c",[5,10,15,20,25,30,40,45,50,60,75,90],function(v){return"Focus "+v+" minutes without pausing"},function(v){return Math.ceil(v/4)+3}],
+["LS","c",[15,20,30,45,60,90],function(v){return"Run the stopwatch "+v+" min non-stop"},function(v){return Math.ceil(v/4)+4}],
+["B","d",[1,2,3,4,5],function(v){return"Finish "+v+" Pomodoro break"+(v>1?"s":"")},function(v){return 4*v+2}],
+["N","e",[2,3,4,5,6],function(v){return"Start "+v+" focus sessions"},function(v){return 3*v+2}],
+["S","e",[1,2,3,4,5],function(v){return"Complete "+v+" session"+(v>1?"s":"")+" of 10+ minutes"},function(v){return 6*v}],
+["SW","f",[10,15,20,30,40,50,60,90,120],function(v){return"Study "+v+" minutes in Stopwatch mode"},function(v){return Math.ceil(v/5)+3}],
+["PF","g",[25,50,75,100,125,150,200],function(v){return"Study "+v+" minutes in Pomodoro mode"},function(v){return Math.ceil(v/5)+4}]];
+var ML=[];MT.forEach(function(t){t[2].forEach(function(v){ML.push({k:t[0],f:t[1],v:v,t:t[3](v),r:t[4](v)})})});
+var MK="",MI=[];
+function todays(k){if(MK==k)return MI;var r=rng(hash("kimetsu-"+k)),ix=ML.map(function(_,i){return i}),o=[],u={},i,j,x;
+for(i=ix.length-1;i>0;i--){j=Math.floor(r()*(i+1));x=ix[i];ix[i]=ix[j];ix[j]=x}
+for(i=0;i<ix.length&&o.length<5;i++){var m=ML[ix[i]];if(!u[m.f]){u[m.f]=1;o.push(ix[i])}}
+MK=k;MI=o;return o}
+function prog(m,d){var v=m.v,f=d.f/60;switch(m.k){case"F":return[f,v];case"C":return[d.c,v];case"P":return[d.p,v];case"L":return[d.l/60,v];case"LS":return[d.ls/60,v];case"B":return[d.b,v];case"N":return[d.n,v];case"SW":return[d.sw/60,v];case"PF":return[d.pf/60,v];case"S":return[d.s,v];case"FP":return[Math.min(f/v[0],d.p/v[1])*100,100];default:return[Math.min(d.n/v[0],f/v[1])*100,100]}}
+/* ---------- achievements ---------- */
+var RK=["Mizunoto","Mizunoe","Kanoto","Kanoe","Tsuchinoto","Tsuchinoe","Hinoto","Hinoe","Kinoto","Kinoe","Hashira"];
+var AD=[["tm",[30,60,120,300,600,1200,2100,3000,4500,6000,9000],RK,function(v){return"Focus "+(v>=60?v/60+" hours":v+" minutes")+" in total"},function(v){return 10+Math.round(v/15)}],
+["po",[1,5,10,25,50,100,250],["First Breath","Steady Breath","Ten Forms","Sword Polished","Half Century","Centurion Slayer","Legend of the Corps"],function(v){return"Complete "+v+" Pomodoro"+(v>1?"s":"")},function(v){return Math.min(300,8*v)}],
+["st",[2,3,7,14,30,60,100],["Twin Dawns","Three Sunrises","Weekly Vow","Fortnight Flame","Moonlit Month","Sixty Suns","Hinokami Legacy"],function(v){return"Study "+v+" days in a row (5+ min/day)"},function(v){return 5*v}],
+["ls",[25,45,60,90,120],["Total Concentration I","Total Concentration II","Total Concentration III","Total Concentration IV","Total Concentration V"],function(v){return"Focus "+v+" minutes without pausing"},function(v){return Math.round(v/2)}],
+["ms",[1,10,25,50,100],["Errand Runner","Mission Slayer","Reliable Ally","Demon Hunter","Corps Pillar"],function(v){return"Complete "+v+" daily mission"+(v>1?"s":"")},function(v){return 5+v}],
+["ec",[50,100,500,1000,2500,5000],["Pocket Change","Coin Purse","Treasure Chest","Merchant Prince","Gold Hashira","Dragon Hoard"],function(v){return"Earn "+v+" study coins"},function(v){return Math.round(v/10)}],
+["th",[5,10,20],["Style Seeker","Wardrobe of Ten","Every Colour"],function(v){return"Unlock "+v+" themes"},function(v){return v*5}],
+["bg",[1],["Scenic Route"],function(){return"Set a custom background"},function(){return 10}]];
+var AL=[];AD.forEach(function(a){a[1].forEach(function(v,i){AL.push({id:a[0]+v,t:a[0],v:v,n:a[2][i],d:a[3](v),r:a[4](v)})})});
+function streak(){var t=S.d[dk()],o=t&&t.f>=300?0:1,n=0;while(n<400){var d=S.d[dk(o+n)];if(d&&d.f>=300)n++;else break}return n}
+function val(t){switch(t){case"tm":return S.tot/60;case"po":return S.pomos;case"st":return streak();case"ls":return S.best/60;case"ms":return S.mdone;case"ec":return S.earned;case"th":return Object.keys(S.th).length;default:return S.bgN}}
+/* ---------- state ---------- */
+function defs(){return{coins:0,earned:0,tot:0,carry:0,pomos:0,mdone:0,best:0,blur:6,bgN:0,bgOn:false,vol:1,theme:0,th:{0:1},d:{},ach:{},mis:{}}}
+function norm(s){var o=defs(),k;for(k in s)o[k]=s[k];["coins","earned","tot","carry","pomos","mdone","best","bgN"].forEach(function(k){o[k]=Math.max(0,+o[k]||0)});["th","d","ach","mis"].forEach(function(k){if(!o[k]||typeof o[k]!="object")o[k]={}});o.th[0]=1;o.theme=Math.floor(+o.theme)||0;if(o.theme<0||o.theme>19||!o.th[o.theme])o.theme=0;o.blur=Math.min(30,Math.max(0,+o.blur||0));o.vol=o.vol?1:0;o.bgOn=!!o.bgOn;return o}
+function load(){var s={};try{s=JSON.parse(localStorage.getItem(KEY))||{}}catch(e){}return norm(s)}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){}}
+function D(){var k=dk(),d=S.d[k]||(S.d[k]={});["f","p","l","ls","b","n","sw","pf","s","c"].forEach(function(x){d[x]=+d[x]||0});return d}
+/* ---------- sound + toast ---------- */
+var AC;function actx(){if(!AC){var C=window.AudioContext||window.webkitAudioContext;if(C)AC=new C()}if(AC&&AC.state=="suspended")AC.resume();return AC}
+function tone(f,t0,d,ty,v){var c=actx();if(!c||!S.vol)return;var o=c.createOscillator(),g=c.createGain(),n=c.currentTime+t0;o.type=ty;o.frequency.value=f;g.gain.setValueAtTime(.0001,n);g.gain.exponentialRampToValueAtTime(v,n+.02);g.gain.exponentialRampToValueAtTime(.0001,n+d);o.connect(g);g.connect(c.destination);o.start(n);o.stop(n+d+.05)}
+function sfx(k){var q={done:[523,659,784,1047],ach:[659,784,988,1319,1568],break:[784,587],err:[196,165]}[k]||[880];q.forEach(function(f,i){tone(f,i*.13,.4,k=="err"?"sawtooth":"triangle",k=="err"?.08:.18)})}
+function toast(i,t,m,s){var e=document.createElement("div");e.className="toast glass";e.innerHTML="<b>"+i+" "+t+"</b><span>"+m+"</span>";var h=$("#ts");h.appendChild(e);while(h.children.length>4)h.removeChild(h.firstChild);if(s)sfx(s);setTimeout(function(){e.style.opacity=0;e.style.transform="translateX(30px)";setTimeout(function(){e.remove()},450)},4500)}
+/* ---------- timer ---------- */
+var T={m:"sw",run:false,sw:0,pp:"f",rem:FOC,cont:0,cc:0,blk:0,last:Date.now()};
+function endRun(){T.cont=0;T.cc=0}
+function pop(){var e=$("#coin");e.classList.remove("pop");void e.offsetWidth;e.classList.add("pop")}
+function foc(dt){var d=D();S.tot+=dt;d.f+=dt;if(T.m=="sw")d.sw+=dt;else d.pf+=dt;T.cont+=dt;d.l=Math.max(d.l,T.cont);if(T.m=="sw")d.ls=Math.max(d.ls,T.cont);S.best=Math.max(S.best,T.cont);if(T.cont>=600&&!T.cc){T.cc=1;d.s++}
+S.carry+=dt;while(S.carry>=60){S.carry-=60;S.coins++;S.earned++;d.c++;pop()}
+if(T.m=="sw"){var b=Math.floor(T.sw/1500);if(b>T.blk){T.blk=b;toast("⏱️",b*25+" minutes of focus!","Stopwatch hit "+b+" Pomodoro-length block"+(b>1?"s":"")+". Keep the flame alive!","done")}}}
+function donePo(){var d=D();S.pomos++;d.p++;endRun();T.pp="b";T.rem=BRK;toast("🍅","Pomodoro complete!","25 minutes of Total Concentration. Enjoy a 5 minute rest.","done");save()}
+function doneBr(){var d=D();d.b++;T.pp="f";T.rem=FOC;T.run=false;endRun();toast("🌸","Break finished","Ready for the next round? Press Start.","break");save()}
+function tick(){var n=Date.now(),dt=Math.min(Math.max((n-T.last)/1000,0),120);T.last=n;
+if(T.run){if(T.m=="sw"){T.sw+=dt;foc(dt)}else if(T.pp=="f"){var u=Math.min(dt,T.rem);T.rem-=dt;foc(u);if(T.rem<=0)donePo()}else{T.rem-=dt;if(T.rem<=0)doneBr()}}
+rT();if(++ticks%4==0){chk();rS();rMis();if(ticks%20==0)save()}}
+function start(){actx();if(T.run)return;T.run=true;T.last=Date.now();endRun();if(T.m=="sw"||T.pp=="f")D().n++;rT()}
+function pause(){T.run=false;endRun();save()}
+function reset(){if(T.m=="sw"){T.sw=0;T.blk=0}else{T.pp="f";T.rem=FOC}T.run=false;endRun();rT()}
+function skip(){if(T.m!="po")return;endRun();if(T.pp=="f"){T.pp="b";T.rem=BRK}else{T.pp="f";T.rem=FOC;T.run=false}rT()}
+function setMode(m){if(T.m==m)return;if(T.run){T.run=false;endRun()}T.m=m;rT()}
+function chk(){var k=dk(),d=D();S.mis[k]=S.mis[k]||{};todays(k).forEach(function(id){var m=ML[id];if(!S.mis[k][id]){var p=prog(m,d);if(p[0]>=p[1]){S.mis[k][id]=1;S.coins+=m.r;S.mdone++;toast("🎯","Mission complete!",m.t+" · +"+m.r+" 🪙","ach")}}});
+AL.forEach(function(a){if(!S.ach[a.id]&&val(a.t)>=a.v){S.ach[a.id]=Date.now();S.coins+=a.r;toast("🏆","Achievement unlocked!",a.n+" · +"+a.r+" 🪙","ach")}})}
+/* ---------- rendering ---------- */
+function fm(s){s=Math.max(0,Math.floor(s));var h=Math.floor(s/3600),m=Math.floor(s%3600/60);return(h?h+":"+p2(m):p2(m))+":"+p2(s%60)}
+function hm(s){s=Math.floor(s);var m=Math.floor(s/60);return m>=60?Math.floor(m/60)+"h "+p2(m%60)+"m":m+"m "+p2(s%60)+"s"}
+function rT(){var sw=T.m=="sw",tot=T.pp=="f"?FOC:BRK,fr=sw?S.carry/60:1-T.rem/tot;
+$("#tt").textContent=fm(sw?T.sw:Math.ceil(T.rem));$("#pg").style.strokeDashoffset=CI*(1-fr);$("#cn").textContent=S.coins;
+$("#lb").textContent=sw?(T.run?"Total Concentration":"Stopwatch"):(T.pp=="f"?"Focus · Total Concentration":"Rest · Breathe");
+$("#hn").textContent=sw?(T.run?"Next coin in "+Math.ceil(60-S.carry)+"s":"Ring fills toward your next coin"):(T.pp=="f"?"25 min focus, then 5 min rest. Coins for every focused minute.":"Breaks do not earn coins. Recover well!");
+$("#go").textContent=T.run?"Pause":((sw&&T.sw>0)||(!sw&&T.rem<tot)?"Resume":"Start");
+$("#sk").style.display=sw?"none":"";$("#t1").className="tab"+(sw?" on":"");$("#t2").className="tab"+(sw?"":" on");
+document.title=(T.run?fm(sw?T.sw:Math.ceil(T.rem))+" · ":"")+"Kimetsu Focus"}
+function rS(){var d=D();$("#s1").textContent=hm(d.f);$("#s2").textContent=hm(S.tot);$("#s3").textContent=d.p+" / "+S.pomos;$("#s4").textContent=streak()+" 🔥";
+var v=[],mx=60,h="",i;for(i=6;i>=0;i--){var x=S.d[dk(i)],f=x?+x.f||0:0;v.push(f);mx=Math.max(mx,f)}
+v.forEach(function(f,j){var t=new Date();t.setDate(t.getDate()-(6-j));h+='<div title="'+hm(f)+'"><i style="height:'+Math.max(4,f/mx*62)+'px"></i>'+"SMTWTFS".charAt(t.getDay())+"</div>"});$("#wk").innerHTML=h}
+function rMis(){var k=dk(),d=D(),h="";todays(k).forEach(function(id){var m=ML[id],p=prog(m,d),f=Math.min(1,p[0]/p[1]),dn=S.mis[k]&&S.mis[k][id],pc=m.k=="FP"||m.k=="NF",pt=pc?Math.floor(f*100)+"%":Math.floor(Math.min(p[0],p[1]))+" / "+p[1];
+h+='<div class="ms'+(dn?" dn":"")+'"><div style="flex:1"><small>'+ST[id%ST.length]+' Breathing</small><div>'+m.t+'</div><div class="bar"><i style="width:'+f*100+'%"></i></div></div><div class="rw2">'+(dn?"✅":"+"+m.r+" 🪙")+'<small>'+pt+'</small></div></div>'});$("#ml").innerHTML=h}
+function rSnd(){$("#sn").textContent=S.vol?"🔊":"🔇"}
+/* ---------- colour maths + Material style palette from image ---------- */
+function h2r(h,s,l){h/=360;var f=function(n){var k=(n+h*12)%12,a=s*Math.min(l,1-l);return Math.round(255*(l-a*Math.max(-1,Math.min(k-3,9-k,1))))};return[f(0),f(8),f(4)]}
+function r2h(r,g,b){r/=255;g/=255;b/=255;var M=Math.max(r,g,b),m=Math.min(r,g,b),l=(M+m)/2,d=M-m,h=0,s=0;if(d){s=d/(1-Math.abs(2*l-1));h=M==r?((g-b)/d+6)%6:M==g?(b-r)/d+2:(r-g)/d+4;h*=60}return[h,s,l]}
+function hx(c){return"#"+c.map(function(v){return(v<16?"0":"")+v.toString(16)}).join("")}
+function px(h){return[parseInt(h.substr(1,2),16),parseInt(h.substr(3,2),16),parseInt(h.substr(5,2),16)]}
+function lm(c){var a=c.map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*a[0]+.7152*a[1]+.0722*a[2]}
+function cr(a,b){var x=lm(a),y=lm(b);return(Math.max(x,y)+.05)/(Math.min(x,y)+.05)}
+function onc(h){var c=px(h);return cr(c,[0,0,0])>=cr(c,[255,255,255])?"#000":"#fff"}
+function analyse(im){var c=document.createElement("canvas");c.width=c.height=40;var x=c.getContext("2d");x.drawImage(im,0,0,40,40);var d=x.getImageData(0,0,40,40).data,P=[],hb=[0,0,0,0,0,0,0,0,0,0,0,0],R=0,G=0,B=0,i,n=1600;
+for(i=0;i<n;i++){var r=d[i*4],g=d[i*4+1],b=d[i*4+2],q=r2h(r,g,b);R+=r;G+=g;B+=b;P.push([lm([r,g,b]),r,g,b]);hb[Math.min(11,Math.floor(q[0]/30))]+=q[1]*(1-Math.abs(2*q[2]-1))}
+var mc=[R/n,G/n,B/n],bi=0;hb.forEach(function(v,j){if(v>hb[bi])bi=j});var H=bi*30+15;P.sort(function(a,b){return a[0]-b[0]});
+var dkm=lm(mc)<.2,sl=dkm?P.slice(-240):P.slice(0,240),ex=[1,2,3].map(function(k){return sl.reduce(function(s,p){return s+p[k]},0)/sl.length});
+var sf=dkm?h2r(H,.3,.09):h2r(H,.3,.96),ik=dkm?h2r(H,.25,.96):h2r(H,.4,.08),al=.4;
+while(al<.86&&cr(ik,sf.map(function(v,k){return v*al+ex[k]*(1-al)}))<7)al+=.05;
+return{a:hx(dkm?h2r(H,.78,.7):h2r(H,.7,.3)),b:hx(dkm?h2r((H+60)%360,.68,.72):h2r((H+60)%360,.6,.3)),ink:hx(ik),glass:"rgba("+sf.join(",")+","+al.toFixed(2)+")"}}
+function paint(){var t=TH[S.theme],r=document.documentElement.style,u=S.bgOn&&PAL,a=u?PAL.a:t[1],b=u?PAL.b:t[2];
+r.setProperty("--a",a);r.setProperty("--b",b);r.setProperty("--g1",t[3]);r.setProperty("--g2",t[4]);r.setProperty("--on",onc(a));r.setProperty("--ink",u?PAL.ink:"#f4f7f5");r.setProperty("--glass",u?PAL.glass:"rgba(255,255,255,.1)");r.setProperty("--blur",S.blur+"px");
+$("#bg").className=u?"on":"";$("#chk").style.opacity=u?0:1;$("#glow").className=u?"dim":"";$("meta[name=theme-color]").content=t[3];PC=[px(a),px(b)]}
+function bgUse(u,im){$("#bg").style.backgroundImage='url("'+u+'")';try{PAL=analyse(im)}catch(e){PAL=null}paint()}
+function bgLoad(){var u=BGM||localStorage.getItem(BGK);if(!u){S.bgOn=false;paint();return}var im=new Image();im.onload=function(){bgUse(u,im)};im.src=u}
+function enc(im,mx,q){var w=im.naturalWidth||1600,h=im.naturalHeight||900,s=Math.min(1,mx/Math.max(w,h)),c=document.createElement("canvas");c.width=Math.max(1,Math.round(w*s));c.height=Math.max(1,Math.round(h*s));var x=c.getContext("2d");x.fillStyle="#000";x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);return c.toDataURL("image/jpeg",q)}
+function bgSave(u){try{localStorage.setItem(BGK,u);BGM=null;return 1}catch(e){BGM=u;return 0}}
+function bgPick(f){if(S.coins<BGC){toast("🔒","Not enough coins","A background costs "+BGC+" 🪙","err");return}
+var url=URL.createObjectURL(f),im=new Image();
+im.onload=function(){URL.revokeObjectURL(url);var u;try{u=enc(im,1920,.86)}catch(e){toast("⚠️","Image error","This image cannot be processed.","err");return}
+if(!bgSave(u)){try{u=enc(im,1280,.72)}catch(e){}if(!bgSave(u))toast("⚠️","Storage full","Background kept for this session only.","err")}
+S.coins-=BGC;S.bgN++;S.bgOn=true;var i2=new Image();i2.onload=function(){bgUse(u,i2)};i2.src=u;save();rT();toast("🖼️","Background set","Colours adapted to your image. −"+BGC+" 🪙","ach");bgm()};
+im.onerror=function(){URL.revokeObjectURL(url);toast("⚠️","Unsupported image","Try PNG, JPG, WebP, GIF, AVIF, BMP or SVG.","err")};im.src=url}
+/* ---------- modals ---------- */
+function modal(t,h){$("#mb").innerHTML='<div class="mh"><h2>'+t+'</h2><button class="ib" data-a="x" title="Close">✕</button></div>'+h;$("#md").className="open"}
+function closeM(){$("#md").className=""}
+function shop(){var h='<p class="dim">Unlock colour themes with coins. You have <b>'+S.coins+' 🪙</b>'+(S.bgOn?". A custom background is active, so its colours override the theme accents.":"")+'</p><div class="gr">';
+TH.forEach(function(t,i){var u=S.th[i];h+='<button class="it'+(S.theme==i?" act":"")+(u?"":" lk")+'" data-a="th" data-i="'+i+'"><div class="sw" style="background:linear-gradient(135deg,'+t[1]+','+t[2]+')"></div><b>'+t[0]+'</b><div class="dim">'+(S.theme==i?"Active":u?"Unlocked":"🔒 "+t[5]+" 🪙")+'</div></button>'});modal("🎨 Themes",h+"</div>")}
+function pickTheme(i){if(!S.th[i]){var c=TH[i][5];if(S.coins<c){toast("🔒","Not enough coins","Need "+(c-S.coins)+" more 🪙","err");return}S.coins-=c;S.th[i]=1;toast("🎨",TH[i][0]+" unlocked!","Theme applied.","ach")}S.theme=i;paint();save();rT();shop()}
+function achs(){var n=AL.filter(function(a){return S.ach[a.id]}).length,h='<p class="dim">'+n+" / "+AL.length+' unlocked</p><div class="gr">';
+AL.forEach(function(a){var u=S.ach[a.id];h+='<div class="it'+(u?"":" lk")+'"><div style="font-size:1.6rem">'+(u?"🏆":"🔒")+'</div><b>'+a.n+'</b><div class="dim" style="font-size:.82rem">'+a.d+'</div><div>'+(u?"✓ +"+a.r+" 🪙":Math.floor(Math.min(val(a.t),a.v))+" / "+a.v)+'</div></div>'});modal("🏆 Achievements",h+"</div>")}
+function bgm(){modal("🖼️ Background",'<p class="dim">Use your own image (JPG, PNG, WebP, GIF, AVIF, BMP, SVG). Each new background costs <b>'+BGC+' 🪙</b>. It is cropped to fill the screen and the UI colours adapt to it.</p><div class="ctl" style="justify-content:flex-start"><button class="btn pri" data-a="bgu">Choose image · '+BGC+' 🪙</button>'+(S.bgOn?'<button class="btn" data-a="bgr">Remove</button>':"")+'</div><p style="margin-top:16px"><label for="bl">Blur: <b id="bv">'+S.blur+'</b> px</label></p><input type="range" id="bl" min="0" max="30" value="'+S.blur+'">')}
+/* ---------- backup / restore ---------- */
+function dl(n,t){var a=document.createElement("a"),u=URL.createObjectURL(new Blob([t],{type:"application/json"}));a.href=u;a.download=n;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(u)},2000)}
+function backup(){save();var t=JSON.stringify({app:"kimetsu-focus",v:1,at:new Date().toISOString(),state:S,bg:BGM||localStorage.getItem(BGK)||null}),n="kimetsu-focus-backup-"+dk()+".json",ok=function(){toast("💾","Backup saved","Progress and background exported.","done")};
+if(window.showSaveFilePicker){window.showSaveFilePicker({suggestedName:n,types:[{description:"JSON backup",accept:{"application/json":[".json"]}}]}).then(function(h){return h.createWritable()}).then(function(w){return w.write(t).then(function(){return w.close()})}).then(ok).catch(function(e){if(!e||e.name!="AbortError"){dl(n,t);ok()}})}else{dl(n,t);ok()}}
+function applyBk(txt){var o=JSON.parse(txt);if(!o||o.app!="kimetsu-focus"||!o.state||typeof o.state!="object")throw 0;if(!confirm("Restore this backup? It replaces your current progress."))return;
+S=norm(o.state);if(typeof o.bg=="string"&&o.bg.indexOf("data:image/")==0&&o.bg.indexOf('"')<0&&o.bg.indexOf(")")<0){bgSave(o.bg)}else{try{localStorage.removeItem(BGK)}catch(e){}BGM=null;S.bgOn=false}
+MK="";save();PAL=null;paint();if(S.bgOn)bgLoad();rSnd();rT();rS();rMis();toast("♻️","Backup restored","Welcome back, Slayer!","done")}
+function rdf(f){f.text().then(applyBk).catch(function(){toast("⚠️","Restore failed","That file is not a valid backup.","err")})}
+function restore(){if(window.showOpenFilePicker){window.showOpenFilePicker({types:[{description:"JSON backup",accept:{"application/json":[".json"]}}]}).then(function(h){return h[0].getFile()}).then(rdf).catch(function(e){if(!e||e.name!="AbortError")$("#rf").click()})}else $("#rf").click()}
+/* ---------- events ---------- */
+document.addEventListener("click",function(e){var b=e.target.closest("[data-a]");if(!b)return;var a=b.dataset.a,i=b.dataset.i;
+if(a=="go")T.run?pause():start();else if(a=="rs")reset();else if(a=="sk")skip();else if(a=="m")setMode(i);else if(a=="shop")shop();else if(a=="ach")achs();else if(a=="bgm")bgm();
+else if(a=="snd"){S.vol=S.vol?0:1;save();rSnd();sfx("coin")}else if(a=="bak")backup();else if(a=="res")restore();else if(a=="x")closeM();else if(a=="th")pickTheme(+i);
+else if(a=="bgu")$("#bf").click();else if(a=="bgr"){S.bgOn=false;BGM=null;try{localStorage.removeItem(BGK)}catch(x){}PAL=null;$("#bg").style.backgroundImage="";paint();save();bgm()}
+rT()});
+$("#md").addEventListener("click",function(e){if(e.target.id=="md")closeM()});
+document.addEventListener("keydown",function(e){if(e.key=="Escape")closeM()});
+document.addEventListener("input",function(e){if(e.target.id=="bl"){S.blur=+e.target.value;$("#bv").textContent=S.blur;document.documentElement.style.setProperty("--blur",S.blur+"px")}});
+document.addEventListener("change",function(e){if(e.target.id=="bl")save()});
+$("#bf").addEventListener("change",function(){var f=this.files[0];this.value="";if(f)bgPick(f)});
+$("#rf").addEventListener("change",function(){var f=this.files[0];this.value="";if(f)rdf(f)});
+document.addEventListener("visibilitychange",function(){if(document.hidden)save()});
+window.addEventListener("pagehide",save);
+/* ---------- particles ---------- */
+var cv=$("#fx"),cx=cv.getContext("2d"),PS=[],PC=[[47,191,122],[255,107,61]],W=0,H=0,RM=window.matchMedia&&matchMedia("(prefers-reduced-motion:reduce)").matches;
+function mkp(){return{x:Math.random()*W,y:Math.random()*H,r:Math.random()*2.3+.6,vy:-(Math.random()*.5+.15),vx:(Math.random()-.5)*.3,ph:Math.random()*6.28,c:Math.random()<.6?0:1,a:Math.random()*.5+.3}}
+function rsz(){W=cv.width=innerWidth;H=cv.height=innerHeight;PS=[];if(!RM)for(var i=0;i<Math.min(90,W*H/20000|0);i++)PS.push(mkp())}
+function frame(){cx.clearRect(0,0,W,H);PS.forEach(function(p){p.ph+=.02;p.x+=p.vx+Math.sin(p.ph)*.35;p.y+=p.vy;if(p.y<-10){p.y=H+10;p.x=Math.random()*W}if(p.x<-10)p.x=W+10;if(p.x>W+10)p.x=-10;var c=PC[p.c],al=p.a*(.6+.4*Math.sin(p.ph*2));
+cx.fillStyle="rgba("+c[0]+","+c[1]+","+c[2]+","+al*.16+")";cx.beginPath();cx.arc(p.x,p.y,p.r*4,0,6.283);cx.fill();cx.fillStyle="rgba("+c[0]+","+c[1]+","+c[2]+","+al+")";cx.beginPath();cx.arc(p.x,p.y,p.r,0,6.283);cx.fill()});requestAnimationFrame(frame)}
+addEventListener("resize",rsz);
+/* ---------- init ---------- */
+S=load();paint();if(S.bgOn)bgLoad();rsz();frame();rSnd();rT();rS();chk();rMis();T.last=Date.now();setInterval(tick,250);
+})();
+</script>
+</body>
+</html>

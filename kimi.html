@@ -1,0 +1,300 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demon Focus Study — Hinokami Pomodoro, Coins, Themes and Backup</title>
+<meta name="description" content="A Demon Slayer inspired liquid glass study focus app with stopwatch, Pomodoro 25/5, coins, achievements, deterministic daily missions, adaptive custom backgrounds and JSON backup restore.">
+<meta name="theme-color" content="#15091f">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Demon Focus Study">
+<meta property="og:description" content="Liquid glass anime study timer with coins, achievements, daily missions, adaptive themes and backup restore.">
+<meta property="og:site_name" content="Demon Focus Study">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Demon Focus Study">
+<meta name="twitter:description" content="Pomodoro 25/5, stopwatch, coins, achievements, daily missions and 20 unlockable color themes.">
+<style>
+:root{
+  --bg-image:none;
+  --bg-blur:0px;
+  --bg-rgb:18,10,30;
+  --accent1:#ff3b2f;
+  --accent2:#29d8ff;
+  --accent3:#ffd166;
+  --text:#f7fbff;
+  --muted:rgba(247,251,255,.72);
+  --panel:rgba(14,18,34,.54);
+  --panel-strong:rgba(10,13,26,.78);
+  --line:rgba(255,255,255,.18);
+  --shadow:0 22px 70px rgba(0,0,0,.42);
+  --radius:28px;
+}
+*{box-sizing:border-box}
+html,body{min-height:100%;margin:0}
+body{
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+  color:var(--text);
+  overflow-x:hidden;
+  background:#120817;
+}
+.bg-layer{position:fixed;inset:-48px;background-image:var(--bg-image);background-size:cover;background-position:center;filter:blur(var(--bg-blur));transform:scale(1.04);z-index:-5}
+.bg-tint{position:fixed;inset:0;z-index:-4;background:
+  radial-gradient(circle at 18% 12%, rgba(255,59,47,.30), transparent 30%),
+  radial-gradient(circle at 82% 8%, rgba(41,216,255,.22), transparent 32%),
+  radial-gradient(circle at 55% 95%, rgba(255,209,102,.18), transparent 30%),
+  linear-gradient(135deg, rgba(var(--bg-rgb),.72), rgba(3,6,18,.78));
+  pointer-events:none}
+.inkwash{position:fixed;inset:0;z-index:-3;opacity:.35;pointer-events:none;background:
+  linear-gradient(115deg, transparent 0 44%, rgba(255,255,255,.08) 45% 46%, transparent 47% 100%),
+  repeating-linear-gradient(120deg, transparent 0 34px, rgba(255,255,255,.035) 35px 37px, transparent 38px 90px)}
+#particles{position:fixed;inset:0;z-index:-2;pointer-events:none}
+.app{position:relative;z-index:1;max-width:1240px;margin:0 auto;padding:22px}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:54px;height:54px;border-radius:18px;display:grid;place-items:center;font-size:29px;background:linear-gradient(145deg,rgba(255,59,47,.28),rgba(41,216,255,.18));border:1px solid var(--line);box-shadow:var(--shadow)}
+.brand h1{font-size:clamp(20px,2.4vw,32px);line-height:1;margin:0;letter-spacing:.02em}
+.brand p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.pill,.icon-btn,.btn,.mission button,.theme-card button{background:rgba(255,255,255,.11);border:1px solid var(--line);color:var(--text);border-radius:999px;padding:10px 14px;box-shadow:0 10px 26px rgba(0,0,0,.24);backdrop-filter:blur(16px) saturate(150%);-webkit-backdrop-filter:blur(16px) saturate(150%)}
+.icon-btn{width:44px;height:44px;display:grid;place-items:center;padding:0;font-size:19px;cursor:pointer}
+.pill{font-weight:800;color:#2b160b;background:linear-gradient(135deg,#ffe08a,#ffb02e)}
+.btn{cursor:pointer;font-weight:800;transition:transform .18s ease, box-shadow .18s ease}
+.btn:hover,.icon-btn:hover,.mission button:hover,.theme-card button:hover{transform:translateY(-2px);box-shadow:0 16px 34px rgba(0,0,0,.34)}
+.btn:active,.icon-btn:active{transform:translateY(1px)}
+.btn.primary{background:linear-gradient(135deg,var(--accent1),var(--accent2));color:#fff;border:0}
+.btn.danger{background:linear-gradient(135deg,#ff416c,#ff4b2b)}
+.grid{display:grid;grid-template-columns:minmax(320px,1.1fr) minmax(300px,.9fr);gap:18px}
+.card{background:linear-gradient(145deg,rgba(255,255,255,.18),rgba(255,255,255,.07));border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);backdrop-filter:blur(22px) saturate(155%);-webkit-backdrop-filter:blur(22px) saturate(155%);padding:20px}
+.card h2{margin:0 0 14px;font-size:18px;display:flex;align-items:center;gap:9px}
+.timer-card{min-height:560px;display:flex;flex-direction:column}
+.mode-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px}
+.mode-row .btn{padding:12px}
+.mode-row .active{outline:3px solid rgba(255,255,255,.38);background:linear-gradient(135deg,var(--accent1),var(--accent2))}
+.dial-wrap{position:relative;display:grid;place-items:center;margin:8px auto 16px;width:min(100%,360px)}
+svg.ring{width:100%;height:auto;transform:rotate(-90deg)}
+.ring .track{fill:none;stroke:rgba(255,255,255,.16);stroke-width:14}
+.ring .prog{fill:none;stroke:url(#grad);stroke-width:14;stroke-linecap:round;transition:stroke-dashoffset .25s linear}
+.time{font-size:clamp(46px,9vw,74px);font-weight:950;letter-spacing:.04em;text-shadow:0 12px 38px rgba(0,0,0,.45);position:absolute}
+.subtitle{color:var(--muted);text-align:center;margin:-6px 0 18px;font-weight:700}
+.controls{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:auto}
+.controls .btn{padding:14px 8px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stat{padding:16px;border-radius:22px;background:rgba(255,255,255,.10);border:1px solid var(--line)}
+.stat b{display:block;font-size:25px;margin-top:5px}
+.stat span{color:var(--muted);font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.12em}
+.missions{margin-top:18px;display:grid;gap:10px}
+.mission{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 14px;border-radius:20px;background:rgba(255,255,255,.10);border:1px solid var(--line)}
+.mission .meta b{display:block;margin-bottom:3px}
+.mission .meta small{color:var(--muted);display:block}
+.mission progress{width:150px;max-width:38vw;accent-color:var(--accent3)}
+.mission button{border:0;background:linear-gradient(135deg,var(--accent3),var(--accent1));color:#2b160b;font-weight:950;cursor:pointer}
+.mission button:disabled{filter:grayscale(1);opacity:.55;cursor:not-allowed;transform:none}
+.section{margin-top:18px}
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.theme-card{border-radius:22px;border:1px solid var(--line);padding:14px;background:rgba(255,255,255,.10);display:grid;gap:10px}
+.swatch{height:72px;border-radius:17px;border:1px solid rgba(255,255,255,.22);box-shadow:inset 0 0 34px rgba(0,0,0,.22)}
+.theme-card b{font-size:13px}
+.theme-card button{border:0;cursor:pointer;font-weight:900;color:#1d1430;background:rgba(255,255,255,.86)}
+.theme-card button.owned{background:linear-gradient(135deg,#b7ffda,#7ddfff)}
+.theme-card button.active{background:linear-gradient(135deg,var(--accent3),var(--accent2));color:#20130a}
+.achievements{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px}
+.badge{padding:14px;border-radius:20px;background:rgba(255,255,255,.10);border:1px solid var(--line);opacity:.68}
+.badge.unlocked{opacity:1;background:linear-gradient(145deg,rgba(255,209,102,.28),rgba(255,59,47,.16));border-color:rgba(255,209,102,.55)}
+.badge b{display:block;margin-bottom:4px}
+.badge small{color:var(--muted)}
+.dialog{position:fixed;inset:0;display:none;place-items:center;background:rgba(0,0,0,.54);z-index:30;padding:18px}
+.dialog.open{display:grid}
+.sheet{width:min(680px,96vw);max-height:92vh;overflow:auto;background:linear-gradient(145deg,rgba(22,26,45,.88),rgba(10,12,25,.92));border:1px solid var(--line);border-radius:30px;padding:22px;box-shadow:var(--shadow)}
+.sheet h2{margin-top:0}
+.drop{border:2px dashed rgba(255,255,255,.35);border-radius:24px;padding:26px;text-align:center;background:rgba(255,255,255,.08)}
+.preview{height:190px;border-radius:24px;background:rgba(255,255,255,.08);border:1px solid var(--line);background-size:cover;background-position:center;margin:14px 0}
+.slider{width:100%;accent-color:var(--accent3)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:12px 0}
+.toasts{position:fixed;right:18px;bottom:18px;display:grid;gap:10px;z-index:80;width:min(380px,calc(100vw - 36px))}
+.toast{background:rgba(10,14,28,.88);border:1px solid rgba(255,255,255,.22);border-left:6px solid var(--accent3);border-radius:18px;padding:14px 16px;box-shadow:var(--shadow);backdrop-filter:blur(18px);animation:pop .28s ease}
+.toast b{display:block;margin-bottom:2px}
+.toast small{color:var(--muted)}
+@keyframes pop{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.topbar{align-items:flex-start;flex-direction:column}.controls{grid-template-columns:repeat(2,1fr)}.stats{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.app{padding:14px}.mode-row{grid-template-columns:1fr}.time{font-size:52px}.mission progress{width:110px}}
+</style>
+</head>
+<body>
+<div class="bg-layer" aria-hidden="true"></div>
+<div class="bg-tint" aria-hidden="true"></div>
+<div class="inkwash" aria-hidden="true"></div>
+<canvas id="particles" aria-hidden="true"></canvas>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="grad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff3b2f"/><stop offset=".55" stop-color="#ffd166"/><stop offset="1" stop-color="#29d8ff"/></linearGradient></defs></svg>
+<main class="app">
+  <header class="topbar">
+    <div class="brand"><div class="logo">🔥</div><div><h1>Demon Focus Study</h1><p>Hinokami breathing for deep work</p></div></div>
+    <nav class="toolbar" aria-label="Application tools">
+      <span class="pill" id="coinPill">🪙 0</span>
+      <button class="icon-btn" id="backupBtn" title="Backup JSON" aria-label="Backup JSON">⤓</button>
+      <button class="icon-btn" id="restoreBtn" title="Restore JSON" aria-label="Restore JSON">⤒</button>
+      <button class="icon-btn" id="soundBtn" title="Toggle sound" aria-label="Toggle sound">🔊</button>
+      <button class="icon-btn" id="bgBtn" title="Custom background" aria-label="Custom background">🖼️</button>
+    </nav>
+  </header>
+
+  <section class="grid">
+    <div class="card timer-card">
+      <h2>⏱️ Focus Console</h2>
+      <div class="mode-row"><button class="btn active" id="stopwatchMode">Stopwatch</button><button class="btn" id="pomodoroMode">Pomodoro 25/5</button></div>
+      <div class="dial-wrap">
+        <svg class="ring" viewBox="0 0 260 260"><circle class="track" cx="130" cy="130" r="112"></circle><circle class="prog" id="ringProg" cx="130" cy="130" r="112"></circle></svg>
+        <div class="time" id="timeText">00:00</div>
+      </div>
+      <div class="subtitle" id="timerSubtitle">Total line complete</div>
+      <div class="controls">
+        <button class="btn primary" id="startBtn">Start</button><button class="btn" id="pauseBtn">Pause</button><button class="btn" id="resetBtn">Reset</button><button class="btn" id="lapBtn">Lap</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <h2>📈 Focus Ledger</h2>
+        <div class="stats">
+          <div class="stat"><span>Today focus</span><b id="todayText">00:00</b></div>
+          <div class="stat"><span>Total focus</span><b id="totalText">00:00</b></div>
+          <div class="stat"><span>Pomodoros</span><b id="pomoText">0</b></div>
+          <div class="stat"><span>Best stopwatch</span><b id="bestText">00:00</b></div>
+        </div>
+        <div class="missions" id="missionList"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="card section"><h2>🏅 Achievements</h2><div class="achievements" id="achievements"></div></section>
+  <section class="card section"><h2>🎨 Theme Scroll — 20 unlockable breathing styles</h2><div class="theme-grid" id="themeGrid"></div></section>
+</main>
+
+<div class="dialog" id="bgDialog" role="dialog" aria-modal="true" aria-label="Custom background settings">
+  <div class="sheet">
+    <div class="row"><h2 style="margin:0">Adaptive background</h2><button class="icon-btn" id="closeBg">✕</button></div>
+    <div class="drop">Drop an image here or <label class="btn primary" style="display:inline-block">Choose image<input id="bgInput" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/avif" style="display:none"></label><br><small>50 coins are charged when a new background is set. PNG, JPG, WEBP, GIF and AVIF are cropped to cover.</small></div>
+    <div class="preview" id="bgPreview"></div>
+    <label>Material blur <b id="blurVal">0px</b><input class="slider" id="blurRange" type="range" min="0" max="30" value="0"></label>
+    <div class="row"><span id="bgStatus">No custom background set.</span><span><button class="btn danger" id="clearBg">Remove</button> <button class="btn primary" id="saveBg">Set background · 50 🪙</button></span></div>
+  </div>
+</div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<script>
+(function(){
+'use strict';
+var STORE_KEY='demonFocusStudy.v1';
+var WORK_MS=25*60*1000, BREAK_MS=5*60*1000, COIN_PER_MINUTE=1, BLOCK_MS=25*60*1000;
+var $=function(id){return document.getElementById(id)};
+var now=function(){return Date.now()};
+var clamp=function(n,a,b){return Math.max(a,Math.min(b,n))};
+var pad=function(n){return (n<10?'0':'')+n};
+var fmt=function(ms){ms=Math.max(0,Math.floor(ms));var h=Math.floor(ms/3600000),m=Math.floor(ms%3600000/60000),s=Math.floor(ms%60000/1000);return h>0?pad(h)+':'+pad(m)+':'+pad(s):pad(m)+':'+pad(s)};
+function dayKey(){var d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())}
+function hashStr(s){var h=1779033703;for(var i=0;i<s.length;i++){h=Math.imul(h^s.charCodeAt(i),3432918353);h=h<<13|h>>>19}return h>>>0}
+function seeded(seed){var t=seed||1;return function(){t=Math.imul(t^t>>>15,2246822519);t=Math.imul(t^t>>>13,3266489917);t^=t>>>16;return t>>>0}}
+function coverCrop(img,w,h){var iw=img.naturalWidth||img.width,ih=img.naturalHeight||img.height;if(!iw||!ih)return null;var scale=Math.max(w/iw,h/ih),sw=w/scale,sh=h/scale,sx=(iw-sw)/2,sy=(ih-sh)/2;var c=document.createElement('canvas');c.width=w;c.height=h;var x=c.getContext('2d');x.drawImage(img,sx,sy,sw,sh,0,0,w,h);return c}
+var MISSIONS=[
+['Water Surface Slash','Focus for 10 minutes today',10,'focus'],['Total Concentration','Focus for 25 minutes today',25,'focus'],['Constant Flux','Focus for 45 minutes today',45,'focus'],['Hinokami Dawn','Focus for 60 minutes today',60,'focus'],['Dance of the Fire God','Focus for 90 minutes today',90,'focus'],['First Form','Finish 1 Pomodoro today',1,'pomo'],['Second Form','Finish 2 Pomodoros today',2,'pomo'],['Third Form','Finish 3 Pomodoros today',3,'pomo'],['Fourth Form','Finish 4 Pomodoros today',4,'pomo'],['Final Form','Finish 5 Pomodoros today',5,'pomo'],
+['Stopwatch Initiate','Run the stopwatch for 5 minutes',5,'sw'],['Stopwatch Adept','Run the stopwatch for 15 minutes',15,'sw'],['Stopwatch Master','Run the stopwatch for 30 minutes',30,'sw'],['Stopwatch Hashira','Run the stopwatch for 45 minutes',45,'sw'],['Coin Spark','Earn 20 coins today',20,'coins'],['Coin Ember','Earn 50 coins today',50,'coins'],['Coin Flame','Earn 100 coins today',100,'coins'],['Coin Inferno','Earn 200 coins today',200,'coins'],['Coin Solar','Earn 300 coins today',300,'coins'],['Gentle Start','Focus for 5 minutes',5,'focus'],
+['Morning Breath','Focus before noon for 8 minutes',8,'focus'],['Noon Resolve','Focus around midday for 12 minutes',12,'focus'],['Evening Calm','Focus after 18:00 for 15 minutes',15,'focus'],['Night Watch','Focus after 21:00 for 10 minutes',10,'focus'],['Lap One','Complete 1 stopwatch lap block',1,'laps'],['Lap Two','Complete 2 stopwatch lap blocks',2,'laps'],['Lap Three','Complete 3 stopwatch lap blocks',3,'laps'],['Clean Reset','Reset only when the timer is paused',1,'resets'],['Slow Breathing','Pause and resume once with focus',1,'pauses'],['Warm Up','Earn 10 coins today',10,'coins'],
+['Mist Step','Focus for 20 minutes in small sessions',20,'focus'],['Wind Wheel','Finish 2 Pomodoros before a break',2,'pomo'],['Beast Instinct','Run stopwatch for 25 minutes',25,'sw'],['Serpent Coil','Focus for 35 minutes',35,'focus'],['Sound Sprint','Finish 1 Pomodoro without pausing',1,'clean'],['Love Bloom','Earn 30 coins today',30,'coins'],['Insect Sting','Focus for 18 minutes',18,'focus'],['Stone Grip','Hold a stopwatch block for 40 minutes',40,'sw'],['Thunderclap','Finish 3 Pomodoros quickly',3,'pomo'],['Flower Waltz','Focus for 28 minutes',28,'focus'],
+['Flame Tiger','Finish 2 Pomodoros back to back',2,'pomo'],['Water Dragon','Focus for 55 minutes',55,'focus'],['Moon Halo','Focus after sunset for 20 minutes',20,'focus'],['Sun Halo','Finish 4 Pomodoros',4,'pomo'],['Blue Sky','Earn 15 coins today',15,'coins'],['Red Sky','Finish 1 Pomodoro and 10 stopwatch minutes',1,'mixed1'],['Purple Haze','Focus for 40 minutes in one zone',40,'focus'],['Golden Hour','Earn 40 coins today',40,'coins'],['Silver Mist','Pause once then continue',1,'pauses'],['Crimson Thread','Finish 5 Pomodoros',5,'pomo'],
+['Ocean Memory','Focus for 75 minutes',75,'focus'],['River Memory','Run stopwatch for 60 minutes',60,'sw'],['Brook Memory','Focus for 22 minutes',22,'focus'],['Cloud Veil','Earn 25 coins today',25,'coins'],['Rain Veil','Finish 2 Pomodoros with breaks respected',2,'pomo'],['Snow Veil','Focus for 33 minutes',33,'focus'],['Ash Veil','Run stopwatch for 18 minutes',18,'sw'],['Smoke Signal','Pause a running timer and finish the day anyway',1,'pauses'],['Distant Bell','Finish 1 Pomodoro before a stopwatch session',1,'mixed2'],['Near Bell','Earn 60 coins today',60,'coins'],
+['Tanjiro Stance','Keep both feet planted for a 25 minute Pomodoro',1,'clean'],['Nezuko Rest','Take a full 5 minute break after a Pomodoro',1,'break'],['Zenitsu Spark','Finish a Pomodoro with a fast start',1,'clean'],['Inosuke Roar','Run stopwatch for 35 minutes',35,'sw'],['Giyu Calm','Focus for 30 silent minutes',30,'focus'],['Shinobu Tap','Earn 35 coins today',35,'coins'],['Kyojuro Flame','Finish 3 Pomodoros',3,'pomo'],['Tengen Flash','Focus for 50 minutes',50,'focus'],['Mitsuri Grace','Earn 45 coins today',45,'coins'],['Muichiro Mist','Focus for 26 minutes',26,'focus'],
+['Sanemi Gale','Run stopwatch for 55 minutes',55,'sw'],['Obanai Slither','Finish 2 Pomodoros',2,'pomo'],['Gyomei Boulder','Focus for 100 minutes',100,'focus'],['Kanao Petal','Pause once and complete a Pomodoro',1,'clean'],['Kanae Petal','Earn 55 coins today',55,'coins'],['Sabito Mask','Finish 1 Pomodoro before any pause',1,'clean'],['Makomo Mask','Run stopwatch for 12 minutes',12,'sw'],['Urokodaki Bell','Respect one full work break cycle',1,'cycle'],['Kagura Ember','Focus for 65 minutes',65,'focus'],['Blue Spider Lily','Earn 70 coins today',70,'coins'],
+['Wisteria Dawn','Finish 2 Pomodoros before 15:00',2,'pomo'],['Wisteria Dusk','Focus for 48 minutes',48,'focus'],['Kamado Coal','Run stopwatch for 8 minutes',8,'sw'],['Hinokami Flash','Finish a Pomodoro in the first try',1,'clean'],['Clear Blue Sky','Focus for 70 minutes',70,'focus'],['Setting Sun','Earn 80 coins today',80,'coins'],['Raging Sun','Finish 4 Pomodoros with at least one clean run',4,'pomo'],['Burning Bones','Run stopwatch for 65 minutes',65,'sw'],['Sunflower Thrust','Focus for 38 minutes',38,'focus'],['Fake Rainbow','Earn 90 coins today',90,'coins'],
+['Fire Wheel','Finish 2 Pomodoros and one clean block',2,'mixed3'],['Flame Dance','Run stopwatch for 70 minutes',70,'sw'],['Parhelion Rainbow','Focus for 85 minutes',85,'focus'],['Beneficent Radiance','Earn 120 coins today',120,'coins'],['Sunfire Halo','Finish 5 Pomodoros',5,'pomo'],['Dragon Sun Halo','Run stopwatch for 80 minutes',80,'sw'],['Flame Tiger Nova','Focus for 95 minutes',95,'focus'],['Solar Heat Haze','Earn 150 coins today',150,'coins'],['Sunflower Halo','Finish 3 Pomodoros after sunset',3,'pomo'],['Twisting Flash','Run stopwatch for 20 minutes',20,'sw'],
+['First Water','Focus for 15 minutes in one sitting',15,'focus'],['Second Water','Focus for 24 minutes',24,'focus'],['Third Water','Finish 1 Pomodoro cleanly',1,'clean'],['Fourth Water','Earn 18 coins today',18,'coins'],['Fifth Water','Run stopwatch for 16 minutes',16,'sw'],['Sixth Water','Finish 2 Pomodoros with only one pause',2,'pomo'],['Seventh Water','Focus for 32 minutes',32,'focus'],['Eighth Water','Pause and still finish the day strong',1,'pauses'],['Ninth Water','Earn 65 coins today',65,'coins'],['Tenth Water','Focus for 58 minutes',58,'focus'],
+['Dead Calm','Finish a Pomodoro without opening shop',1,'clean'],['Flowing Dance','Focus for 23 minutes',23,'focus'],['Striking Tide','Run stopwatch for 28 minutes',28,'sw'],['Constant Flux Tide','Focus for 42 minutes',42,'focus'],['Whirlpool','Earn 75 coins today',75,'coins'],['Blessed Rain','Finish 2 Pomodoros calmly',2,'pomo'],['Drop Ripple','Focus for 27 minutes',27,'focus'],['Waterfall Basin','Run stopwatch for 32 minutes',32,'sw'],['Splashing Water','Focus for 36 minutes',36,'focus'],['Dead Calm Basin','Earn 110 coins today',110,'coins'],
+['Mist Entry','Focus for 19 minutes',19,'focus'],['Mist Shroud','Pause once before continuing',1,'pauses'],['Mist Vanish','Finish a Pomodoro with zero laps',1,'clean'],['Mist Return','Earn 28 coins today',28,'coins'],['Distant Mist','Run stopwatch for 48 minutes',48,'sw'],['Low Mist','Focus for 31 minutes',31,'focus'],['Rolling Mist','Finish 2 Pomodoros',2,'pomo'],['Thin Mist','Earn 38 coins today',38,'coins'],['Deep Mist','Focus for 52 minutes',52,'focus'],['Great Mist','Run stopwatch for 52 minutes',52,'sw'],
+['Thunder Seed','Focus for 6 minutes',6,'focus'],['Thunder Bolt','Finish 1 Pomodoro fast',1,'clean'],['Thunder Chain','Run stopwatch for 14 minutes',14,'sw'],['Thunder Roar','Earn 48 coins today',48,'coins'],['Thunder Sleep','Focus for 34 minutes',34,'focus'],['Thunder Wake','Finish 2 Pomodoros',2,'pomo'],['Thunder Clap','Run stopwatch for 44 minutes',44,'sw'],['Thunder Heaven','Focus for 88 minutes',88,'focus'],['Thunder God','Finish 4 Pomodoros',4,'pomo'],['Thunder Rest','Earn 58 coins today',58,'coins'],
+['Flame Seed','Focus for 7 minutes',7,'focus'],['Flame Lick','Run stopwatch for 6 minutes',6,'sw'],['Flame Wall','Finish 1 Pomodoro cleanly',1,'clean'],['Flame Crown','Earn 68 coins today',68,'coins'],['Flame Heart','Focus for 47 minutes',47,'focus'],['Flame Vein','Finish 2 Pomodoros',2,'pomo'],['Flame King','Run stopwatch for 58 minutes',58,'sw'],['Flame Rengoku','Finish 5 Pomodoros',5,'pomo'],['Flame Ashes','Focus for 92 minutes',92,'focus'],['Flame Dawn','Earn 130 coins today',130,'coins']
+];
+var ACHIEVEMENTS=[
+{id:'first_focus',t:'First Breath',d:'Complete 5 total focus minutes',r:10,check:function(s){return s.totalMs>=5*60000}},
+{id:'half_hour',t:'Half Hour Hashira',d:'Complete 30 total focus minutes',r:35,check:function(s){return s.totalMs>=30*60000}},
+{id:'two_hours',t:'Two Hour Pillar',d:'Complete 120 total focus minutes',r:120,check:function(s){return s.totalMs>=120*60000}},
+{id:'five_hours',t:'Five Hour Flame',d:'Complete 300 total focus minutes',r:350,check:function(s){return s.totalMs>=300*60000}},
+{id:'first_pomo',t:'Twenty Five Down',d:'Finish your first Pomodoro',r:25,check:function(s){return s.pomodoros>=1}},
+{id:'ten_pomo',t:'Constant Ten',d:'Finish 10 Pomodoros',r:150,check:function(s){return s.pomodoros>=10}},
+{id:'sw_25',t:'Stopwatch Sunrise',d:'Reach a 25 minute stopwatch block',r:60,check:function(s){return s.bestStopwatchMs>=25*60000}},
+{id:'sw_60',t:'Stopwatch Solar Crown',d:'Reach a 60 minute stopwatch block',r:220,check:function(s){return s.bestStopwatchMs>=60*60000}},
+{id:'coin_500',t:'Coin Forge',d:'Hold 500 coins at once',r:100,check:function(st,state){return state.coins>=500}},
+{id:'mission_10',t:'Mission Blade',d:'Claim 10 daily missions',r:140,check:function(st,state){return state.missions.claimed.length>=10}},
+{id:'themes_5',t:'Style Collector',d:'Unlock 5 themes',r:100,check:function(st,state){return state.unlocked.length>=5}},
+{id:'bg_1',t:'Adaptive Dojo',d:'Set a custom background',r:60,check:function(st,state){return !!state.bg.dataUrl}}
+];
+var THEMES=[
+{n:'Hinokami Dawn',p:0,v:{a:'#ff3b2f',b:'#29d8ff',c:'#ffd166',bg:'18,10,30'}},
+{n:'Water Breathing',p:80,v:{a:'#1899ff',b:'#69f0ff',c:'#c7f9ff',bg:'8,25,48'}},
+{n:'Flame Hashira',p:100,v:{a:'#ff4d00',b:'#ff8f00',c:'#ffd54f',bg:'38,12,7'}},
+{n:'Thunderclap',p:120,v:{a:'#ffd600',b:'#ffea00',c:'#80d8ff',bg:'22,22,38'}},
+{n:'Mist Veil',p:90,v:{a:'#b388ff',b:'#80d8ff',c:'#f8bbd0',bg:'18,20,42'}},
+{n:'Wind Scythe',p:90,v:{a:'#69f585',b:'#b9f6ca',c:'#ffcc80',bg:'10,34,25'}},
+{n:'Serpent Bloom',p:110,v:{a:'#ff4081',b:'#7c4dff',c:'#ffd180',bg:'34,11,31'}},
+{n:'Love Breathing',p:100,v:{a:'#ff5c8a',b:'#ff9de2',c:'#ffe082',bg:'42,15,33'}},
+{n:'Insect Sting',p:90,v:{a:'#b2ff59',b:'#eeff41',c:'#f48fb1',bg:'19,35,18'}},
+{n:'Stone Boulder',p:120,v:{a:'#8d6e63',b:'#d7ccc8',c:'#ffab91',bg:'31,25,22'}},
+{n:'Beast Roar',p:100,v:{a:'#00e676',b:'#64ffda',c:'#ff6e40',bg:'8,38,24'}},
+{n:'Sound Flash',p:110,v:{a:'#ff9100',b:'#ff3d00',c:'#18ffff',bg:'40,18,10'}},
+{n:'Moonlit Blue',p:80,v:{a:'#536dfe',b:'#40c4ff',c:'#ffecb3',bg:'10,18,46'}},
+{n:'Wisteria Night',p:130,v:{a:'#d500f9',b:'#7c4dff',c:'#b388ff',bg:'25,10,44'}},
+{n:'Nezuko Box',p:120,v:{a:'#ff1744',b:'#ff8a80',c:'#84ffff',bg:'36,9,16'}},
+{n:'Tanjiro Check',p:0,v:{a:'#00bfa5',b:'#1de9b6',c:'#ff5252',bg:'7,32,29'},free:true},
+{n:'Green Black',p:90,v:{a:'#00e676',b:'#263238',c:'#ffd740',bg:'7,22,13'}},
+{n:'Abyss Glass',p:110,v:{a:'#40c4ff',b:'#7c4dff',c:'#ff80ab',bg:'5,10,24'}},
+{n:'Golden Hour',p:140,v:{a:'#ffc400',b:'#ff6f00',c:'#fff176',bg:'38,26,9'}},
+{n:'Paper Lantern',p:100,v:{a:'#ff5252',b:'#ffab40',c:'#fff9c4',bg:'32,17,12'}}
+];
+var DEFAULT_STATE={v:1,coins:0,sound:true,activeTheme:'Hinokami Dawn',unlocked:['Hinokami Dawn','Tanjiro Check'],bg:{dataUrl:'',blur:0,pending:null},stats:{totalMs:0,todayMs:0,lastDay:'',pomodoros:0,bestStopwatchMs:0,laps:0,pauses:0,resets:0,cleanRuns:0,breaks:0,cycles:0},timers:{mode:'stopwatch',running:false,startAt:0,swBase:0,lastPaid:0,lastBlock:0,lastSettledSw:0,pomRemaining:WORK_MS,pomPhase:'work',clean:true},missions:{day:'',shown:[],progress:{},claimed:[]},achievements:[]};
+var state=load();
+var audioCtx=null;
+var lastMissionRender=0;
+function load(){try{var raw=localStorage.getItem(STORE_KEY);if(raw){var s=JSON.parse(raw);return merge(DEFAULT_STATE,s)}}catch(e){}return JSON.parse(JSON.stringify(DEFAULT_STATE))}
+function merge(a,b){var out=JSON.parse(JSON.stringify(a));for(var k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&out[k]&&typeof out[k]==='object'&&!Array.isArray(out[k])){out[k]=merge(out[k],b[k])}else out[k]=b[k]}return out}
+function save(){var pending=state.bg?state.bg.pending:null;try{if(state.bg)state.bg.pending=null;localStorage.setItem(STORE_KEY,JSON.stringify(state))}catch(e){toast('Storage warning','Could not save locally. Export a backup often.',0)}finally{if(state.bg)state.bg.pending=pending}}
+function toast(title,msg,coins){var box=$('toasts');var el=document.createElement('div');el.className='toast';el.innerHTML='<b>'+esc(title)+'</b><small>'+esc(msg)+(coins?(' +'+coins+' coins'):'')+'</small>';box.appendChild(el);beep();setTimeout(function(){el.style.opacity='0';el.style.transform='translateY(10px)'},3800);setTimeout(function(){el.remove()},4400)}
+function esc(s){return String(s).replace(/[&<>"']/g,function(m){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]})}
+function beep(){if(!state.sound)return;try{audioCtx=audioCtx||new (window.AudioContext||window.webkitAudioContext)();var t=audioCtx.currentTime;var o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.setValueAtTime(660,t);o.frequency.exponentialRampToValueAtTime(990,t+.08);g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(.18,t+.02);g.gain.exponentialRampToValueAtTime(.0001,t+.32);o.connect(g);g.connect(audioCtx.destination);o.start(t);o.stop(t+.34)}catch(e){}}
+function awardCoins(n,why){if(n<=0)return;state.coins+=n;state.stats.coinsToday=(state.stats.coinsToday||0)+n;renderCoins();save();if(why)toast('Coins earned',why,n)}
+function addFocus(ms,source){if(ms<=0)return;state.stats.totalMs+=ms;state.stats.todayMs=(state.stats.todayMs||0)+ms;state.daily.focusMs=(state.daily.focusMs||0)+ms;if(source==='sw')state.daily.swMs=(state.daily.swMs||0)+ms;checkAchievements();renderStats();if(now()-lastMissionRender>1000){lastMissionRender=now();renderMissions()}save()}
+function resetDailyIfNeeded(){var dk=dayKey();if(!state.daily||state.daily.day!==dk){state.daily={day:dk,focusMs:0,swMs:0,pomodoros:0,coins:0,laps:0,pauses:0,resets:0,clean:0,breaks:0,cycles:0};if(state.stats.lastDay!==dk){state.stats.todayMs=0;state.stats.lastDay=dk;state.stats.coinsToday=0}}if(state.missions.day!==dk){var rnd=seeded(hashStr(dk+':demon-focus'));var idx=[];for(var i=0;i<MISSIONS.length;i++)idx.push(i);for(var j=idx.length-1;j>0;j--){var k=rnd()%(j+1),tmp=idx[j];idx[j]=idx[k];idx[k]=tmp}state.missions={day:dk,shown:idx.slice(0,5),progress:{},claimed:[]};save()}}
+function missionMetric(m){var t=m[3];if(t==='focus')return Math.floor((state.daily.focusMs||0)/60000);if(t==='sw')return Math.floor((state.daily.swMs||0)/60000);if(t==='pomo')return state.daily.pomodoros||0;if(t==='coins')return state.stats.coinsToday||0;if(t==='laps')return state.daily.laps||0;if(t==='pauses')return Math.min(1,state.daily.pauses||0);if(t==='resets')return Math.min(1,state.daily.resets||0);if(t==='clean')return state.daily.clean||0;if(t==='breaks')return state.daily.breaks||0;if(t==='cycles')return state.daily.cycles||0;if(t==='mixed1')return Math.min(1,(state.daily.pomodoros>=1&&Math.floor((state.daily.swMs||0)/60000)>=10)?1:0);if(t==='mixed2')return Math.min(1,state.daily.cycles>=1?1:0);if(t==='mixed3')return (state.daily.pomodoros>=2?1:0)+(state.daily.clean>=1?1:0);return 0}
+function renderMissions(){resetDailyIfNeeded();var list=$('missionList');list.innerHTML='';for(var i=0;i<state.missions.shown.length;i++){var idx=state.missions.shown[i],m=MISSIONS[idx];if(!m)continue;var prog=missionMetric(m);var done=prog>=m[2];var claimed=state.missions.claimed.indexOf(idx)>-1;var div=document.createElement('div');div.className='mission';div.innerHTML='<div class="meta"><b>'+esc(m[0])+'</b><small>'+esc(m[1])+' · reward '+m[2]+' 🪙</small></div><progress value="'+Math.min(prog,m[2])+'" max="'+m[2]+'"></progress><button '+(done&&!claimed?'':'disabled')+' data-mission="'+idx+'">'+(claimed?'Claimed':done?'Claim':'0')+'</button>';list.appendChild(div)}var btns=list.querySelectorAll('button[data-mission]');for(var b=0;b<btns.length;b++){btns[b].onclick=function(){var id=parseInt(this.getAttribute('data-mission'),10);if(state.missions.claimed.indexOf(id)>-1)return;state.missions.claimed.push(id);awardCoins(MISSIONS[id][2],MISSIONS[id][0]+' mission complete');checkAchievements();renderMissions();save()}}}
+function checkAchievements(){for(var i=0;i<ACHIEVEMENTS.length;i++){var a=ACHIEVEMENTS[i];if(state.achievements.indexOf(a.id)>-1)continue;if(a.check(state.stats,state)){state.achievements.push(a.id);state.coins+=a.r;toast('Achievement unlocked',a.t,a.r)}}renderCoins();renderAchievements()}
+function renderAchievements(){var box=$('achievements');box.innerHTML='';for(var i=0;i<ACHIEVEMENTS.length;i++){var a=ACHIEVEMENTS[i],un=state.achievements.indexOf(a.id)>-1;var d=document.createElement('div');d.className='badge'+(un?' unlocked':'');d.innerHTML='<b>'+(un?'🏆 ':'🔒 ')+esc(a.t)+'</b><small>'+esc(a.d)+' · '+a.r+' coins</small>';box.appendChild(d)}}
+function applyVars(v){var r=document.documentElement.style;r.setProperty('--accent1',v.a);r.setProperty('--accent2',v.b);r.setProperty('--accent3',v.c);r.setProperty('--bg-rgb',v.bg)}
+function applyTheme(name){var th=null;for(var i=0;i<THEMES.length;i++)if(THEMES[i].n===name)th=THEMES[i];if(!th)return;if(!state.bg.dataUrl)applyVars(th.v);state.activeTheme=name;document.body.setAttribute('data-theme',name);renderThemes();save()}
+function renderThemes(){var box=$('themeGrid');box.innerHTML='';for(var i=0;i<THEMES.length;i++){var t=THEMES[i],owned=state.unlocked.indexOf(t.n)>-1,active=state.activeTheme===t.n,can=!owned&&state.coins>=t.p;var card=document.createElement('div');card.className='theme-card';card.innerHTML='<div class="swatch" style="background:linear-gradient(135deg,'+t.v.a+','+t.v.b+' 55%,'+t.v.c+')"></div><b>'+esc(t.n)+'</b><button class="'+(owned?'owned ':'')+(active?'active':'')+'" data-theme="'+esc(t.n)+'">'+(active?'Active':owned?'Use':'Unlock '+t.p+' 🪙')+'</button>';box.appendChild(card)}var btns=box.querySelectorAll('button[data-theme]');for(var b=0;b<btns.length;b++){btns[b].onclick=function(){var n=this.getAttribute('data-theme');var owned=state.unlocked.indexOf(n)>-1;var th=null;for(var i=0;i<THEMES.length;i++)if(THEMES[i].n===n)th=THEMES[i];if(!owned){if(state.coins<th.p){toast('Not enough coins','Study to unlock '+n+'.',0);return}state.coins-=th.p;state.unlocked.push(n);toast('Theme unlocked',n+' is now usable.',0)}applyTheme(n);checkAchievements();renderThemes()}}}
+function renderCoins(){$('coinPill').textContent='🪙 '+state.coins}
+function renderStats(){$('todayText').textContent=fmt(state.stats.todayMs||0);$('totalText').textContent=fmt(state.stats.totalMs);$('pomoText').textContent=String(state.stats.pomodoros);$('bestText').textContent=fmt(state.stats.bestStopwatchMs)}
+function modeName(){return state.timers.mode}
+function setMode(m){if(state.timers.running)return toast('Timer running','Pause before switching modes.',0);state.timers.mode=m;if(m==='pomodoro'){state.timers.pomRemaining=WORK_MS;state.timers.pomPhase='work'}state.timers.lastPaid=0;state.timers.lastBlock=0;state.timers.lastSettledSw=0;$('stopwatchMode').classList.toggle('active',m==='stopwatch');$('pomodoroMode').classList.toggle('active',m==='pomodoro');renderTimer();save()}
+function currentElapsed(){var t=state.timers;if(t.mode==='stopwatch'){return t.swBase+(t.running?now()-t.startAt:0)}return t.pomRemaining}
+function swElapsed(){var t=state.timers;if(t.mode==='stopwatch')return currentElapsed();return (t.pomPhase==='work'?WORK_MS-t.pomRemaining:0)}
+function startTimer(){var t=state.timers;if(t.running)return;resetDailyIfNeeded();t.running=true;t.startAt=now();if(t.mode==='pomodoro'&&t.pomRemaining<=0)t.pomRemaining=WORK_MS;renderTimer();save()}
+function pauseTimer(){var t=state.timers;if(!t.running)return;t.running=false;if(t.mode==='stopwatch'){var e=currentElapsed();settleStopwatch(e);creditSw(e);t.swBase=e}else{var passed=now()-t.startAt;t.pomRemaining=Math.max(0,t.pomRemaining-passed);if(t.pomPhase==='work')addFocus(passed,'pomo')}state.daily.pauses=(state.daily.pauses||0)+1;if(t.mode==='pomodoro'&&t.clean===false){}t.clean=false;renderTimer();save()}
+function resetTimer(){var t=state.timers;if(t.running)pauseTimer();state.daily.resets=(state.daily.resets||0)+1;t.swBase=0;t.lastPaid=0;t.lastBlock=0;t.lastSettledSw=0;t.pomRemaining=WORK_MS;t.pomPhase='work';t.clean=true;renderTimer();save()}
+function lapTimer(){if(state.timers.mode!=='stopwatch'){toast('Lap is for stopwatch','Switch to stopwatch to log laps.',0);return}var e=swElapsed();if(e>=BLOCK_MS){creditSw(e);state.daily.laps=(state.daily.laps||0)+1;state.timers.swBase=0;state.timers.lastBlock=e;state.timers.lastPaid=Math.floor(e/60000);toast('Stopwatch lap','A 25 minute block was completed.',COIN_PER_MINUTE*25);renderTimer();save()}}
+function creditSw(e){var t=state.timers;var since=Math.max(0,e-(t.lastSettledSw||0));if(since>0){addFocus(since,'sw');t.lastSettledSw=e}return since}
+function settleStopwatch(e){var minutes=Math.floor(e/60000);var owed=minutes-state.timers.lastPaid;if(owed>0){state.timers.lastPaid=minutes;awardCoins(owed*COIN_PER_MINUTE,owed+' study minute'+(owed>1?'s':'')+' banked')}var blocks=Math.floor(e/BLOCK_MS);if(blocks>state.timers.lastBlock){state.timers.lastBlock=blocks;toast('Stopwatch block complete','Equivalent to a full Pomodoro session.',COIN_PER_MINUTE*25)}if(e>state.stats.bestStopwatchMs)state.stats.bestStopwatchMs=e;renderStats()}
+function completePomodoro(){state.timers.running=false;var wasWork=state.timers.pomPhase==='work';if(wasWork){state.stats.pomodoros+=1;state.daily.pomodoros=(state.daily.pomodoros||0)+1;if(state.timers.clean)state.daily.clean=(state.daily.clean||0)+1;state.timers.pomRemaining=BREAK_MS;state.timers.pomPhase='break';state.timers.startAt=now();state.timers.running=true;state.timers.clean=true;toast('Pomodoro complete','25 minutes focused. Take a 5 minute breath.',COIN_PER_MINUTE*25)}else{state.daily.breaks=(state.daily.breaks||0)+1;state.daily.cycles=(state.daily.cycles||0)+1;state.timers.pomRemaining=WORK_MS;state.timers.pomPhase='work';state.timers.startAt=now();state.timers.running=true;state.timers.clean=true;toast('Break complete','Return to the next 25 minute form.',0)}checkAchievements();renderTimer();save()}
+function tick(){var t=state.timers;if(!t.running){renderTimer();return}if(t.mode==='stopwatch'){var e=currentElapsed();creditSw(e);settleStopwatch(e)}else{var passed=now()-t.startAt;t.pomRemaining-=passed;t.startAt=now();if(t.pomRemaining<=0){if(t.pomPhase==='work')addFocus(passed,'pomo');t.pomRemaining=0;renderTimer();completePomodoro();return}if(t.pomPhase==='work'){var passed2=Math.max(0,now()-t.startAt);t.startAt=now();addFocus(passed2,'pomo')}}renderTimer();save()}
+function renderTimer(){var t=state.timers,label='00:00',ratio=0,sub='';if(t.mode==='stopwatch'){var e=currentElapsed();label=fmt(e);ratio=1-((e%BLOCK_MS)/BLOCK_MS);sub='Stopwatch · next block '+fmt(BLOCK_MS-(e%BLOCK_MS))}else{label=fmt(t.pomRemaining);var total=t.pomPhase==='work'?WORK_MS:BREAK_MS;ratio=1-(t.pomRemaining/total);sub=(t.pomPhase==='work'?'Work':'Break')+' · '+t.pomPhase+' '+(t.running?'running':'paused')}var C=2*Math.PI*112;$('ringProg').style.strokeDasharray=String(C);$('ringProg').style.strokeDashoffset=String(C*(1-clamp(ratio,0,1)));$('timeText').textContent=label;$('timerSubtitle').textContent=sub;$('startBtn').textContent=t.running?'Running':'Start'}
+function setupParticles(){var c=$('particles'),x=c.getContext('2d'),w,h,parts=[];function size(){w=c.width=innerWidth;h=c.height=innerHeight}function seed(){parts=[];for(var i=0;i<90;i++)parts.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*2.2+.4,s:Math.random()*.55+.12,o:Math.random()*.65+.18,c:Math.random()<.5?'255,59,47':Math.random()<.75?'41,216,255':'255,209,102'})}function frame(){x.clearRect(0,0,w,h);for(var i=0;i<parts.length;i++){var p=parts[i];p.y-=p.s;p.x+=Math.sin(p.y*.012)*.18;if(p.y<-10){p.y=h+10;p.x=Math.random()*w}x.beginPath();x.arc(p.x,p.y,p.r,0,7);x.fillStyle='rgba('+p.c+','+p.o+')';x.fill()}requestAnimationFrame(frame)}addEventListener('resize',function(){size();seed()});size();seed();frame()}
+function rgbLum(r,g,b){r/=255;g/=255;b/=255;r=r<=.03928?r/12.92:Math.pow((r+.055)/1.055,2.4);g=g<=.03928?g/12.92:Math.pow((g+.055)/1.055,2.4);b=b<=.03928?b/12.92:Math.pow((b+.055)/1.055,2.4);return .2126*r+.7152*g+.0722*b}
+function analyzeImage(img){var c=coverCrop(img,80,80);if(!c)return null;var x=c.getContext('2d'),d=x.getImageData(0,0,80,80).data;var r=0,g=0,b=0,n=0,vr=0,vg=0,vb=0;for(var i=0;i<d.length;i+=16){var a=d[i+3]/255;r+=d[i]*a;g+=d[i+1]*a;b+=d[i+2]*a;n++}r/=n;g/=n;b/=n;for(var j=0;j<d.length;j+=16){var a2=d[j+3]/255;vr+=Math.pow(d[j]*a2-r,2);vg+=Math.pow(d[j+1]*a2-g,2);vb+=Math.pow(d[j+2]*a2-b,2)}var sat=(Math.max(r,g,b)-Math.min(r,g,b))/255;var l=rgbLum(r,g,b);var text=l>.58?'#101827':'#f8fbff';var muted=l>.58?'rgba(16,24,39,.72)':'rgba(248,251,255,.78)';var hue=0;var mx=Math.max(r,g,b),mn=Math.min(r,g,b);if(mx!==mn){if(mx===r)hue=((g-b)/(mx-mn))%6;if(mx===g)hue=(b-r)/(mx-mn)+2;if(mx===b)hue=(r-g)/(mx-mn)+4}hue=Math.round((hue*60+360)%360);var accent=sat>.18?('hsl('+hue+', 82%, '+(l>.58?'42%':'60%')+')'):(l>.58?'#e5484d':'#ffb020');return {avg:[Math.round(r),Math.round(g),Math.round(b)],text:text,muted:muted,accent:accent}}
+function setCustomBg(dataUrl,blur){state.bg.dataUrl=dataUrl;state.bg.blur=blur||0;document.documentElement.style.setProperty('--bg-image','url('+dataUrl+')');document.documentElement.style.setProperty('--bg-blur',(state.bg.blur)+'px');$('bgPreview').style.backgroundImage='url('+dataUrl+')';var img=new Image();img.onload=function(){var a=analyzeImage(img);if(a){document.documentElement.style.setProperty('--text',a.text);document.documentElement.style.setProperty('--muted',a.muted);document.documentElement.style.setProperty('--accent1',a.accent);document.documentElement.style.setProperty('--bg-rgb',a.avg.join(','))}};img.src=dataUrl;save()}
+function clearCustomBg(){state.bg={dataUrl:'',blur:0,pending:null};document.documentElement.style.setProperty('--bg-image','none');document.documentElement.style.setProperty('--bg-blur','0px');var th=null;for(var i=0;i<THEMES.length;i++)if(THEMES[i].n===state.activeTheme)th=THEMES[i];if(th)applyVars(th.v);$('bgPreview').style.backgroundImage='none';$('bgStatus').textContent='No custom background set.';save()}
+async function backupFile(){var payload={app:'Demon Focus Study',version:1,exportedAt:new Date().toISOString(),state:state};var text=JSON.stringify(payload,null,2);var blob=new Blob([text],{type:'application/json'});if(window.showSaveFilePicker){try{var h=await window.showSaveFilePicker({suggestedName:'demon-focus-backup.json',types:[{description:'JSON backup',accept:{'application/json':['.json']}}]});var w=await h.createWritable();await w.write(blob);await w.close();toast('Backup saved','Your JSON backup was written with the background embedded.',0);return}catch(e){if(e&&e.name==='AbortError')return}}var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='demon-focus-backup.json';document.body.appendChild(a);a.click();a.remove();toast('Backup downloaded','JSON backup includes base64 background data.',0)}
+async function restoreFile(){var read=async function(file){var text=await file.text();var data=JSON.parse(text);if(!data.state)throw new Error('Invalid backup');state=merge(DEFAULT_STATE,data.state);save();if(state.bg.dataUrl)setCustomBg(state.bg.dataUrl,state.bg.blur);else clearCustomBg();resetDailyIfNeeded();renderAll();toast('Restore complete','Backup imported successfully.',0)};if(window.showOpenFilePicker){try{var h=await window.showOpenFilePicker({types:[{description:'JSON backup',accept:{'application/json':['.json']}}]});var f=await h[0].getFile();await read(f);return}catch(e){if(e&&e.name==='AbortError')return}}var input=document.createElement('input');input.type='file';input.accept='application/json';input.onchange=function(){if(input.files[0])read(input.files[0]).catch(function(){toast('Restore failed','Choose a valid Demon Focus JSON backup.',0)})};input.click()}
+function renderAll(){resetDailyIfNeeded();renderCoins();renderStats();renderMissions();renderAchievements();renderThemes();$('blurRange').value=state.bg.blur;$('blurVal').textContent=state.bg.blur+'px';if(state.bg.dataUrl)setCustomBg(state.bg.dataUrl,state.bg.blur);else applyTheme(state.activeTheme);renderTimer()}
+function bind(){$('startBtn').onclick=startTimer;$('pauseBtn').onclick=pauseTimer;$('resetBtn').onclick=resetTimer;$('lapBtn').onclick=lapTimer;$('stopwatchMode').onclick=function(){setMode('stopwatch')};$('pomodoroMode').onclick=function(){setMode('pomodoro')};$('soundBtn').onclick=function(){state.sound=!state.sound;$('soundBtn').textContent=state.sound?'🔊':'🔇';save();toast('Sound '+(state.sound?'enabled':'disabled'),'Toast audio is '+(state.sound?'on':'off')+'.',0)};$('backupBtn').onclick=backupFile;$('restoreBtn').onclick=restoreFile;$('bgBtn').onclick=function(){$('bgDialog').classList.add('open')};$('closeBg').onclick=function(){$('bgDialog').classList.remove('open')};$('bgDialog').onclick=function(e){if(e.target===this)this.classList.remove('open')};$('blurRange').oninput=function(){var v=parseInt(this.value,10);$('blurVal').textContent=v+'px';document.documentElement.style.setProperty('--bg-blur',v+'px');if(state.bg.dataUrl){state.bg.blur=v;save()}};$('clearBg').onclick=function(){clearCustomBg()};$('saveBg').onclick=function(){if(!state.bg.pending){toast('No image selected','Choose a background image first.',0);return}if(state.coins<50){toast('Need 50 coins','Study or claim missions to buy a background.',0);return}state.coins-=50;setCustomBg(state.bg.pending,parseInt($('blurRange').value,10));state.bg.pending=null;$('bgStatus').textContent='Custom background active.';checkAchievements();renderCoins();toast('Background set','Adaptive Material colors were generated. 50 coins charged.',0)};$('bgInput').onchange=function(e){var f=e.target.files[0];if(!f)return;if(!/^image\/(png|jpeg|webp|gif|avif)$/.test(f.type)){toast('Unsupported image','Use PNG, JPG, WEBP, GIF or AVIF.',0);return}var reader=new FileReader();reader.onload=function(){var img=new Image();img.onload=function(){var full=coverCrop(img,Math.min(1600,img.naturalWidth),Math.min(1600,img.naturalHeight))||coverCrop(img,1200,900);if(!full){toast('Image error','Could not read that image.',0);return}state.bg.pending=full.toDataURL('image/jpeg',.86);var a=analyzeImage(img);if(a){$('bgStatus').textContent='Image ready. Avg color rgb('+a.avg.join(',')+').'}else{$('bgStatus').textContent='Image ready.'}$('bgPreview').style.backgroundImage='url('+state.bg.pending+')'};img.onerror=function(){toast('Image error','The file could not be decoded.',0)};img.src=String(reader.result)};reader.readAsDataURL(f)};document.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('.btn,.icon-btn'):null;if(!b)return;var r=document.createElement('span');r.style.cssText='position:absolute;border-radius:50%;transform:scale(0);background:rgba(255,255,255,.35);width:14px;height:14px;pointer-events:none';var rect=b.getBoundingClientRect();r.style.left=(e.clientX-rect.left-7)+'px';r.style.top=(e.clientY-rect.top-7)+'px';b.style.position='relative';b.style.overflow='hidden';b.appendChild(r);r.animate([{transform:'scale(0)',opacity:.7},{transform:'scale(9)',opacity:0}],{duration:620,easing:'ease-out'}).onfinish=function(){r.remove()}})}
+document.addEventListener('visibilitychange',function(){if(!document.hidden){renderTimer();renderStats();renderMissions()}});
+resetDailyIfNeeded();bind();setupParticles();renderAll();setInterval(tick,250);
+})();
+</script>
+</body>
+</html>
