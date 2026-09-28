@@ -10,5 +10,13 @@
     {
         "name": "Kimi",
         "url": "https://medcommand.github.io/kimi.html"
+    },
+    {
+        "name": "Gemini",
+        "url": "https://medcommand.github.io/gemini.html"
+    },
+    {
+        "name": "GPT",
+        "url": "https://medcommand.github.io/gpt.html"
     }
 ]
