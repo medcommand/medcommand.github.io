@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pathfinder</title>
+    <meta name="description" content="A curated collection of links.">
+
+    <style>
+        /* =========================================================
+           THEME
+           Change these variables to customize the entire website.
+           ========================================================= */
+
+        :root {
+            --bg-1: #eee9df;
+            --bg-2: #dcd7cc;
+            --bg-3: #c9c5bb;
+
+            --glass: rgba(255, 253, 247, 0.48);
+            --glass-strong: rgba(255, 253, 247, 0.68);
+            --glass-border: rgba(94, 87, 73, 0.20);
+
+            --text: #292923;
+            --text-soft: #68665c;
+            --text-faint: #8c887b;
+
+            --gold: #a1844d;
+            --gold-light: #c2a66b;
+
+            --red: #8d403b;
+            --red-light: #a95c55;
+
+            --shadow:
+                0 20px 60px rgba(56, 51, 41, 0.14),
+                0 4px 15px rgba(56, 51, 41, 0.08);
+
+            --radius: 20px;
+        }
+
+
+        /* =========================================================
+           RESET
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family:
+                Georgia,
+                "Times New Roman",
+                serif;
+
+            color: var(--text);
+
+            background:
+                radial-gradient(
+                    circle at 15% 15%,
+                    rgba(255,255,255,0.75),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(164, 136, 78, 0.12),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(141, 64, 59, 0.08),
+                    transparent 40%
+                ),
+                linear-gradient(
+                    135deg,
+                    var(--bg-1),
+                    var(--bg-2) 50%,
+                    var(--bg-3)
+                );
+
+            background-attachment: fixed;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================================
+           ATMOSPHERE
+           ========================================================= */
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: -1;
+
+            background:
+                linear-gradient(
+                    115deg,
+                    transparent 0%,
+                    rgba(255,255,255,0.28) 45%,
+                    transparent 70%
+                );
+
+            opacity: 0.8;
+        }
+
+        /* Fine parchment-like texture */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 20;
+
+            opacity: 0.13;
+
+            background-image:
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(80,70,50,0.04) 0px,
+                    rgba(80,70,50,0.04) 1px,
+                    transparent 1px,
+                    transparent 4px
+                );
+        }
+
+
+        /* =========================================================
+           PARTICLES
+           ========================================================= */
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+
+            width: 3px;
+            height: 3px;
+
+            border-radius: 50%;
+
+            background: rgba(161, 132, 77, 0.55);
+
+            box-shadow:
+                0 0 8px rgba(161, 132, 77, 0.35);
+
+            animation:
+                floatParticle linear infinite,
+                fadeParticle ease-in-out infinite;
+        }
+
+        @keyframes floatParticle {
+            from {
+                transform: translate3d(0, 110vh, 0);
+            }
+
+            to {
+                transform: translate3d(
+                    var(--drift),
+                    -10vh,
+                    0
+                );
+            }
+        }
+
+        @keyframes fadeParticle {
+            0%, 100% {
+                opacity: 0;
+            }
+
+            20%, 80% {
+                opacity: 1;
+            }
+        }
+
+
+        /* =========================================================
+           MAIN CONTAINER
+           ========================================================= */
+
+        .page {
+            position: relative;
+            z-index: 1;
+
+            width: min(1100px, calc(100% - 32px));
+
+            margin: 0 auto;
+            padding: 70px 0 80px;
+        }
+
+
+        /* =========================================================
+           HEADER
+           ========================================================= */
+
+        .hero {
+            text-align: center;
+            margin-bottom: 38px;
+        }
+
+        .sigil {
+            width: 58px;
+            height: 58px;
+
+            margin: 0 auto 20px;
+
+            display: grid;
+            place-items: center;
+
+            border: 1px solid rgba(141, 64, 59, 0.35);
+
+            color: var(--red);
+
+            background:
+                rgba(255,255,255,0.32);
+
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+
+            box-shadow:
+                0 8px 25px rgba(60,50,40,0.08),
+                inset 0 1px rgba(255,255,255,0.7);
+
+            transform: rotate(45deg);
+        }
+
+        .sigil span {
+            font-size: 25px;
+            transform: rotate(-45deg);
+        }
+
+        h1 {
+            margin: 0;
+
+            font-size: clamp(2.4rem, 7vw, 4.8rem);
+
+            font-weight: 500;
+            letter-spacing: 0.05em;
+
+            line-height: 1;
+
+            color: #36342e;
+
+            text-shadow:
+                0 2px 0 rgba(255,255,255,0.6);
+        }
+
+        .subtitle {
+            margin: 16px auto 0;
+
+            max-width: 620px;
+
+            color: var(--text-soft);
+
+            font-size: 1rem;
+            line-height: 1.7;
+
+            letter-spacing: 0.05em;
+        }
+
+        .ornament {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+
+            width: min(380px, 70%);
+
+            margin: 25px auto 0;
+
+            color: var(--gold);
+        }
+
+        .ornament::before,
+        .ornament::after {
+            content: "";
+
+            height: 1px;
+            flex: 1;
+
+            background:
+                linear-gradient(
+                    to right,
+                    transparent,
+                    rgba(161,132,77,0.55)
+                );
+        }
+
+        .ornament::after {
+            background:
+                linear-gradient(
+                    to left,
+                    transparent,
+                    rgba(161,132,77,0.55)
+                );
+        }
+
+        .ornament span {
+            font-size: 12px;
+        }
+
+
+        /* =========================================================
+           GLASS PANEL
+           ========================================================= */
+
+        .glass-panel {
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.58),
+                    rgba(255,252,243,0.30)
+                );
+
+            border: 1px solid var(--glass-border);
+
+            border-radius: var(--radius);
+
+            box-shadow: var(--shadow);
+
+            backdrop-filter: blur(22px) saturate(120%);
+            -webkit-backdrop-filter: blur(22px) saturate(120%);
+        }
+
+        .glass-panel::before {
+            content: "";
+
+            position: absolute;
+            inset: 0;
+
+            pointer-events: none;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    rgba(255,255,255,0.55),
+                    transparent 35%,
+                    transparent 70%,
+                    rgba(255,255,255,0.12)
+                );
+        }
+
+
+        /* =========================================================
+           TABLE HEADER
+           ========================================================= */
+
+        .table-top {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 20px;
+
+            padding: 24px 28px;
+
+            border-bottom:
+                1px solid rgba(94,87,73,0.14);
+        }
+
+        .table-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .table-title-mark {
+            width: 8px;
+            height: 28px;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    var(--red-light),
+                    var(--red)
+                );
+
+            box-shadow:
+                0 0 12px rgba(141,64,59,0.20);
+        }
+
+        .table-title h2 {
+            margin: 0;
+
+            font-size: 1.35rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+
+        .count {
+            color: var(--text-faint);
+
+            font-family:
+                system-ui,
+                -apple-system,
+                sans-serif;
+
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+
+        /* =========================================================
+           TABLE
+           ========================================================= */
+
+        .table-wrapper {
+            position: relative;
+
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+
+            border-collapse: collapse;
+
+            min-width: 550px;
+        }
+
+        thead {
+            background:
+                rgba(255,255,255,0.22);
+        }
+
+        th {
+            padding: 16px 28px;
+
+            text-align: left;
+
+            color: var(--text-soft);
+
+            font-family:
+                system-ui,
+                -apple-system,
+                sans-serif;
+
+            font-size: 0.68rem;
+
+            font-weight: 600;
+
+            letter-spacing: 0.14em;
+
+            text-transform: uppercase;
+        }
+
+        td {
+            padding: 19px 28px;
+
+            border-top:
+                1px solid rgba(94,87,73,0.10);
+
+            font-size: 1rem;
+        }
+
+        tbody tr {
+            transition:
+                background 180ms ease,
+                transform 180ms ease;
+        }
+
+        tbody tr:hover {
+            background:
+                rgba(255,255,255,0.35);
+        }
+
+        .name-cell {
+            width: 42%;
+
+            font-weight: 500;
+
+            color: #37362f;
+        }
+
+        .url-cell {
+            width: 58%;
+        }
+
+        .url-cell a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            max-width: 100%;
+
+            color: var(--red);
+
+            text-decoration: none;
+
+            font-family:
+                ui-monospace,
+                SFMono-Regular,
+                Menlo,
+                Monaco,
+                Consolas,
+                monospace;
+
+            font-size: 0.82rem;
+
+            overflow-wrap: anywhere;
+
+            transition:
+                color 160ms ease,
+                transform 160ms ease;
+        }
+
+        .url-cell a::after {
+            content: "↗";
+
+            color: var(--gold);
+
+            font-size: 0.9rem;
+
+            transition:
+                transform 160ms ease;
+        }
+
+        .url-cell a:hover {
+            color: #672e2a;
+        }
+
+        .url-cell a:hover::after {
+            transform: translate(2px, -2px);
+        }
+
+
+        /* =========================================================
+           EMPTY / ERROR STATE
+           ========================================================= */
+
+        .message {
+            padding: 55px 25px;
+
+            text-align: center;
+
+            color: var(--text-soft);
+
+            line-height: 1.7;
+        }
+
+        .message strong {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: var(--text);
+        }
+
+
+        /* =========================================================
+           FOOTER
+           ========================================================= */
+
+        footer {
+            margin-top: 25px;
+
+            text-align: center;
+
+            color: var(--text-faint);
+
+            font-family:
+                system-ui,
+                -apple-system,
+                sans-serif;
+
+            font-size: 0.72rem;
+
+            letter-spacing: 0.08em;
+        }
+
+
+        /* =========================================================
+           MOBILE
+           ========================================================= */
+
+        @media (max-width: 650px) {
+            .page {
+                width: min(100% - 18px, 1100px);
+                padding-top: 45px;
+            }
+
+            h1 {
+                font-size: 2.7rem;
+            }
+
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            .table-top {
+                padding: 20px;
+            }
+
+            th,
+            td {
+                padding-left: 20px;
+                padding-right: 20px;
+            }
+
+            .glass-panel {
+                border-radius: 16px;
+            }
+        }
+
+        /* Respect reduced-motion accessibility preferences */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                scroll-behavior: auto !important;
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Floating atmospheric particles -->
+    <div id="particles" aria-hidden="true"></div>
+
+    <main class="page">
+
+        <header class="hero">
+
+            <div class="sigil" aria-hidden="true">
+                <span>✦</span>
+            </div>
+
+            <h1>Pathfinder</h1>
+
+            <p class="subtitle">
+                A collection of useful paths, resources and destinations.
+            </p>
+
+            <div class="ornament" aria-hidden="true">
+                <span>◆</span>
+            </div>
+
+        </header>
+
+
+        <section class="glass-panel">
+
+            <div class="table-top">
+
+                <div class="table-title">
+                    <div class="table-title-mark"></div>
+
+                    <h2>Known Paths</h2>
+                </div>
+
+                <div
+                    class="count"
+                    id="rowCount"
+                >
+                    Loading...
+                </div>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>URL</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="tableBody">
+
+                        <tr>
+                            <td colspan="2">
+                                <div class="message">
+                                    Loading paths...
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            ✦ &nbsp; Built for the road ahead &nbsp; ✦
+        </footer>
+
+    </main>
+
+
+    <script>
+        /* =========================================================
+           PARTICLES
+           ========================================================= */
+
+        const particleContainer =
+            document.getElementById("particles");
+
+        const PARTICLE_COUNT = 35;
+
+        for (let i = 0; i < PARTICLE_COUNT; i++) {
+
+            const particle =
+                document.createElement("div");
+
+            particle.className = "particle";
+
+            const size =
+                Math.random() * 3 + 1;
+
+            const duration =
+                Math.random() * 18 + 12;
+
+            const delay =
+                Math.random() * -25;
+
+            const drift =
+                (Math.random() * 180 - 90) + "px";
+
+            particle.style.width = size + "px";
+            particle.style.height = size + "px";
+
+            particle.style.left =
+                Math.random() * 100 + "%";
+
+            particle.style.animationDuration =
+                duration + "s, " +
+                (Math.random() * 4 + 3) + "s";
+
+            particle.style.animationDelay =
+                delay + "s, " +
+                (Math.random() * -5) + "s";
+
+            particle.style.setProperty(
+                "--drift",
+                drift
+            );
+
+            particleContainer.appendChild(particle);
+        }
+
+
+        /* =========================================================
+           TABLE
+           ========================================================= */
+
+        const tableBody =
+            document.getElementById("tableBody");
+
+        const rowCount =
+            document.getElementById("rowCount");
+
+
+        async function loadTable() {
+
+            try {
+
+                const response =
+                    await fetch("table.json", {
+                        cache: "no-store"
+                    });
+
+                if (!response.ok) {
+                    throw new Error(
+                        "Could not load table.json"
+                    );
+                }
+
+                const data =
+                    await response.json();
+
+                if (!Array.isArray(data)) {
+                    throw new Error(
+                        "table.json must contain an array"
+                    );
+                }
+
+                renderTable(data);
+
+            } catch (error) {
+
+                console.error(error);
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="2">
+                            <div class="message">
+                                <strong>Unable to load the paths.</strong>
+                                Make sure <code>table.json</code>
+                                exists beside index.html.
+                            </div>
+                        </td>
+                    </tr>
+                `;
+
+                rowCount.textContent = "Error";
+            }
+        }
+
+
+        function renderTable(data) {
+
+            tableBody.innerHTML = "";
+
+            if (data.length === 0) {
+
+                tableBody.innerHTML = `
+                    <tr>
+                        <td colspan="2">
+                            <div class="message">
+                                <strong>No paths found.</strong>
+                                Add entries to table.json.
+                            </div>
+                        </td>
+                    </tr>
+                `;
+
+                rowCount.textContent = "0 entries";
+
+                return;
+            }
+
+
+            data.forEach((item) => {
+
+                if (!item.name || !item.url) {
+                    return;
+                }
+
+                const row =
+                    document.createElement("tr");
+
+
+                /* Name */
+
+                const nameCell =
+                    document.createElement("td");
+
+                nameCell.className =
+                    "name-cell";
+
+                nameCell.textContent =
+                    item.name;
+
+
+                /* URL */
+
+                const urlCell =
+                    document.createElement("td");
+
+                urlCell.className =
+                    "url-cell";
+
+
+                const link =
+                    document.createElement("a");
+
+                link.href =
+                    item.url;
+
+                link.textContent =
+                    item.url;
+
+                link.target =
+                    "_blank";
+
+                link.rel =
+                    "noopener noreferrer";
+
+                link.title =
+                    "Open " + item.name;
+
+
+                urlCell.appendChild(link);
+
+
+                row.appendChild(nameCell);
+                row.appendChild(urlCell);
+
+                tableBody.appendChild(row);
+
+            });
+
+
+            const validRows =
+                tableBody.querySelectorAll("tr").length;
+
+            rowCount.textContent =
+                `${validRows} ${validRows === 1 ? "entry" : "entries"}`;
+        }
+
+
+        /* =========================================================
+           START
+           ========================================================= */
+
+        loadTable();
+    </script>
+
+</body>
+</html>
