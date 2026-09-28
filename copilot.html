@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="AssassinStudy - Focus & Productivity App">
+    <meta property="og:description" content="Master your focus with Assassin's Creed Rogue-inspired study app. Track time, earn coins, unlock achievements, and complete daily missions.">
+    <meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'%3E%3Crect fill='%23000' width='1200' height='630'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23D4AF37' text-anchor='middle' dominant-baseline='middle' font-family='serif'%3EAssassinStudy%3C/text%3E%3C/svg%3E">
+    <meta property="og:url" content="https://assassinstudy.app">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AssassinStudy - Focus & Productivity App">
+    <meta name="twitter:description" content="Master your focus with Assassin's Creed Rogue-inspired study app">
+    <meta name="twitter:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630'%3E%3Crect fill='%23000' width='1200' height='630'/%3E%3Ctext x='50%25' y='50%25' font-size='60' fill='%23D4AF37' text-anchor='middle' dominant-baseline='middle' font-family='serif'%3EAssassinStudy%3C/text%3E%3C/svg%3E">
+    <title>AssassinStudy - Focus & Productivity</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gold: #D4AF37;
+            --primary-dark: #0a0e27;
+            --primary-red: #8B0000;
+            --secondary-gold: #B8860B;
+            --accent-white: #E8E8E8;
+            --danger: #FF4444;
+            --success: #44FF44;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1a3e 50%, #0d0f2d 100%);
+            color: var(--accent-white);
+            overflow: hidden;
+        }
+
+        body {
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.8), rgba(212, 175, 55, 0));
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-100vh) translateX(50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .glass-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 39, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .main-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            z-index: 3;
+            pointer-events: auto;
+        }
+
+        .header {
+            padding: 20px;
+            background: rgba(13, 15, 45, 0.6);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--primary-gold);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+        }
+
+        .header-title {
+            font-size: 24px;
+            color: var(--primary-gold);
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .header-stats {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--secondary-gold);
+        }
+
+        .stat-value {
+            font-size: 18px;
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        .content-area {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .timer-section {
+            background: rgba(13, 15, 45, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+            text-align: center;
+        }
+
+        .timer-display {
+            font-size: 72px;
+            color: var(--primary-gold);
+            font-weight: bold;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            letter-spacing: 4px;
+        }
+
+        .timer-type {
+            font-size: 18px;
+            color: var(--secondary-gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: 2px solid var(--primary-gold);
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--primary-gold);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.1);
+        }
+
+        .btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(212, 175, 55, 0.2);
+        }
+
+        .btn.danger {
+            border-color: var(--danger);
+            color: var(--danger);
+            background: rgba(255, 68, 68, 0.1);
+        }
+
+        .btn.danger:hover {
+            background: rgba(255, 68, 68, 0.2);
+            box-shadow: 0 4px 20px rgba(255, 68, 68, 0.3);
+        }
+
+        .btn.success {
+            border-color: var(--success);
+            color: var(--success);
+            background: rgba(68, 255, 68, 0.1);
+        }
+
+        .btn.success:hover {
+            background: rgba(68, 255, 68, 0.2);
+            box-shadow: 0 4px 20px rgba(68, 255, 68, 0.3);
+        }
+
+        .btn.small {
+            padding: 8px 16px;
+            font-size: 12px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .mode-btn {
+            flex: 1;
+            padding: 10px 20px;
+            border: 2px solid var(--primary-gold);
+            background: rgba(212, 175, 55, 0.05);
+            color: var(--primary-gold);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .mode-btn.active {
+            background: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+        }
+
+        .pomodoro-settings {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .setting-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 8px 12px;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .setting-group label {
+            font-size: 12px;
+            color: var(--secondary-gold);
+            min-width: 50px;
+        }
+
+        .setting-group input {
+            width: 50px;
+            padding: 6px;
+            border: 1px solid var(--primary-gold);
+            background: rgba(0, 0, 0, 0.3);
+            color: var(--primary-gold);
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+        }
+
+        .side-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .panel-section {
+            background: rgba(13, 15, 45, 0.6);
+            backdrop-filter: blur(10px);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.1);
+        }
+
+        .panel-title {
+            font-size: 16px;
+            color: var(--primary-gold);
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            padding-bottom: 10px;
+        }
+
+        .achievement-item {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item.unlocked {
+            background: rgba(68, 255, 68, 0.1);
+            border-color: rgba(68, 255, 68, 0.3);
+        }
+
+        .achievement-item.locked {
+            opacity: 0.5;
+        }
+
+        .achievement-name {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--primary-gold);
+            margin-bottom: 5px;
+        }
+
+        .achievement-desc {
+            font-size: 10px;
+            color: var(--secondary-gold);
+        }
+
+        .mission-item {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 10px;
+        }
+
+        .mission-text {
+            font-size: 12px;
+            color: var(--accent-white);
+            margin-bottom: 8px;
+        }
+
+        .mission-reward {
+            font-size: 11px;
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        .mission-complete-btn {
+            padding: 6px 12px;
+            font-size: 10px;
+            margin-top: 8px;
+            width: 100%;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(13, 15, 45, 0.9);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 20px;
+            color: var(--primary-gold);
+            font-size: 14px;
+            max-width: 300px;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+            animation: slideIn 0.3s ease;
+            z-index: 1000;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
+        .toast.show-out {
+            animation: slideOut 0.3s ease forwards;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: rgba(13, 15, 45, 0.95);
+            border: 2px solid var(--primary-gold);
+            border-radius: 12px;
+            padding: 30px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(212, 175, 55, 0.3);
+        }
+
+        .modal-header {
+            font-size: 24px;
+            color: var(--primary-gold);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--primary-gold);
+            color: var(--primary-gold);
+            font-size: 24px;
+            cursor: pointer;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(212, 175, 55, 0.4);
+            transform: rotate(90deg);
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .theme-box {
+            width: 100%;
+            aspect-ratio: 1;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--theme-primary, #D4AF37) 0%, var(--theme-secondary, #8B0000) 100%);
+        }
+
+        .theme-box:hover {
+            border-color: var(--primary-gold);
+            transform: scale(1.05);
+        }
+
+        .theme-box.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .theme-box.locked::after {
+            content: '🔒';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+        }
+
+        .theme-box.active {
+            border-color: var(--primary-gold);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+        }
+
+        .background-uploader {
+            margin-bottom: 20px;
+        }
+
+        .bg-upload-label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: var(--primary-gold);
+        }
+
+        .bg-upload-input {
+            display: none;
+        }
+
+        .bg-upload-btn {
+            width: 100%;
+            padding: 12px;
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px dashed var(--primary-gold);
+            color: var(--primary-gold);
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .bg-upload-btn:hover {
+            background: rgba(212, 175, 55, 0.2);
+        }
+
+        .blur-slider {
+            margin-top: 15px;
+        }
+
+        .slider-label {
+            font-size: 12px;
+            color: var(--secondary-gold);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .slider {
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(212, 175, 55, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-gold);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+
+        .backup-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .backup-btn {
+            flex: 1;
+            padding: 10px;
+            font-size: 12px;
+        }
+
+        .time-display {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: rgba(212, 175, 55, 0.05);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 8px;
+            padding: 12px 20px;
+            text-align: center;
+        }
+
+        .time-label {
+            font-size: 11px;
+            color: var(--secondary-gold);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+
+        .time-value {
+            font-size: 18px;
+            color: var(--primary-gold);
+            font-weight: bold;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 15px 0;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-gold), var(--secondary-gold));
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        @media (max-width: 1200px) {
+            .content-area {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .timer-display {
+                font-size: 48px;
+            }
+
+            .modal-content {
+                max-width: 90%;
+                max-height: 90vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles"></div>
+    <div class="glass-container"></div>
+
+    <div class="main-container">
+        <div class="header">
+            <div class="header-title">ASSASSIN STUDY</div>
+            <div class="header-stats">
+                <div class="stat-item">
+                    <span class="stat-label">COINS</span>
+                    <span class="stat-value" id="coinDisplay">0</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">LEVEL</span>
+                    <span class="stat-value" id="levelDisplay">1</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">TOTAL TIME</span>
+                    <span class="stat-value" id="totalTimeDisplay">0h</span>
+                </div>
+                <button class="btn small" onclick="openSettingsModal()">⚙️ SETTINGS</button>
+            </div>
+        </div>
+
+        <div class="content-area">
+            <div class="main-panel">
+                <div class="timer-section">
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" onclick="setTimerMode('pomodoro')" id="pomodoroBtn">POMODORO</button>
+                        <button class="mode-btn" onclick="setTimerMode('stopwatch')" id="stopwatchBtn">STOPWATCH</button>
+                    </div>
+
+                    <div id="pomodoroSettings" class="pomodoro-settings">
+                        <div class="setting-group">
+                            <label>Work:</label>
+                            <input type="number" id="workMinutes" value="25" min="1" max="60">
+                        </div>
+                        <div class="setting-group">
+                            <label>Break:</label>
+                            <input type="number" id="breakMinutes" value="5" min="1" max="30">
+                        </div>
+                    </div>
+
+                    <div class="timer-type" id="timerType">WORK SESSION</div>
+                    <div class="timer-display" id="timerDisplay">25:00</div>
+
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+
+                    <div class="time-display">
+                        <div class="time-box">
+                            <div class="time-label">TODAY'S TIME</div>
+                            <div class="time-value" id="dailyTimeDisplay">0m</div>
+                        </div>
+                        <div class="time-box">
+                            <div class="time-label">SESSION COINS</div>
+                            <div class="time-value" id="sessionCoinsDisplay">0</div>
+                        </div>
+                    </div>
+
+                    <div class="timer-controls">
+                        <button class="btn" onclick="toggleTimer()" id="toggleBtn">START</button>
+                        <button class="btn danger" onclick="resetTimer()">RESET</button>
+                        <button class="btn" onclick="skipSession()">SKIP</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-panel">
+                <div class="panel-section">
+                    <div class="panel-title">ACHIEVEMENTS</div>
+                    <div id="achievementsList"></div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-title">DAILY MISSIONS</div>
+                    <div id="missionsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="settingsModal" class="modal">
+        <div class="modal-content" style="position: relative;">
+            <div class="modal-close" onclick="closeSettingsModal()">×</div>
+            <div class="modal-header">SETTINGS</div>
+
+            <div style="margin-bottom: 30px;">
+                <div class="panel-title">THEMES (Cost: 20 coins each)</div>
+                <div class="theme-grid" id="themeGrid"></div>
+            </div>
+
+            <div style="margin-bottom: 30px;">
+                <div class="panel-title">CUSTOM BACKGROUND (Cost: 50 coins)</div>
+                <div class="background-uploader">
+                    <label class="bg-upload-label">Upload Background Image</label>
+                    <input type="file" id="bgUploadInput" class="bg-upload-input" accept="image/*">
+                    <button class="bg-upload-btn" onclick="document.getElementById('bgUploadInput').click()">+ SELECT IMAGE</button>
+                </div>
+                <div class="blur-slider">
+                    <label class="slider-label">Background Blur: <span id="blurValue">0</span>px</label>
+                    <input type="range" min="0" max="30" value="0" class="slider" id="blurSlider" onchange="updateBlur()">
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 15px;" onclick="applyCustomBackground()">APPLY BACKGROUND</button>
+            </div>
+
+            <div>
+                <div class="panel-title">BACKUP & RESTORE</div>
+                <div class="backup-controls">
+                    <button class="btn backup-btn" onclick="createBackup()">💾 BACKUP</button>
+                    <button class="btn backup-btn" onclick="restoreBackup()">📂 RESTORE</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const DAILY_MISSIONS = [
+            'Study for 1 hour consecutively',
+            'Complete 3 pomodoro sessions',
+            'Take 5 breaks today',
+            'Study for 30 minutes without interruptions',
+            'Complete 5 pomodoro sessions',
+            'Focus for a total of 2 hours today',
+            'Take 10 breaks today',
+            'Study 3 different subjects',
+            'Complete 2 consecutive pomodoro sessions',
+            'Use the stopwatch feature for 20 minutes',
+            'Earn 20 coins today',
+            'Focus for 45 minutes',
+            'Complete a 25-minute session',
+            'Unlock an achievement today',
+            'Study 4 different subjects',
+            'Take exactly 3 breaks',
+            'Maintain focus for 1.5 hours',
+            'Complete 4 pomodoro sessions',
+            'Study for 2.5 hours today',
+            'Earn 50 coins in a day',
+            'Focus without reset for 50 minutes',
+            'Complete 6 pomodoro sessions',
+            'Study continuously for 2 hours',
+            'Take 8 breaks today',
+            'Reach a 30-minute session',
+            'Complete 7 pomodoro sessions',
+            'Earn 100 coins today',
+            'Focus for 3 hours total',
+            'Complete 10 different sessions',
+            'Study for a combined 4 hours',
+            'Use all timer features in one day',
+            'Complete 8 pomodoro sessions',
+            'Take 12 breaks in one day',
+            'Focus for 90 minutes straight',
+            'Earn 75 coins today',
+            'Complete a 40-minute session',
+            'Study 5 different subjects',
+            'Achieve 3 hours of focus time',
+            'Complete 9 pomodoro sessions',
+            'Take exactly 5 breaks',
+            'Study without skipping sessions',
+            'Maintain 2.5-hour focus streak',
+            'Complete 11 pomodoro sessions',
+            'Earn 125 coins in a day',
+            'Focus for 2 hours 30 minutes',
+            'Study 6 subjects today',
+            'Complete 12 pomodoro sessions',
+            'Take 15 breaks throughout the day',
+            'Achieve a 60-minute session',
+            'Earn 150 coins today',
+            'Focus for 3.5 hours',
+            'Complete 13 pomodoro sessions',
+            'Study for 5 continuous hours',
+            'Maintain focus without any resets',
+            'Take 20 breaks today',
+            'Complete 14 pomodoro sessions',
+            'Earn 200 coins in a day',
+            'Focus for 4 hours',
+            'Study 7 different subjects',
+            'Complete 15 pomodoro sessions',
+            'Achieve 100% break compliance',
+            'Focus for 2 hours with single session',
+            'Complete back-to-back sessions',
+            'Earn 250 coins today',
+            'Study 8 subjects in one day',
+            'Complete 16 pomodoro sessions',
+            'Maintain 4.5-hour focus time',
+            'Take 10 consecutive breaks',
+            'Focus for 5 hours',
+            'Complete 17 pomodoro sessions',
+            'Earn 300 coins today',
+            'Study 9 different subjects',
+            'Achieve a 75-minute session',
+            'Focus without distraction for 3 hours',
+            'Complete 18 pomodoro sessions',
+            'Earn 350 coins in a day',
+            'Study for 6 hours total',
+            'Complete 20 pomodoro sessions',
+            'Focus for 5.5 hours',
+            'Study 10 subjects today',
+            'Take 25 breaks in one day',
+            'Complete 21 pomodoro sessions',
+            'Earn 400 coins today',
+            'Focus for 6 hours',
+            'Complete 25 pomodoro sessions',
+            'Study 11 different subjects',
+            'Achieve a 90-minute focus session',
+            'Earn 500 coins in a day',
+            'Focus for 7 hours',
+            'Complete 30 pomodoro sessions',
+            'Study 12 subjects in one day',
+            'Maintain 6-hour focus streak',
+            'Take 30 breaks throughout the day',
+            'Complete 35 pomodoro sessions',
+            'Earn 600 coins today',
+            'Study for 8 hours',
+            'Focus without stopping for 2.5 hours',
+            'Complete 40 pomodoro sessions',
+            'Achieve marathon study session (4+ hours)',
+            'Earn 750 coins in a day',
+            'Complete 50 pomodoro sessions'
+        ];
+
+        const ACHIEVEMENTS = [
+            { id: 'first_step', name: 'First Step', desc: 'Complete your first session', target: 1, type: 'sessions' },
+            { id: 'golden_hour', name: 'Golden Hour', desc: 'Study for 1 hour total', target: 60, type: 'minutes' },
+            { id: 'focused_mind', name: 'Focused Mind', desc: 'Complete 5 sessions', target: 5, type: 'sessions' },
+            { id: 'coin_collector', name: 'Coin Collector', desc: 'Earn 100 coins', target: 100, type: 'coins' },
+            { id: 'marathon', name: 'Marathon', desc: 'Study for 5 hours', target: 300, type: 'minutes' },
+            { id: 'assassin', name: 'Assassin Elite', desc: 'Study for 10 hours', target: 600, type: 'minutes' },
+            { id: 'master_thief', name: 'Master Thief', desc: 'Earn 500 coins', target: 500, type: 'coins' },
+            { id: 'legendary', name: 'Legendary', desc: 'Study for 20 hours', target: 1200, type: 'minutes' }
+        ];
+
+        const THEME_COLORS = [
+            { name: 'Rogue Gold', primary: '#D4AF37', secondary: '#8B0000' },
+            { name: 'Deep Ocean', primary: '#00CED1', secondary: '#001a4d' },
+            { name: 'Neon Green', primary: '#00FF00', secondary: '#003300' },
+            { name: 'Purple Twilight', primary: '#9D4EDD', secondary: '#3A0CA3' },
+            { name: 'Sunset', primary: '#FF6B35', secondary: '#004E89' },
+            { name: 'Mint Fresh', primary: '#00D9A3', secondary: '#0F3460' },
+            { name: 'Crimson Fire', primary: '#DC2F02', secondary: '#370617' },
+            { name: 'Cyber Blue', primary: '#0099FF', secondary: '#001a33' },
+            { name: 'Rose Gold', primary: '#B76E79', secondary: '#2A2E35' },
+            { name: 'Electric Purple', primary: '#BF40BF', secondary: '#1a001a' },
+            { name: 'Tropical', primary: '#FF006E', secondary: '#00B4D8' },
+            { name: 'Forest', primary: '#06A77D', secondary: '#1B263B' },
+            { name: 'Amber', primary: '#FFB703', secondary: '#023047' },
+            { name: 'Ice', primary: '#E0FFFF', secondary: '#000033' },
+            { name: 'Lava', primary: '#FF4500', secondary: '#8B0000' },
+            { name: 'Void', primary: '#7B68EE', secondary: '#0a0a0a' },
+            { name: 'Sakura', primary: '#FFB7C5', secondary: '#2a0a2a' },
+            { name: 'Storm', primary: '#708090', secondary: '#0F1419' },
+            { name: 'Emerald', primary: '#50C878', secondary: '#0d3a0d' },
+            { name: 'Obsidian', primary: '#FFD700', secondary: '#1a1a1a' }
+        ];
+
+        let state = {
+            timerRunning: false,
+            timerMode: 'pomodoro',
+            seconds: 1500,
+            totalSeconds: 1500,
+            coins: 0,
+            totalMinutes: 0,
+            sessionMinutes: 0,
+            dailyMinutes: 0,
+            level: 1,
+            completedSessions: 0,
+            unlockedThemes: [0],
+            currentTheme: 0,
+            pomodoroWork: 25,
+            pomodoroBreak: 5,
+            isBreak: false,
+            achievements: ACHIEVEMENTS.map(a => ({ ...a, unlocked: false })),
+            dailyMissions: [],
+            customBg: null,
+            bgBlur: 0,
+            lastDailyReset: new Date().toDateString()
+        };
+
+        function initApp() {
+            loadState();
+            generateDailyMissions();
+            renderAchievements();
+            renderMissions();
+            createParticles();
+            applyTheme(state.currentTheme);
+            updateDisplay();
+            setupEventListeners();
+            checkDailyReset();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('bgUploadInput').addEventListener('change', handleBgUpload);
+            document.getElementById('blurSlider').addEventListener('input', updateBlur);
+        }
+
+        function generateDailyMissions() {
+            const today = new Date().toDateString();
+            if (state.lastDailyReset !== today) {
+                state.lastDailyReset = today;
+                const seed = Date.now() / (24 * 60 * 60 * 1000) | 0;
+                const shuffled = DAILY_MISSIONS.map((m, i) => ({ m, i }))
+                    .sort(() => (Math.sin(i * 12.9898 + seed * 78.233) * 43758.5453) % 1 - 0.5)
+                    .slice(0, 3);
+                state.dailyMissions = shuffled.map(item => ({
+                    text: item.m,
+                    completed: false,
+                    reward: Math.floor(Math.random() * 30) + 20
+                }));
+            }
+            renderMissions();
+        }
+
+        function checkDailyReset() {
+            const today = new Date().toDateString();
+            if (state.lastDailyReset !== today) {
+                state.dailyMinutes = 0;
+                generateDailyMissions();
+            }
+        }
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            const particleCount = 30;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                const size = Math.random() * 20 + 5;
+                const duration = Math.random() * 20 + 15;
+                const delay = Math.random() * 5;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.bottom = '-' + size + 'px';
+                particle.style.animation = 'float ' + duration + 's linear ' + delay + 's infinite';
+                container.appendChild(particle);
+            }
+        }
+
+        function setTimerMode(mode) {
+            if (state.timerRunning) return;
+            state.timerMode = mode;
+            state.isBreak = false;
+            resetTimer();
+            document.getElementById('pomodoroBtn').classList.toggle('active', mode === 'pomodoro');
+            document.getElementById('stopwatchBtn').classList.toggle('active', mode === 'stopwatch');
+            document.getElementById('pomodoroSettings').style.display = mode === 'pomodoro' ? 'flex' : 'none';
+            updateDisplay();
+        }
+
+        function toggleTimer() {
+            state.timerRunning = !state.timerRunning;
+            document.getElementById('toggleBtn').textContent = state.timerRunning ? 'PAUSE' : 'START';
+            if (state.timerRunning) {
+                runTimer();
+            }
+        }
+
+        function runTimer() {
+            if (!state.timerRunning) return;
+            const interval = setInterval(() => {
+                if (!state.timerRunning) {
+                    clearInterval(interval);
+                    return;
+                }
+                if (state.timerMode === 'stopwatch') {
+                    state.seconds++;
+                } else {
+                    state.seconds--;
+                }
+                updateDisplay();
+                if (state.timerMode === 'pomodoro' && state.seconds <= 0) {
+                    completeSession();
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            state.timerRunning = false;
+            document.getElementById('toggleBtn').textContent = 'START';
+            if (state.timerMode === 'pomodoro') {
+                state.seconds = state.isBreak ? state.pomodoroBreak * 60 : state.pomodoroWork * 60;
+                state.totalSeconds = state.seconds;
+            } else {
+                state.seconds = 0;
+            }
+            updateDisplay();
+        }
+
+        function skipSession() {
+            if (state.timerMode === 'pomodoro' && state.timerRunning) {
+                completeSession();
+            }
+        }
+
+        function completeSession() {
+            const minutes = Math.floor((state.timerMode === 'pomodoro' ? 
+                (state.isBreak ? state.pomodoroBreak : state.pomodoroWork) : 
+                state.seconds / 60));
+            
+            state.coins += minutes;
+            state.totalMinutes += minutes;
+            state.sessionMinutes += minutes;
+            state.dailyMinutes += minutes;
+            state.completedSessions++;
+
+            if (state.timerMode === 'pomodoro') {
+                if (!state.isBreak) {
+                    showToast('WORK SESSION COMPLETED! +' + state.pomodoroWork + ' COINS');
+                    playSound();
+                    state.isBreak = true;
+                    state.seconds = state.pomodoroBreak * 60;
+                    state.totalSeconds = state.seconds;
+                } else {
+                    showToast('BREAK COMPLETED! TIME TO WORK');
+                    playSound();
+                    state.isBreak = false;
+                    state.seconds = state.pomodoroWork * 60;
+                    state.totalSeconds = state.seconds;
+                }
+            } else {
+                showToast('STOPWATCH SESSION COMPLETED! +' + minutes + ' COINS');
+                playSound();
+                state.seconds = 0;
+            }
+
+            checkAchievements();
+            updateDisplay();
+            saveState();
+            resetTimer();
+        }
+
+        function checkAchievements() {
+            state.achievements.forEach(ach => {
+                if (ach.unlocked) return;
+                let progress = 0;
+                if (ach.type === 'sessions') progress = state.completedSessions;
+                else if (ach.type === 'minutes') progress = state.totalMinutes;
+                else if (ach.type === 'coins') progress = state.coins;
+                if (progress >= ach.target) {
+                    ach.unlocked = true;
+                    showToast('ACHIEVEMENT UNLOCKED: ' + ach.name);
+                    playSound();
+                }
+            });
+            state.level = Math.floor(state.totalMinutes / 60) + 1;
+            renderAchievements();
+        }
+
+        function renderAchievements() {
+            const list = document.getElementById('achievementsList');
+            list.innerHTML = state.achievements.map(ach => 
+                '<div class="achievement-item ' + (ach.unlocked ? 'unlocked' : 'locked') + '">' +
+                '<div class="achievement-name">' + ach.name + '</div>' +
+                '<div class="achievement-desc">' + ach.desc + '</div>' +
+                '</div>'
+            ).join('');
+        }
+
+        function renderMissions() {
+            const list = document.getElementById('missionsList');
+            list.innerHTML = state.dailyMissions.map((m, i) => 
+                '<div class="mission-item">' +
+                '<div class="mission-text">' + m.text + '</div>' +
+                '<div class="mission-reward">+' + m.reward + ' COINS</div>' +
+                '<button class="btn small mission-complete-btn" onclick="completeMission(' + i + ')" ' + (m.completed ? 'disabled' : '') + '>' +
+                (m.completed ? 'COMPLETED' : 'COMPLETE') +
+                '</button></div>'
+            ).join('');
+        }
+
+        function completeMission(index) {
+            const mission = state.dailyMissions[index];
+            if (!mission.completed) {
+                mission.completed = true;
+                state.coins += mission.reward;
+                showToast('MISSION COMPLETED! +' + mission.reward + ' COINS');
+                playSound();
+                renderMissions();
+                updateDisplay();
+                saveState();
+            }
+        }
+
+        function updateDisplay() {
+            const mins = Math.floor(state.seconds / 60);
+            const secs = state.seconds % 60;
+            const timeStr = String(mins).padStart(2, '0') + ':' + String(secs).padStart(2, '0');
+            document.getElementById('timerDisplay').textContent = timeStr;
+
+            let progress = 0;
+            if (state.timerMode === 'pomodoro') {
+                const total = state.isBreak ? state.pomodoroBreak * 60 : state.pomodoroWork * 60;
+                progress = (1 - state.seconds / total) * 100;
+                document.getElementById('timerType').textContent = state.isBreak ? 'BREAK TIME' : 'WORK SESSION';
+            } else {
+                progress = (state.seconds / 3600) * 100;
+                document.getElementById('timerType').textContent = 'STOPWATCH MODE';
+            }
+            document.getElementById('progressFill').style.width = Math.min(progress, 100) + '%';
+
+            document.getElementById('coinDisplay').textContent = state.coins;
+            document.getElementById('levelDisplay').textContent = state.level;
+            document.getElementById('totalTimeDisplay').textContent = (state.totalMinutes / 60).toFixed(1) + 'h';
+            document.getElementById('dailyTimeDisplay').textContent = state.dailyMinutes + 'm';
+            document.getElementById('sessionCoinsDisplay').textContent = Math.floor(state.sessionMinutes);
+        }
+
+        function showToast(message) {
+            const existing = document.querySelector('.toast');
+            if (existing) existing.remove();
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.classList.add('show-out');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function playSound() {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gain = audioContext.createGain();
+            oscillator.connect(gain);
+            gain.connect(audioContext.destination);
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            gain.gain.setValueAtTime(0.3, audioContext.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.1);
+        }
+
+        function renderThemes() {
+            const grid = document.getElementById('themeGrid');
+            grid.innerHTML = THEME_COLORS.map((theme, i) => {
+                const unlocked = state.unlockedThemes.includes(i);
+                return '<div class="theme-box ' + (unlocked ? (state.currentTheme === i ? 'active' : '') : 'locked') + '" ' +
+                    'style="--theme-primary: ' + theme.primary + '; --theme-secondary: ' + theme.secondary + ';" ' +
+                    'onclick="' + (unlocked ? 'applyTheme(' + i + ')' : 'unlockTheme(' + i + ')') + '">' +
+                    '</div>';
+            }).join('');
+        }
+
+        function applyTheme(index) {
+            if (!state.unlockedThemes.includes(index)) return;
+            state.currentTheme = index;
+            const theme = THEME_COLORS[index];
+            const root = document.documentElement;
+            root.style.setProperty('--primary-gold', theme.primary);
+            root.style.setProperty('--secondary-gold', theme.secondary);
+            saveState();
+            renderThemes();
+        }
+
+        function unlockTheme(index) {
+            if (state.coins >= 20 && !state.unlockedThemes.includes(index)) {
+                state.coins -= 20;
+                state.unlockedThemes.push(index);
+                showToast('THEME UNLOCKED!');
+                updateDisplay();
+                renderThemes();
+                saveState();
+            } else if (state.coins < 20) {
+                showToast('NOT ENOUGH COINS! NEED 20');
+            }
+        }
+
+        function handleBgUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    state.customBg = event.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateBlur() {
+            const value = document.getElementById('blurSlider').value;
+            document.getElementById('blurValue').textContent = value;
+            state.bgBlur = value;
+        }
+
+        function applyCustomBackground() {
+            if (!state.customBg) {
+                showToast('PLEASE SELECT AN IMAGE FIRST');
+                return;
+            }
+            if (state.coins < 50) {
+                showToast('NOT ENOUGH COINS! NEED 50');
+                return;
+            }
+            state.coins -= 50;
+            document.body.style.backgroundImage = 'url(' + state.customBg + ')';
+            document.body.style.backgroundSize = 'cover';
+            document.body.style.backgroundPosition = 'center';
+            document.body.style.filter = 'blur(' + state.bgBlur + 'px)';
+            updateMaterialDesignColors();
+            showToast('BACKGROUND APPLIED!');
+            updateDisplay();
+            saveState();
+        }
+
+        function updateMaterialDesignColors() {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                canvas.width = 100;
+                canvas.height = 100;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 100, 100);
+                const imgData = ctx.getImageData(0, 0, 100, 100);
+                const data = imgData.data;
+                let r = 0, g = 0, b = 0;
+                for (let i = 0; i < data.length; i += 4) {
+                    r += data[i];
+                    g += data[i + 1];
+                    b += data[i + 2];
+                }
+                r = Math.round(r / (data.length / 4));
+                g = Math.round(g / (data.length / 4));
+                b = Math.round(b / (data.length / 4));
+                const luminance = (r * 299 + g * 587 + b * 114) / 1000;
+                const textColor = luminance > 128 ? '#000000' : '#E8E8E8';
+                document.documentElement.style.setProperty('--accent-white', textColor);
+            };
+            if (state.customBg) {
+                img.src = state.customBg;
+            }
+        }
+
+        function createBackup() {
+            const backup = {
+                state: state,
+                timestamp: new Date().toISOString()
+            };
+            const dataStr = JSON.stringify(backup);
+            const dataBlob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'assassin-study-backup-' + new Date().getTime() + '.json';
+            link.click();
+            URL.revokeObjectURL(url);
+            showToast('BACKUP CREATED!');
+        }
+
+        function restoreBackup() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const backup = JSON.parse(event.target.result);
+                        state = backup.state;
+                        saveState();
+                        applyTheme(state.currentTheme);
+                        updateDisplay();
+                        renderAchievements();
+                        renderMissions();
+                        showToast('BACKUP RESTORED!');
+                        location.reload();
+                    } catch (err) {
+                        showToast('INVALID BACKUP FILE');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function openSettingsModal() {
+            renderThemes();
+            document.getElementById('settingsModal').classList.add('active');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.remove('active');
+        }
+
+        function saveState() {
+            localStorage.setItem('assassin-study-state', JSON.stringify(state));
+        }
+
+        function loadState() {
+            const saved = localStorage.getItem('assassin-study-state');
+            if (saved) {
+                state = { ...state, ...JSON.parse(saved) };
+            }
+            checkDailyReset();
+        }
+
+        window.onclick = (e) => {
+            const modal = document.getElementById('settingsModal');
+            if (e.target === modal) {
+                closeSettingsModal();
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
