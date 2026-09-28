@@ -88,7 +88,6 @@ button{font-family:inherit}
 #app{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:22px 22px 140px}
 .glass{background:var(--panel);backdrop-filter:blur(18px) saturate(1.35);-webkit-backdrop-filter:blur(18px) saturate(1.35);border:1px solid var(--line);border-radius:20px;box-shadow:0 12px 40px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.09)}
 
-/* header */
 .top{display:flex;align-items:center;gap:16px;padding:14px 18px;margin-bottom:20px;flex-wrap:wrap}
 .brand{display:flex;align-items:center;gap:14px;margin-right:auto}
 .logo{width:46px;height:46px;color:var(--acc);flex:none;animation:spinSlow 24s linear infinite;filter:drop-shadow(0 0 8px var(--accSoft))}
@@ -106,7 +105,6 @@ h1 span{color:var(--acc)}
 .icobtn:hover{transform:translateY(-2px);border-color:var(--acc);box-shadow:0 6px 18px var(--accSoft)}
 .icobtn svg{width:19px;height:19px}
 
-/* stats */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
 .stat{padding:16px 18px;position:relative;overflow:hidden;transition:transform .25s}
 .stat:hover{transform:translateY(-3px)}
@@ -115,7 +113,6 @@ h1 span{color:var(--acc)}
 .stat .val{font-family:'Cinzel',serif;font-size:clamp(19px,2.4vw,27px);font-weight:700;margin-top:6px;color:var(--acc);text-shadow:0 0 16px var(--accSoft),var(--txtsh)}
 .stat .sub{font-size:11.5px;color:var(--muted);margin-top:4px;font-weight:700}
 
-/* layout */
 .grid{display:grid;grid-template-columns:1.28fr .92fr;gap:18px;align-items:start}
 .panel{padding:24px}
 .mode{display:flex;gap:8px;margin-bottom:20px;background:rgba(0,0,0,.22);padding:6px;border-radius:14px;border:1px solid var(--line2)}
@@ -159,7 +156,6 @@ h1 span{color:var(--acc)}
 #stopwatch .hint{text-align:center;color:var(--muted);font-size:13px;margin:14px 0 4px;font-weight:700}
 #stopwatch .hint b{color:var(--acc)}
 
-/* right column */
 .colR{display:flex;flex-direction:column;gap:18px}
 .shead{display:flex;align-items:center;gap:10px;margin-bottom:16px}
 .shead h2{font-family:'Cinzel',serif;font-size:16px;letter-spacing:3px;margin:0;flex:1;text-transform:uppercase;text-shadow:var(--txtsh)}
@@ -168,7 +164,7 @@ h1 span{color:var(--acc)}
 
 .mission{padding:13px 14px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid var(--line2);margin-bottom:10px;transition:border-color .25s,transform .2s}
 .mission:hover{border-color:var(--accSoft)}
-.mission:last-child{margin-bottom:0}
+.mission:last-of-type{margin-bottom:0}
 .mtop{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
 .mname{font-weight:800;font-size:14px;text-shadow:var(--txtsh)}
 .mrew{flex:none;display:inline-flex;align-items:center;gap:5px;font-weight:900;font-size:12.5px;color:var(--acc)}
@@ -207,16 +203,13 @@ h1 span{color:var(--acc)}
 .blurrow{display:flex;align-items:center;gap:12px;margin-top:6px}
 .blurrow label{font-size:11px;font-weight:900;letter-spacing:1.5px;color:var(--muted);text-transform:uppercase}
 input[type=range]{flex:1;appearance:none;-webkit-appearance:none;height:6px;border-radius:99px;background:rgba(255,255,255,.18);outline:none}
-input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--accSoft);cursor:pointer;border:2px solid #fff3}
+input[type=range]::-webkit-slider-thumb{appearance:none;-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--acc);box-shadow:0 0 10px var(--accSoft);cursor:pointer;border:2px solid rgba(255,255,255,.25)}
 input[type=range]::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:var(--acc);cursor:pointer;border:none}
 .bgfoot{margin-top:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.bgfoot .btn.ghost.danger{border-color:rgba(255,90,90,.5)}
-.bgfoot .btn.ghost.danger:hover{border-color:#ff6b6b}
 
 footer{margin-top:26px;text-align:center;color:var(--muted);font-size:11.5px;letter-spacing:1.5px;font-weight:700}
 
-/* modal */
-#modalWrap{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,6,16,.6);backdrop-filter:blur(6px)}
+#modalWrap{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:20px;background:rgba(3,6,16,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
 #modalWrap.open{display:flex}
 .sheet{width:min(720px,94vw);max-height:82vh;display:flex;flex-direction:column;padding:20px 22px;animation:sheetIn .3s cubic-bezier(.2,1.2,.4,1)}
 @keyframes sheetIn{from{transform:translateY(24px) scale(.97);opacity:0}}
@@ -235,7 +228,6 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:11.5px;let
 .arow.locked{opacity:.55}
 .mclose{margin-left:auto}
 
-/* toasts */
 #toasts{position:fixed;top:18px;right:18px;z-index:80;display:flex;flex-direction:column;gap:10px;max-width:min(360px,90vw)}
 .toast{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:16px;background:var(--panel);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--accSoft);box-shadow:0 14px 40px rgba(0,0,0,.45);animation:tin .45s cubic-bezier(.2,1.4,.4,1)}
 .toast.out{animation:tout .35s forwards}
@@ -243,6 +235,7 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:11.5px;let
 @keyframes tout{to{transform:translateX(120%);opacity:0}}
 .tic{width:34px;height:34px;flex:none;border-radius:11px;display:grid;place-items:center;background:var(--accSoft);color:var(--acc);font-size:16px;text-shadow:none}
 .tic svg{width:18px;height:18px}
+.ttext{min-width:0}
 .ttit{font-weight:900;font-size:13px;text-shadow:var(--txtsh)}
 .tmsg{font-size:12px;color:var(--muted);font-weight:700;margin-top:1px}
 .gain{position:fixed;top:70px;right:26px;z-index:70;font-weight:900;color:var(--acc);text-shadow:0 0 12px var(--accSoft),var(--txtsh);pointer-events:none;animation:gfloat 1.4s ease-out forwards;font-size:16px}
@@ -254,10 +247,6 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:11.5px;let
   .stats{grid-template-columns:repeat(2,1fr)}
   .top{gap:10px}
   #app{padding:14px 14px 120px}
-}
-@media (max-width:480px){
-  .tgrid{grid-template-columns:1fr 1fr}
-  .chip .lbl{display:none}
 }
 </style>
 </head>
@@ -345,7 +334,7 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:11.5px;let
         <div class="pomoset">
           <label>Focus <input type="number" id="inFocus" min="5" max="90" value="25"> min</label>
           <label>Break <input type="number" id="inBreak" min="1" max="30" value="5"> min</label>
-          <label><input type="checkbox" id="chkAuto"> Auto-continue</label>
+          <label><input type="checkbox" id="chkAuto" checked> Auto-continue</label>
         </div>
       </div>
 
@@ -404,11 +393,10 @@ footer{margin-top:26px;text-align:center;color:var(--muted);font-size:11.5px;let
 (function(){
 'use strict';
 
-/* ---------- constants ---------- */
+/* ================= constants ================= */
 var KEY='teyvatStudySanctum.v1';
 var RING_C=892.21;
-var BASE_DK={ink:'#eef1fb',muted:'#9aa8d0',panel:'rgba(15,23,52,.52)',line:'rgba(255,255,255,.16)',line2:'rgba(255,255,255,.08)',txtsh:'0 1px 3px rgba(0,0,0,.55)'};
-var BASE_LT={ink:'#1f2430',muted:'#4c5568',panel:'rgba(255,255,255,.62)',line:'rgba(20,25,40,.25)',line2:'rgba(20,25,40,.14)',txtsh:'0 1px 2px rgba(255,255,255,.35)'};
+var BASE_DK={ink:'#eef1fb',muted:'#9aa8d0'};
 
 var THEMES=[
 {id:'default',name:'Paimon',cost:0,c1:'#101b3a',c2:'#1e3a7a',acc:'#ffd985',acc2:'#f0a832',muted:'#9aa8d0'},
@@ -433,137 +421,156 @@ var THEMES=[
 {id:'irminsul',name:'Irminsul',cost:60,c1:'#061712',c2:'#1a5c47',acc:'#7af0c8',acc2:'#1ec9a0',muted:'#94cec0'}
 ];
 
-/* ---------- 120 daily missions ---------- */
+/* ================= 120 daily missions ================= */
 var RAW_M=[
 ['Focus for {n} minutes','Study a total of {n} minutes today',{50,60,75,90,120,150},{5,8,12,15,20,28}],
-['Complete {n} Pomodoro session{s}','Finish {n} full focus rounds',{50,60,80},{1,2,3}],
+['Complete {n} Pomodoro session{s}','Finish {n} full focus round{s}',{50,60,80},{1,2,3}],
 ['Complete {n} Pomodoro sessions','Finish {n} full focus rounds today',{120,160,200},{4,5,6}],
 ['Earn {n} Primogems','Collect Primogems from studying',{40,50,60},{5,8,12}],
 ['Earn {n} Primogems','Grow your treasury today',{100,120,150},{15,20,30}],
-['Keep a {n}-day streak','Study today to hold your streak',{100,120,150},null],
-['First light','Log at least 1 focused minute',{30},null],
-['Hour of devotion','Accumulate a full hour of focus',{80},null],
-['Deep delve','Hold 90 minutes of focus today',{120},null],
-['Marathon of will','Focus for 2 hours total today',{180},null],
-['Dawn patrol','Start a session between 5:00 and 9:00',{50},null],
-['Night owl rite','Start a session between 21:00 and 2:00',{50},null],
-['Twilight scholar','Start a session between 17:00 and 21:00',{50},null],
-['Meridian focus','Start a session between 11:00 and 14:00',{50},null],
-['Warm-up lap','Focus for 10 minutes',{30},null],
-['Steady cadence','Focus for 20 minutes',{40},null],
-['Push the pace','Focus for 30 minutes',{50},null],
-['Endurance drill','Focus for 45 minutes',{60},null],
-['Triple rounds','Complete 3 Pomodoros',{100},null],
-['Quad rounds','Complete 4 Pomodoros',{140},null],
-['Pomodoro duo','Complete 2 Pomodoros',{60},null],
-['Solo round','Complete 1 Pomodoro',{30},null],
-['Gem pouch','Earn 25 Primogems',{40},null],
-['Gem satchel','Earn 40 Primogems',{60},null],
-['Sprint start','Focus for 5 minutes',{20},null],
-['Quarter hour','Focus for 15 minutes',{35},null],
-['Three quarters','Focus for 50 minutes',{70},null],
-['Century march','Focus for 100 minutes',{110},null],
-['Streak keeper','Study today to keep your streak alive',{50},null],
-['Style shift','Switch to any theme today',{40},null],
-['Realm attunement','Open the wardrobe panel today',{30},null],
-['Vision trial','Focus for 25 straight minutes in one session',{60},null],
-['Elemental mastery','Focus for 40 minutes total',{55},null],
-['Commission closer','Complete 2 commissions today',{60},null],
-['Grand completion','Complete all commissions today',{150},null],
-['Steady stream','Focus for 35 minutes',{45},null],
-['Ascending path','Focus for 55 minutes',{75},null],
-['Iron will','Focus for 70 minutes',{90},null],
-['Scholar\'s vigil','Focus for 80 minutes',{95},null],
-['Beyond the veil','Focus for 95 minutes',{105},null],
-['Wish maker','Earn 30 Primogems',{45},null],
-['Constellation fund','Earn 70 Primogems',{85},null],
-['Banner savings','Earn 90 Primogems',{100},null],
-['Two rounds strong','Complete 2 Pomodoros',{60},null],
-['Five-round gauntlet','Complete 5 Pomodoros',{180},null],
-['Resin refuel','Focus for 12 minutes',{30},null],
-['Domain run','Focus for 22 minutes',{40},null],
-['Ley line outing','Focus for 28 minutes',{45},null],
-['Spiral descent','Focus for 42 minutes',{55},null],
-['Fragile resonance','Focus for 65 minutes',{80},null],
-['Teapot serenity','Focus for 18 minutes',{35},null],
-['Waypoint claim','Focus for 8 minutes',{25},null],
-['Statue blessing','Focus for 33 minutes',{45},null],
-['Oculi hunt','Focus for 48 minutes',{65},null],
-['Shrine trek','Focus for 62 minutes',{80},null],
-['Anemo glide','Focus for 14 minutes',{30},null],
-['Geo shield','Focus for 26 minutes',{45},null],
-['Hydro flow','Focus for 38 minutes',{50},null],
-['Pyro spark','Focus for 36 minutes',{50},null],
-['Cryo chill','Focus for 24 minutes',{40},null],
-['Electro charge','Focus for 32 minutes',{45},null],
-['Dendro bloom','Focus for 44 minutes',{60},null],
-['Adventurer\'s pace','Focus for 34 minutes',{45},null],
-['Guild standing','Focus for 52 minutes',{70},null],
-['Quest progress','Focus for 58 minutes',{75},null],
-['Archon\'s focus','Focus for 72 minutes',{90},null],
-['Harbinger\'s grit','Focus for 84 minutes',{100},null],
-['Catalyst grind','Focus for 92 minutes',{105},null],
-['Artifact luck','Earn 35 Primogems',{50},null],
-['Crit hit','Earn 45 Primogems',{60},null],
-['Ascension ready','Earn 55 Primogems',{70},null],
-['Talent books','Earn 20 Primogems',{35},null],
-['Mora hoard','Earn 80 Primogems',{90},null],
-['Primogem rain','Earn 110 Primogems',{130},null],
-['Abyss star','Complete 1 Pomodoro and 20 bonus minutes',{90},null],
-['Triple crown','Focus for 66 minutes',{85},null],
-['Steady flame','Focus for 56 minutes',{75},null],
-['Frozen watch','Focus for 88 minutes',{100},null],
-['Storm ride','Focus for 76 minutes',{95},null],
-['Sunlit study','Focus for 64 minutes',{80},null],
-['Moonlit study','Focus for 37 minutes',{50},null],
-['Glide time','Focus for 16 minutes',{35},null],
-['Climb higher','Focus for 46 minutes',{60},null],
-['Swim across','Focus for 27 minutes',{45},null],
-['Statue rest','Focus for 11 minutes',{30},null],
-['Campfire cook','Focus for 19 minutes',{35},null],
-['Sweet Madame break','Complete 1 Pomodoro',{30},null],
-['Butter crab feast','Complete 2 Pomodoros',{65},null],
-['Adeptus\' temptation','Complete 3 Pomodoros',{110},null],
-['Wind chaser','Focus for 13 minutes',{30},null],
-['Stone heart','Focus for 41 minutes',{55},null],
-['Thundering pulse','Focus for 47 minutes',{60},null],
-['Verdant heart','Focus for 53 minutes',{70},null],
-['Blazing song','Focus for 57 minutes',{75},null],
-['Glacial waltz','Focus for 61 minutes',{80},null],
-['Tidal wave','Focus for 68 minutes',{85},null],
-['Starlight vigil','Focus for 105 minutes',{120},null],
-['Comet stride','Focus for 115 minutes',{130},null],
-['Meteor mind','Focus for 130 minutes',{150},null],
-['Celestial pace','Focus for 140 minutes',{160},null],
-['Irminsul root','Focus for 21 minutes',{40},null],
-['Sanctum deep','Focus for 74 minutes',{90},null],
-['Wishful study','Earn 15 Primogems',{30},null],
-['Lucky star','Earn 65 Primogems',{80},null],
-['Golden sparkle','Earn 75 Primogems',{90},null],
-['Foggy voyage','Focus for 29 minutes',{45},null],
-['Lantern rite','Focus for 31 minutes',{45},null],
-['Iridescence','Focus for 43 minutes',{55},null],
-['Mirror bloom','Focus for 49 minutes',{65},null],
-['Silk and steel','Focus for 63 minutes',{80},null],
-['Jade chamber','Focus for 86 minutes',{100},null],
-['Rishbolan focus','Focus for 78 minutes',{95},null],
-['Akasha link','Focus for 96 minutes',{110},null],
-['Opera night','Focus for 67 minutes',{85},null],
-['Underwater waltz','Focus for 51 minutes',{70},null],
-['Obsidian step','Focus for 82 minutes',{95},null],
-['Frostbound vow','Focus for 71 minutes',{90},null],
-['Fatui discipline','Focus for 112 minutes',{125},null],
-['Hilichurl hustle','Focus for 9 minutes',{25},null],
-['Slime sprint','Focus for 17 minutes',{35},null],
-['Abyss mage drill','Focus for 69 minutes',{85},null],
-['Ruin guard spar','Focus for 73 minutes',{90},null],
-['Whopperflower warmup','Focus for 23 minutes',{40},null]
+['Keep a {n}-day streak','Study today to hold your streak',{100,120,150},{2,3,5}],
+['First light','Log at least 1 focused minute',{30},{1}],
+['Hour of devotion','Accumulate a full hour of focus',{80},{60}],
+['Deep delve','Hold 90 minutes of focus today',{120},{90}],
+['Marathon of will','Focus for 2 hours total today',{180},{120}],
+['Dawn patrol','Start a session between 5:00 and 9:00',{50},{1}],
+['Night owl rite','Start a session between 21:00 and 2:00',{50},{1}],
+['Twilight scholar','Start a session between 17:00 and 21:00',{50},{1}],
+['Meridian focus','Start a session between 11:00 and 14:00',{50},{1}],
+['Warm-up lap','Focus for 10 minutes',{30},{10}],
+['Steady cadence','Focus for 20 minutes',{40},{20}],
+['Push the pace','Focus for 30 minutes',{50},{30}],
+['Endurance drill','Focus for 45 minutes',{60},{45}],
+['Triple rounds','Complete 3 Pomodoros',{100},{3}],
+['Quad rounds','Complete 4 Pomodoros',{140},{4}],
+['Pomodoro duo','Complete 2 Pomodoros',{60},{2}],
+['Solo round','Complete 1 Pomodoro',{30},{1}],
+['Gem pouch','Earn 25 Primogems',{40},{25}],
+['Gem satchel','Earn 40 Primogems',{60},{40}],
+['Sprint start','Focus for 5 minutes',{20},{5}],
+['Quarter hour','Focus for 15 minutes',{35},{15}],
+['Three quarters','Focus for 50 minutes',{70},{50}],
+['Century march','Focus for 100 minutes',{110},{100}],
+['Streak keeper','Study today to keep your streak alive',{50},{1}],
+['Style shift','Switch to any theme today',{40},{1}],
+['Realm attunement','Open the wardrobe panel today',{30},{1}],
+['Vision trial','Focus for {n} straight minutes in one session',{60},{25}],
+['Elemental mastery','Focus for 40 minutes total',{55},{40}],
+['Commission closer','Complete 2 commissions today',{60},{2}],
+['Grand completion','Complete every commission today',{150},{1}],
+['Steady stream','Focus for 35 minutes',{45},{35}],
+['Ascending path','Focus for 55 minutes',{75},{55}],
+['Iron will','Focus for 70 minutes',{90},{70}],
+['Scholar\'s vigil','Focus for 80 minutes',{95},{80}],
+['Beyond the veil','Focus for 95 minutes',{105},{95}],
+['Wish maker','Earn 30 Primogems',{45},{30}],
+['Constellation fund','Earn 70 Primogems',{85},{70}],
+['Banner savings','Earn 90 Primogems',{100},{90}],
+['Two rounds strong','Complete 2 Pomodoros',{60},{2}],
+['Five-round gauntlet','Complete 5 Pomodoros',{180},{5}],
+['Resin refuel','Focus for 12 minutes',{30},{12}],
+['Domain run','Focus for 22 minutes',{40},{22}],
+['Ley line outing','Focus for 28 minutes',{45},{28}],
+['Spiral descent','Focus for 42 minutes',{55},{42}],
+['Fragile resonance','Focus for 65 minutes',{80},{65}],
+['Teapot serenity','Focus for 18 minutes',{35},{18}],
+['Waypoint claim','Focus for 8 minutes',{25},{8}],
+['Statue blessing','Focus for 33 minutes',{45},{33}],
+['Oculi hunt','Focus for 48 minutes',{65},{48}],
+['Shrine trek','Focus for 62 minutes',{80},{62}],
+['Anemo glide','Focus for 14 minutes',{30},{14}],
+['Geo shield','Focus for 26 minutes',{45},{26}],
+['Hydro flow','Focus for 38 minutes',{50},{38}],
+['Pyro spark','Focus for 36 minutes',{50},{36}],
+['Cryo chill','Focus for 24 minutes',{40},{24}],
+['Electro charge','Focus for 32 minutes',{45},{32}],
+['Dendro bloom','Focus for 44 minutes',{60},{44}],
+['Adventurer\'s pace','Focus for 34 minutes',{45},{34}],
+['Guild standing','Focus for 52 minutes',{70},{52}],
+['Quest progress','Focus for 58 minutes',{75},{58}],
+['Archon\'s focus','Focus for 72 minutes',{90},{72}],
+['Harbinger\'s grit','Focus for 84 minutes',{100},{84}],
+['Catalyst grind','Focus for 92 minutes',{105},{92}],
+['Artifact luck','Earn 35 Primogems',{50},{35}],
+['Crit hit','Earn 45 Primogems',{60},{45}],
+['Ascension ready','Earn 55 Primogems',{70},{55}],
+['Talent books','Earn 20 Primogems',{35},{20}],
+['Mora hoard','Earn 80 Primogems',{90},{80}],
+['Primogem rain','Earn 110 Primogems',{130},{110}],
+['Abyss star','Complete 1 Pomodoro and 20 bonus minutes',{90},{1}],
+['Triple crown','Focus for 66 minutes',{85},{66}],
+['Steady flame','Focus for 56 minutes',{75},{56}],
+['Frozen watch','Focus for 88 minutes',{100},{88}],
+['Storm ride','Focus for 76 minutes',{95},{76}],
+['Sunlit study','Focus for 64 minutes',{80},{64}],
+['Moonlit study','Focus for 37 minutes',{50},{37}],
+['Glide time','Focus for 16 minutes',{35},{16}],
+['Climb higher','Focus for 46 minutes',{60},{46}],
+['Swim across','Focus for 27 minutes',{45},{27}],
+['Statue rest','Focus for 11 minutes',{30},{11}],
+['Campfire cook','Focus for 19 minutes',{35},{19}],
+['Sweet Madame break','Complete 1 Pomodoro',{30},{1}],
+['Butter crab feast','Complete 2 Pomodoros',{65},{2}],
+['Adeptus\' temptation','Complete 3 Pomodoros',{110},{3}],
+['Wind chaser','Focus for 13 minutes',{30},{13}],
+['Stone heart','Focus for 41 minutes',{55},{41}],
+['Thundering pulse','Focus for 47 minutes',{60},{47}],
+['Verdant heart','Focus for 53 minutes',{70},{53}],
+['Blazing song','Focus for 57 minutes',{75},{57}],
+['Glacial waltz','Focus for 61 minutes',{80},{61}],
+['Tidal wave','Focus for 68 minutes',{85},{68}],
+['Starlight vigil','Focus for 105 minutes',{120},{105}],
+['Comet stride','Focus for 115 minutes',{130},{115}],
+['Meteor mind','Focus for 130 minutes',{150},{130}],
+['Celestial pace','Focus for 140 minutes',{160},{140}],
+['Irminsul root','Focus for 21 minutes',{40},{21}],
+['Sanctum deep','Focus for 74 minutes',{90},{74}],
+['Wishful study','Earn 15 Primogems',{30},{15}],
+['Lucky star','Earn 65 Primogems',{80},{65}],
+['Golden sparkle','Earn 75 Primogems',{90},{75}],
+['Foggy voyage','Focus for 29 minutes',{45},{29}],
+['Lantern rite','Focus for 31 minutes',{45},{31}],
+['Iridescence','Focus for 43 minutes',{55},{43}],
+['Mirror bloom','Focus for 49 minutes',{65},{49}],
+['Silk and steel','Focus for 63 minutes',{80},{63}],
+['Jade chamber','Focus for 86 minutes',{100},{86}],
+['Rishbolan focus','Focus for 78 minutes',{95},{78}],
+['Akasha link','Focus for 96 minutes',{110},{96}],
+['Opera night','Focus for 67 minutes',{85},{67}],
+['Underwater waltz','Focus for 51 minutes',{70},{51}],
+['Obsidian step','Focus for 82 minutes',{95},{82}],
+['Frostbound vow','Focus for 71 minutes',{90},{71}],
+['Fatui discipline','Focus for 112 minutes',{125},{112}],
+['Hilichurl hustle','Focus for 9 minutes',{25},{9}],
+['Slime sprint','Focus for 17 minutes',{35},{17}],
+['Abyss mage drill','Focus for 69 minutes',{85},{69}],
+['Ruin guard spar','Focus for 73 minutes',{90},{73}],
+['Whopperflower warmup','Focus for 23 minutes',{40},{23}]
 ];
+
+function kindOf(name){
+  if(/Dawn patrol/.test(name))return 'time_early';
+  if(/Night owl/.test(name))return 'time_late';
+  if(/Twilight/.test(name))return 'time_evening';
+  if(/Meridian/.test(name))return 'time_midday';
+  if(/streak/i.test(name))return 'streak';
+  if(/^Earn /.test(name))return 'coins';
+  if(/Style shift/.test(name))return 'style';
+  if(/Realm attunement/.test(name))return 'wardrobe';
+  if(/Commission closer/.test(name))return 'comm2';
+  if(/Grand completion/.test(name))return 'commAll';
+  if(/straight/.test(name))return 'straight';
+  if(/Abyss star/.test(name))return 'combo';
+  if(/Pomodoro|round/i.test(name))return 'pomos';
+  return 'minutes';
+}
+
 var MISSIONS=RAW_M.map(function(m,i){
-  var pool=m[2],target=m[3]?m[3][i%m[3].length]:1;
-  var name=m[0].replace('{n}',String(target)).replace('{s}',target===1?'':'s');
-  var desc=m[1].replace('{n}',String(target)).replace('{s}',target===1?'':'s');
-  return {id:i,name:name,desc:desc,reward:pool[i%pool.length],target:target};
+  var pool=m[2],tPool=m[3];
+  var target=tPool?tPool[i%tPool.length]:1;
+  var name=m[0].replace('{n}',String(target)).replace(/\{s\}/g,target===1?'':'s');
+  var desc=m[1].replace('{n}',String(target)).replace(/\{s\}/g,target===1?'':'s');
+  return {id:i,name:name,desc:desc,reward:pool[i%pool.length],target:target,kind:kindOf(name)};
 });
 
 var ACH=[
@@ -589,9 +596,9 @@ var ACH=[
 {id:'streak30',name:'Unyielding',desc:'Reach a 30-day study streak',icon:'🛡️',check:function(s){return s.streak>=30}},
 {id:'day300',name:'Deep Session',desc:'Focus 5 hours within a single day',icon:'🌠',check:function(s){return (s.daySec/60)>=300}}
 ];
-ACH.forEach(function(a){a.reward=20+(ACH.indexOf(a)*5);});
+ACH.forEach(function(a,i){a.reward=20+i*5;});
 
-/* ---------- state ---------- */
+/* ================= state (loaded FIRST, before anything uses it) ================= */
 function def(){
   return {
     coins:0,earned:0,unlocked:['default'],theme:'default',
@@ -602,60 +609,69 @@ function def(){
     prefs:{f:25,b:5,auto:true},sound:true,laps:[]
   };
 }
-var S=null;
-function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
-function load(){
-  var d=def();
-  try{var raw=localStorage.getItem(KEY);if(raw){var p=JSON.parse(raw);mergeInto(d,p);}}catch(e){}
-  d.unlocked=Array.isArray(d.unlocked)?d.unlocked:['default'];
-  d.ach=Array.isArray(d.ach)?d.ach:[];
-  d.bgs=Array.isArray(d.bgs)?d.bgs.slice(0,3):[null,null,null];
-  while(d.bgs.length<3)d.bgs.push(null);
-  d.claimed=typeof d.claimed==='object'&&d.claimed?d.claimed:{};
-  d.hist=typeof d.hist==='object'&&d.hist?d.hist:{};
-  d.day=typeof d.day==='object'&&d.day?d.day:{d:'',s:0,min:0,pomos:0};
-  d.tot=typeof d.tot==='object'&&d.tot?d.tot:{s:0,min:0,pomos:0};
-  return d;
-}
 function mergeInto(t,p){
   if(!p||typeof p!=='object')return;
   Object.keys(t).forEach(function(k){
     var v=p[k];
-    if(v===undefined)return;
+    if(v===undefined||v===null&&typeof t[k]==='object'&&k!=='bgs')return;
     if(Array.isArray(t[k])){if(Array.isArray(v))t[k]=v;}
-    else if(t[k]&&typeof t[k]==='object'){if(v&&typeof v==='object')mergeInto(t[k],v);}
-    else if(typeof v===typeof t[k]||k==='bgActive'){t[k]=v;}
+    else if(t[k]&&typeof t[k]==='object'){if(v&&typeof v==='object'&&!Array.isArray(v))mergeInto(t[k],v);}
+    else t[k]=v;
   });
 }
+function load(){
+  var d=def();
+  try{
+    var raw=localStorage.getItem(KEY);
+    if(raw){mergeInto(d,JSON.parse(raw));}
+  }catch(e){}
+  if(!Array.isArray(d.unlocked)||!d.unlocked.length)d.unlocked=['default'];
+  if(!Array.isArray(d.ach))d.ach=[];
+  if(!Array.isArray(d.bgs))d.bgs=[null,null,null];
+  while(d.bgs.length<3)d.bgs.push(null);
+  if(!d.claimed||typeof d.claimed!=='object')d.claimed={};
+  if(!d.hist||typeof d.hist!=='object')d.hist={};
+  if(!d.day||typeof d.day!=='object')d.day={d:'',s:0,min:0,pomos:0};
+  if(!d.tot||typeof d.tot!=='object')d.tot={s:0,min:0,pomos:0};
+  if(!d.prefs||typeof d.prefs!=='object')d.prefs={f:25,b:5,auto:true};
+  if(typeof d.prefs.f!=='number')d.prefs.f=25;
+  if(typeof d.prefs.b!=='number')d.prefs.b=5;
+  if(d.unlocked.indexOf(d.theme)<0)d.theme='default';
+  return d;
+}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 
-/* ---------- tiny helpers ---------- */
+var S=load(); /* <-- state exists before anything else runs */
+
+/* ================= helpers ================= */
 function $(id){return document.getElementById(id);}
 function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!==undefined)e.innerHTML=html;return e;}
+function txt(tag,cls,str){var e=document.createElement(tag);if(cls)e.className=cls;e.textContent=str;return e;}
 function pad(n){n=Math.floor(n);return n<10?'0'+n:''+n;}
 function fmtHMS(sec){sec=Math.max(0,Math.floor(sec));var h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return h+':'+pad(m)+':'+pad(s);}
-function fmtMS(ms){ms=Math.max(0,ms);var s=Math.floor(ms/1000);var m=Math.floor(s/60)%60;return pad(Math.floor(s/60))+':'+pad(m);}
-function fmtMin(min){min=Math.floor(min);if(min<60)return min+'m';var h=Math.floor(min/60),m=min%60;if(h<24)return h+'h'+(m?' '+m+'m':'');var d=Math.floor(h/24);return d+'d '+(h%24)+'h';}
+function fmtMS(ms){ms=Math.max(0,ms);var s=Math.floor(ms/1000);return pad(Math.floor(s/60))+':'+pad(s%60);}
+function fmtMin(min){min=Math.floor(min);if(min<60)return min+'m';var h=Math.floor(min/60),m=min%60;if(h<24)return h+'h'+(m?' '+m+'m':'');return Math.floor(h/24)+'d '+(h%24)+'h';}
 function dateStr(d){d=d||new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate());}
 function shiftDate(ds,n){var p=ds.split('-');return dateStr(new Date(+p[0],+p[1]-1,+p[2]+n));}
 function yesterdayStr(){return shiftDate(dateStr(),-1);}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
 
-/* deterministic daily selection — identical on every browser for a given date */
+/* deterministic daily draw — identical everywhere for a given date */
 function xmur3(str){var h=1779033703^str.length;for(var i=0;i<str.length;i++){h=Math.imul(h^str.charCodeAt(i),3432918353);h=h<<13|h>>>19;}return function(){h=Math.imul(h^h>>>16,2246822507);h=Math.imul(h^h>>>13,3266489909);return (h^=h>>>16)>>>0;};}
 function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return ((t^t>>>14)>>>0)/4294967296;};}
-var DAY_KEY='',DAY_MISSIONS=[];
+var todayStr=dateStr();
+var DAY_MISSIONS=[];
 function computeDaily(){
-  DAY_KEY=dateStr();
-  var seed=xmur3('teyvat-study-sanctum-'+DAY_KEY)();
+  var seed=xmur3('teyvat-study-sanctum-'+todayStr)();
   var rnd=mulberry32(seed);
   var idx=[];for(var i=0;i<MISSIONS.length;i++)idx.push(i);
   for(var j=idx.length-1;j>0;j--){var k=Math.floor(rnd()*(j+1));var t=idx[j];idx[j]=idx[k];idx[k]=t;}
   DAY_MISSIONS=idx.slice(0,3).map(function(i){return MISSIONS[i];});
 }
-function msToMidnight(){var n=new Date();var t=new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,0);return t-n;}
+function msToMidnight(){var n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate()+1,0,0,0)-n;}
 
-/* ---------- color utils ---------- */
+/* ================= color utils ================= */
 function hexToHsl(hex){
   var r=parseInt(hex.substr(1,2),16)/255,g=parseInt(hex.substr(3,2),16)/255,b=parseInt(hex.substr(5,2),16)/255;
   var mx=Math.max(r,g,b),mn=Math.min(r,g,b),h=0,s=0,l=(mx+mn)/2,d=mx-mn;
@@ -672,14 +688,12 @@ function hslToHex(h,s,l){
 }
 function lum(hex){
   function f(v){v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4);}
-  var r=f(parseInt(hex.substr(1,2),16)),g=f(parseInt(hex.substr(3,2),16)),b=f(parseInt(hex.substr(5,2),16));
-  return 0.2126*r+0.7152*g+0.0722*b;
+  return 0.2126*f(parseInt(hex.substr(1,2),16))+0.7152*f(parseInt(hex.substr(3,2),16))+0.0722*f(parseInt(hex.substr(5,2),16));
 }
-function relLum(hex){return lum(hex);}
 function contrast(a,b){var l1=lum(a),l2=lum(b);return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);}
 function rgba(hex,a){return 'rgba('+parseInt(hex.substr(1,2),16)+','+parseInt(hex.substr(3,2),16)+','+parseInt(hex.substr(5,2),16)+','+a+')';}
 
-/* ---------- sound ---------- */
+/* ================= sound ================= */
 var AC=null;
 function ensureAC(){
   if(!AC){try{AC=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}
@@ -704,29 +718,32 @@ function sfxPomo(){[659.25,830.61,987.77,1318.51].forEach(function(f,i){tone(f,.
 function sfxAch(){[523.25,659.25,783.99,1046.5].forEach(function(f,i){tone(f,.22,'triangle',.12,i*0.1);});tone(1567.98,.3,'sine',.08,.42);}
 function sfxBreak(){tone(587.33,.18,'sine',.1,0);tone(440,.26,'sine',.1,.13);}
 
-/* ---------- toasts ---------- */
+/* ================= toasts ================= */
 var toastsBox=$('toasts');
-function toast(icon,title,msg,type){
+function toast(icon,title,msg,silent){
   var t=el('div','toast');
   var ic=el('div','tic');
-  if(icon==='gem'){var sv=document.createElementNS('http://www.w3.org/2000/svg','svg');sv.setAttribute('class','gem');var us=document.createElementNS('http://www.w3.org/2000/svg','use');us.setAttribute('href','#ic-gem');sv.appendChild(us);ic.appendChild(sv);}
-  else ic.textContent=icon||'✦';
-  var body=el('div','tbody');
-  body.appendChild(el('div','ttit',title||'Notice'));
-  if(msg)body.appendChild(el('div','tmsg',msg));
+  if(icon==='gem'){
+    var sv=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    var us=document.createElementNS('http://www.w3.org/2000/svg','use');
+    us.setAttribute('href','#ic-gem');sv.appendChild(us);ic.appendChild(sv);
+  }else ic.textContent=icon||'✦';
+  var body=el('div','ttext');
+  body.appendChild(txt('div','ttit',title||'Notice'));
+  if(msg)body.appendChild(txt('div','tmsg',msg));
   t.appendChild(ic);t.appendChild(body);
   toastsBox.appendChild(t);
   while(toastsBox.children.length>5)toastsBox.removeChild(toastsBox.firstChild);
   setTimeout(function(){t.classList.add('out');setTimeout(function(){if(t.parentNode)t.parentNode.removeChild(t);},360);},4300);
-  if(type!=='silent')sfxToast();
+  if(!silent)sfxToast();
 }
-function floatGain(txt){
-  var f=el('div','gain',txt);
+function floatGain(text){
+  var f=txt('div','gain',text);
   document.body.appendChild(f);
   setTimeout(function(){if(f.parentNode)f.parentNode.removeChild(f);},1450);
 }
 
-/* ---------- dom refs ---------- */
+/* ================= dom refs ================= */
 var coinAmt=$('coinAmt'),coinChip=$('coinChip'),chipToday=$('chipToday'),chipTotal=$('chipTotal'),
     stToday=$('stToday'),stTotal=$('stTotal'),stPomos=$('stPomos'),stStreak=$('stStreak'),
     stTodaySub=$('stTodaySub'),stTotalSub=$('stTotalSub'),stPomosSub=$('stPomosSub'),
@@ -741,43 +758,37 @@ var coinAmt=$('coinAmt'),coinChip=$('coinChip'),chipToday=$('chipToday'),chipTot
 ringProg.style.strokeDasharray=RING_C;
 swProg.style.strokeDasharray=RING_C;
 
-/* ---------- runtime ---------- */
-var todayStr=dateStr();
+/* ================= runtime timers ================= */
 var P={running:false,phase:'focus',remaining:S.prefs.f*60000,dur:S.prefs.f*60000,ended:0,cycle:1,doneInCycle:0,phaseEnd:0};
-var SW={running:false,elapsed:0,startEpoch:0,granted:0,frac:0,phaseEnd:0};
-var THEME_OPENED=false,pendSlot=-1,achQ=[],achBusy=false;
+var SW={running:false,elapsed:0,startEpoch:0,granted:0};
 var TAB_TITLE=document.title;
+var lastMissionPaint=0;
 
 function currentMs(){
   if(!SW.running)return SW.elapsed;
   return SW.elapsed+Math.max(0,Date.now()-SW.startEpoch);
 }
 function pomDur(phase){return ((phase==='focus')?S.prefs.f:S.prefs.b)*60000;}
-function dayBump(){if(S.day.d!==todayStr){S.day={d:todayStr,s:0,min:0,pomos:0};}}
 
+/* ================= focus accounting ================= */
+function dayBump(){
+  if(S.day.d!==todayStr){
+    S.day={d:todayStr,s:0,min:0,pomos:0};
+    S._earnedAtDayStart=S.earned;
+  }
+}
+if(S._earnedAtDayStart===undefined)S._earnedAtDayStart=S.earned;
+function trimHist(){
+  var keys=Object.keys(S.hist).sort();
+  while(keys.length>45){delete S.hist[keys.shift()];}
+}
 function logSecs(sec,ts){
   if(sec<=0)return;
   dayBump();
   S.day.s+=sec;S.tot.s+=sec;
   var k=dateStr(ts||new Date());
   S.hist[k]=(S.hist[k]||0)+sec;
-  if(S.hist[k]===sec)trimHist();
-}
-function trimHist(){
-  var keys=Object.keys(S.hist).sort();
-  while(keys.length>45){delete S.hist[keys.shift()];}
-}
-function grantMinutes(n,silent){
-  if(n<1)return;
-  S.coins+=n;S.earned+=n;
-  floatGain('+'+n+' ✦');
-  if(!silent)toast('gem','+'+n+' Primogem'+(n>1?'s':''),'Credited for '+n+' focused minute'+(n>1?'s':'')+'.');
-  else sfxCoin();
-  bumpCoin();checkAch();renderMissions();
-}
-function bumpCoin(){
-  coinAmt.textContent=S.coins;
-  coinChip.classList.remove('pop');void coinChip.offsetWidth;coinChip.classList.add('pop');
+  trimHist();
 }
 function streakUp(){
   var st=S.st;
@@ -787,28 +798,32 @@ function streakUp(){
     if(st.streak>st.bestStreak)st.bestStreak=st.streak;
   }
 }
-function addFocus(ms,src,ts){
-  if(ms<=0)return;
+function addFocus(ms,ts){
+  if(ms<=1000)return;
   var sec=Math.round(ms/1000);
   logSecs(sec,ts);
   dayBump();
   S.day.min+=sec/60;S.tot.min+=sec/60;
-  grantAccum(src);
   streakUp();
   save();
   checkAch();renderMissions();updateStats();
 }
-function grantAccum(src){
-  var total=(src==='sw')?(currentMs()/1000):(S.day.min*60);
-  if(src==='sw'){
-    var f=Math.floor(total/60)-SW.granted;
-    if(f>0){SW.granted+=f;grantMinutes(f,false);}
-  }else{
-    var pool=Math.floor(S.day.min)-S.day._g;
-    if(S.day._g===undefined)S.day._g=0;
-    pool=Math.floor(S.day.min)-S.day._g;
-    if(pool>0){S.day._g+=pool;grantMinutes(pool,true);sfxCoin();}
-  }
+function bumpCoin(){
+  coinAmt.textContent=S.coins;
+  coinChip.classList.remove('pop');void coinChip.offsetWidth;coinChip.classList.add('pop');
+}
+function grantMinutes(n){
+  if(n<1)return;
+  S.coins+=n;S.earned+=n;
+  floatGain('+'+n+' ✦');
+  toast('gem','+'+n+' Primogem'+(n>1?'s':''),'Credited for '+n+' focused minute'+(n>1?'s':'')+'.');
+  bumpCoin();checkAch();renderMissions();updateStats();save();
+}
+function grantSwLive(){
+  if(currentMs()<60000)return;
+  var totalMin=Math.floor(currentMs()/60000);
+  var f=totalMin-SW.granted;
+  if(f>0){SW.granted=totalMin;grantMinutes(f);}
 }
 function onPomoFocusComplete(){
   dayBump();
@@ -816,48 +831,72 @@ function onPomoFocusComplete(){
   var reward=S.prefs.f;
   S.coins+=reward;S.earned+=reward;
   bumpCoin();
-  toast('gem','Pomodoro complete!','+'+reward+' Primogems · session '+S.tot.pomos+' logged.');
+  toast('gem','Pomodoro complete!','+'+reward+' Primogems · session #'+S.tot.pomos+' logged.');
   sfxPomo();
-  addFocus(P.dur,'pomo');
   P.doneInCycle++;
   if(P.doneInCycle>=4){P.doneInCycle=0;P.cycle++;}
-  renderDots();save();
+  addFocus(P.dur);
 }
 
-/* ---------- timer engine ---------- */
+/* ================= render loop ================= */
+function livePomoSec(){
+  if(!P.running||P.phase!=='focus')return 0;
+  var elapsedPhase=P.dur-Math.max(0,P.remaining-(Date.now()-P.ended));
+  return Math.max(0,Math.floor(elapsedPhase/1000));
+}
 function render(){
   if(!pomView.hidden){
     var now=Date.now();
     var ms=P.running?Math.max(0,P.remaining-(now-P.ended)):P.remaining;
     mainTime.textContent=fmtMS(ms);
     phaseLbl.textContent=P.phase==='focus'?'Focus':cap(S.prefs.b)+'-min Break';
-    var frac=1-ms/P.dur;
-    ringProg.style.strokeDashoffset=(RING_C*clamp(frac,0,1)).toFixed(1);
+    ringProg.style.strokeDashoffset=(RING_C*clamp(1-ms/P.dur,0,1)).toFixed(1);
     ringWrap.classList.toggle('running',P.running);
     pomoStart.textContent=P.running?'Pause':(P.remaining<P.dur&&P.remaining>0?'Resume':'Begin');
-    pomoInfo.innerHTML=P.running?'<b>'+P.phase.toUpperCase()+' IN PROGRESS</b>':'READY WHEN YOU ARE';
+    pomoInfo.innerHTML=P.running?'<b>'+(P.phase==='focus'?'FOCUS':'BREAK')+' IN PROGRESS</b>':'READY WHEN YOU ARE';
     cycleInfo.innerHTML='Cycle <b>'+P.cycle+'</b> &nbsp;·&nbsp; Today <b>'+S.day.pomos+'</b> pomodoro'+(S.day.pomos===1?'':'s')+' &nbsp;·&nbsp; Total <b>'+S.tot.pomos+'</b>';
-    if(document.title.indexOf('Pomodoro')===0||!SW.running&&!P.running)setTitle();
   }else{
     var ms2=currentMs();
     swTime.textContent=fmtMS(ms2);
-    var frac2=(ms2/1000)%60/60;
-    swProg.style.strokeDashoffset=(RING_C*frac2).toFixed(1);
-    var nxt=Math.max(0,60-Math.floor(ms2/1000)%60);
+    swProg.style.strokeDashoffset=(RING_C*((ms2/1000)%60)/60).toFixed(1);
+    var nxt=60-(Math.floor(ms2/1000)%60);
     swLive.innerHTML=SW.running?'NEXT GEM IN <b>'+nxt+'s</b>':'STOPWATCH ARMED';
     swStart.textContent=SW.running?'Pause':(SW.elapsed>0?'Resume':'Begin');
   }
 }
 function setTitle(){
-  if(P.running&&!pomView.hidden){document.title=fmtMS(Math.max(0,P.remaining-(Date.now()-P.ended)))+' · '+(P.phase==='focus'?'Focus':'Break')+' — Teyvat Study Sanctum';}
-  else if(SW.running){document.title=fmtMS(currentMs())+' · Focusing — Teyvat Study Sanctum';}
-  else document.title=TAB_TITLE;
+  if(P.running&&!pomView.hidden){
+    document.title=fmtMS(Math.max(0,P.remaining-(Date.now()-P.ended)))+' · '+(P.phase==='focus'?'Focus':'Break')+' — Teyvat Study Sanctum';
+  }else if(SW.running){
+    document.title=fmtMS(currentMs())+' · Focusing — Teyvat Study Sanctum';
+  }else document.title=TAB_TITLE;
+}
+function updateStats(){
+  dayBump();
+  var live=(SW.running?Math.floor((Date.now()-SW.startEpoch)/1000):0)+livePomoSec();
+  var todayS=S.day.s+live;
+  stToday.textContent=fmtHMS(todayS);
+  chipToday.textContent=fmtHMS(todayS);
+  stTotal.textContent=fmtHMS(S.tot.s+live);
+  chipTotal.textContent=fmtHMS(S.tot.s+live);
+  stPomos.textContent=S.tot.pomos;
+  stStreak.textContent=S.st.streak;
+  stTodaySub.textContent='across '+(S.day.pomos||0)+' pomodoro'+(S.day.pomos===1?'':'s')+' + free focus';
+  stTotalSub.textContent=fmtMin(S.tot.min)+' lifetime focus';
+  stPomosSub.textContent=S.day.pomos+' today';
+  coinAmt.textContent=S.coins;
+}
+
+/* ================= pomodoro engine ================= */
+function detectTime(){
+  var h=new Date().getHours(),tag=null;
+  if(h>=5&&h<9)tag='time_early';else if(h>=11&&h<14)tag='time_midday';else if(h>=17&&h<21)tag='time_evening';else if(h>=21||h<2)tag='time_late';
+  if(tag){var cur=S.claimed[tag]||{};cur[todayStr]=1;S.claimed[tag]=cur;}
 }
 function startPomo(){
   ensureAC();
   if(P.running)return;
-  P.running=true;P.ended=Date.now();
-  P.phaseEnd=P.ended+P.remaining;
+  P.running=true;P.ended=Date.now();P.phaseEnd=P.ended+P.remaining;
   if(P.phase==='focus')detectTime();
   save();render();
 }
@@ -867,7 +906,7 @@ function pausePomo(){
   var elapsedPhase=P.dur-Math.max(0,P.remaining-(now-P.ended));
   P.remaining=Math.max(0,P.remaining-(now-P.ended));
   P.running=false;
-  if(P.phase==='focus'&&elapsedPhase>0)addFocus(elapsedPhase,'pomo');
+  if(P.phase==='focus'&&elapsedPhase>1000)addFocus(elapsedPhase);
   save();render();
 }
 function nextPhase(){
@@ -881,7 +920,7 @@ function pomoCompleteFlow(){
   if(P.phase==='focus'){
     nextPhase();
     if(S.prefs.auto){P.running=true;P.ended=Date.now();P.phaseEnd=P.ended+P.remaining;sfxBreak();}
-    else toast('🍃','Break time','A '+S.prefs.b+'-minute break awaits. Press Begin when ready.','silent');
+    else toast('🍃','Break time','A '+S.prefs.b+'-minute break awaits. Press Begin when ready.',true);
   }else{
     P.phase='focus';P.dur=pomDur('focus');P.remaining=P.dur;
     toast('⚔️','Break over','Back to the grind, Traveler.');
@@ -891,13 +930,12 @@ function pomoCompleteFlow(){
 }
 function pomoSkip(){
   if(P.phase==='focus'&&P.running){
-    var now=Date.now();
-    var elp=P.dur-Math.max(0,P.remaining-(now-P.ended));
-    if(elp>0)addFocus(elp,'pomo');
+    var elp=P.dur-Math.max(0,P.remaining-(Date.now()-P.ended));
+    if(elp>1000)addFocus(elp);
   }
   P.running=false;
   nextPhase();
-  toast('⏭️','Phase skipped','No rewards for skipped focus rounds.');
+  toast('⏭️','Phase skipped','No rewards for skipped focus rounds.',true);
 }
 function pomoReset(){
   P.running=false;P.phase='focus';P.dur=pomDur('focus');P.remaining=P.dur;
@@ -907,24 +945,18 @@ function renderDots(){
   dotsEl.innerHTML='';
   var need=Math.max(0,4-P.doneInCycle);
   for(var i=0;i<4;i++){
-    var d=el('span','dot'+(i<need?' on':'')+(i===need&&P.phase==='focus'?' cur':''));
-    dotsEl.appendChild(d);
+    dotsEl.appendChild(el('span','dot'+(i<need?' on':'')+(i===need&&P.phase==='focus'?' cur':'')));
   }
 }
-function detectTime(){
-  var h=new Date().getHours(),tag=null;
-  if(h>=5&&h<9)tag='early';else if(h>=11&&h<14)tag='midday';else if(h>=17&&h<21)tag='evening';else if(h>=21||h<2)tag='late';
-  if(tag){var k='time_'+tag;var cur=S.claimed[k]||{};if(cur[todayStr]!==1)cur[todayStr]=1;S.claimed[k]=cur;}
-}
-function detectTheme(){var cur=S.claimed.themeOpened||{};if(cur[todayStr]!==1)cur[todayStr]=1;S.claimed.themeOpened=cur;renderMissions();}
 
+/* ================= stopwatch engine ================= */
 function swStartFn(){
   ensureAC();
   if(SW.running){
     var elp=Date.now()-SW.startEpoch;
     SW.elapsed+=elp;SW.running=false;
-    addFocus(elp,'sw');
-    grantAccum('sw');
+    addFocus(elp);
+    grantSwLive();
   }else{
     SW.running=true;SW.startEpoch=Date.now();
     detectTime();
@@ -935,154 +967,126 @@ function swLapFn(){
   if(!SW.running||currentMs()<1000)return;
   S.laps.unshift(currentMs());
   if(S.laps.length>8)S.laps.pop();
-  toast('📌','Lap recorded',fmtMS(currentMs()),'silent');
+  toast('📌','Lap recorded',fmtMS(currentMs()),true);
 }
 function swResetFn(){
-  if(currentMs()>0)toast('↺','Stopwatch reset','Your minutes were already banked.');
-  SW.running=false;SW.elapsed=0;SW.granted=0;S.laps=[];
+  if(SW.running){
+    var elp=Date.now()-SW.startEpoch;
+    SW.elapsed+=elp;SW.running=false;
+    addFocus(elp);
+    grantSwLive();
+  }
+  SW.elapsed=0;SW.granted=0;S.laps=[];
+  toast('↺','Stopwatch reset','Your minutes were already banked.',true);
   save();render();
 }
 
-setInterval(function(){
-  var now=Date.now();
-  var nd=dateStr();
-  if(nd!==todayStr){
-    todayStr=nd;dayBump();computeDaily();renderMissions();updateStats();
-  }
-  if(P.running&&now>=P.phaseEnd){pomoCompleteFlow();}
-  if(SW.running){var total=Math.floor(currentMs()/1000);if(Math.floor(total/60)>SW.granted)grantAccum('sw');}
-  render();setTitle();
-},250);
-
-setInterval(function(){
-  if(SW.running&&currentMs()>=60000)addFocus(Math.floor(currentMs()/60000)*60000,'sw');
-  if(P.running&&P.phase==='focus'&&P.dur-P.remaining>=60000){}
-  save();
-},25000);
-
-document.addEventListener('visibilitychange',function(){
-  if(document.visibilityState==='visible'){
-    var now=Date.now();
-    if(P.running&&now>=P.phaseEnd)pomoCompleteFlow();
-    grantAccum('sw');
-    render();
-  }
-});
-window.addEventListener('beforeunload',function(){
-  if(SW.running){var elp=Date.now()-SW.startEpoch;SW.elapsed+=elp;SW.running=false;addFocus(elp,'sw','quiet');}
-  if(P.running&&P.phase==='focus'){var el2=P.dur-Math.max(0,P.remaining-(Date.now()-P.ended));if(el2>0)addFocus(el2,'pomo');}
-  save();
-});
-window.addEventListener('pointerdown',ensureAC,{once:false});
-window.addEventListener('keydown',function(e){
-  if(e.target&&/INPUT|TEXTAREA/.test(e.target.tagName))return;
-  if(e.code==='Space'){e.preventDefault();if(!pomView.hidden){P.running?pausePomo():startPomo();}else swStartFn();}
-});
-
-/* ---------- missions ---------- */
-function missionProgress(m){
-  var id=m.id,name=m.name,t=m.target;
-  var todayMin=Math.floor(S.day.min),todayPomos=S.day.pomos,earnedToday=0;
-  Object.keys(S.hist).forEach(function(k){});
-  if(name.indexOf('minutes')>-1||name.indexOf('Focus for')>-1||/Hour of|Deep delve|Marathon|First light|Vision trial/.test(name)){
-    if(/Focus for .* straight/.test(name)){
+/* ================= missions ================= */
+function claimedFlag(k){var c=S.claimed[k];return c&&c[todayStr]===1?1:0;}
+function isClaimed(m){var c=S.claimed[m.id];return !!(c&&c[todayStr]);}
+function isMeta(m){return m.kind==='comm2'||m.kind==='commAll';}
+function progressOf(m){
+  var todayMin=Math.floor(S.day.min);
+  switch(m.kind){
+    case 'minutes':return Math.min(todayMin,m.target);
+    case 'pomos':return Math.min(S.day.pomos,m.target);
+    case 'coins':return Math.min(Math.max(0,S.earned-(S._earnedAtDayStart||0)),m.target);
+    case 'streak':return Math.min(S.st.streak,m.target);
+    case 'style':return claimedFlag('themeShifted');
+    case 'wardrobe':return claimedFlag('wardrobeOpened');
+    case 'time_early':return claimedFlag('time_early');
+    case 'time_late':return claimedFlag('time_late');
+    case 'time_evening':return claimedFlag('time_evening');
+    case 'time_midday':return claimedFlag('time_midday');
+    case 'straight':
       var best=0;
-      if(SW.running||SW.elapsed>0)best=Math.max(best,Math.floor(currentMs()/60000));
-      return Math.min(todayMin,best>0?best:todayMin);
-    }
-    return Math.min(todayMin,t);
+      if(S.day.pomos>0)best=Math.max(best,S.prefs.f);
+      best=Math.max(best,Math.floor(currentMs()/60000));
+      return Math.min(best,m.target);
+    case 'combo':return (S.day.pomos>=1&&todayMin>=21)?1:0;
+    case 'comm2':return Math.min(basicDoneCount(),m.target);
+    case 'commAll':return basicDoneCount()>=basicTotal()?1:0;
   }
-  if(/Pomodoro session|round|Solo round|rounds/i.test(name)&&name.indexOf('Primogem')<0)return Math.min(todayPomos,t);
-  if(name.indexOf('Earn')>-1&&name.indexOf('Primogem')>-1){
-    var em=0;
-    (function(){
-      var base=S.earned;em=Math.min(Math.max(0,base-(S._earnedAtDayStart||0)),t);
-    })();
-    if(S._earnedAtDayStart===undefined)S._earnedAtDayStart=Math.max(0,S.earned);
-    em=Math.max(0,S.earned-S._earnedAtDayStart);
-    return Math.min(em,t);
-  }
-  if(name.indexOf('streak')>-1)return S.st.streak>=1?Math.min(S.st.streak,t):0;
-  if(name.indexOf('Style shift')>-1)return (S.claimed.themeShifted&&S.claimed.themeShifted[todayStr])?1:0;
-  if(name.indexOf('Realm attunement')>-1)return THEME_OPENED?1:0;
-  if(/Dawn patrol/.test(name))return claimedFlag('time_early');
-  if(/Night owl/.test(name))return claimedFlag('time_late');
-  if(/Twilight/.test(name))return claimedFlag('time_evening');
-  if(/Meridian/.test(name))return claimedFlag('time_midday');
-  if(/Commission closer/.test(name))return Math.min(completedCount(),2);
-  if(/Grand completion/.test(name))return completedCount()>=3?1:0;
-  if(/Pomodoro .* bonus minutes/.test(name))return (todayPomos>=1&&todayMin>=21)?1:0;
   return 0;
 }
-function claimedFlag(k){var c=S.claimed[k];return c&&c[todayStr]===1?1:0;}
-function completedCount(){
+function basicTotal(){
+  var n=0;DAY_MISSIONS.forEach(function(m){if(!isMeta(m))n++;});return n;
+}
+function basicDoneCount(){
   var n=0;
   DAY_MISSIONS.forEach(function(m){
-    if((S.claimed[m.id]&&S.claimed[m.id][todayStr])||missionProgress(m)>=m.target)n++;
+    if(isMeta(m))return;
+    if(isClaimed(m)||progressOf(m)>=m.target)n++;
   });
   return n;
 }
-function isClaimed(m){var c=S.claimed[m.id];return !!(c&&c[todayStr]);}
+function paintMissionNote(){
+  var ms=msToMidnight();
+  missionNote.textContent='NEW COMMISSIONS IN '+Math.floor(ms/3600000)+'H '+pad(Math.floor(ms%3600000/60000))+'M · 3 OF '+MISSIONS.length+' DRAWN DAILY';
+}
 function renderMissions(){
-  if(S.day.d!==todayStr)dayBump();
+  dayBump();
   missionList.innerHTML='';
   DAY_MISSIONS.forEach(function(m){
-    var claimed=isClaimed(m),p=missionProgress(m),done=p>=m.target;
-    var row=el('div','mission'+(claimed?' done':''));
+    var claimed=isClaimed(m),p=progressOf(m),done=p>=m.target;
+    var row=el('div','mission'+((claimed||done)?' done':''));
     var top=el('div','mtop');
-    top.appendChild(el('div','mname',m.name));
+    top.appendChild(txt('div','mname',m.name));
     top.appendChild(el('span','mrew','<svg><use href="#ic-gem"></use></svg>'+m.reward));
     row.appendChild(top);
-    row.appendChild(el('div','mdesc',m.desc));
-    var bar=el('div','bar');var fill=el('i');
-    fill.style.width=clamp(p/m.target*100,0,100)+'%';
+    row.appendChild(txt('div','mdesc',m.desc));
+    var bar=el('div','bar');
+    var fill=el('i');fill.style.width=clamp(p/m.target*100,0,100)+'%';
     bar.appendChild(fill);row.appendChild(bar);
     var foot=el('div','mfoot');
-    foot.appendChild(el('span',null,Math.min(p,m.target)+' / '+m.target));
-    if(claimed){foot.appendChild(el('span',null,'✅ Claimed'));}
+    foot.appendChild(txt('span',null,Math.min(p,m.target)+' / '+m.target));
+    if(claimed){foot.appendChild(txt('span',null,'✅ Claimed'));}
     else if(done){
-      var b=el('button','btn primary mini','Claim');
+      var b=txt('button','btn primary mini','Claim');
       b.addEventListener('click',function(){claimMission(m);});
       foot.appendChild(b);
-    }else{foot.appendChild(el('span',null,'In progress'));}
+    }else{foot.appendChild(txt('span',null,'In progress'));}
     row.appendChild(foot);
     missionList.appendChild(row);
   });
-  var h=Math.floor(msToMidnight()/3600000),mn=Math.floor(msToMidnight()%3600000/60000);
-  missionNote.textContent='NEW COMMISSIONS IN '+h+'H '+pad(mn)+'M · 3 OF '+MISSIONS.length+' DRAWN DAILY';
+  paintMissionNote();
+  lastMissionPaint=Date.now();
 }
 function claimMission(m){
-  if(isClaimed(m))return;
+  if(isClaimed(m)||progressOf(m)<m.target)return;
   var c=S.claimed[m.id]||{};c[todayStr]=1;S.claimed[m.id]=c;
   S.coins+=m.reward;S.earned+=m.reward;
   bumpCoin();
   toast('gem','Commission complete!','"'+m.name+'" · +'+m.reward+' Primogems.');
   sfxCoin();
-  if(completedCount()>=3)setTimeout(function(){toast('🏅','All commissions cleared','The Adventurers\' Guild salutes you.');},700);
-  save();renderMissions();checkAch();
+  var metas=DAY_MISSIONS.filter(isMeta);
+  if(basicDoneCount()>=basicTotal()&&metas.length<3){
+    setTimeout(function(){toast('🏅','All base commissions cleared','The Adventurers\' Guild salutes you.');},700);
+  }
+  save();renderMissions();checkAch();updateStats();
 }
 
-/* ---------- achievements ---------- */
+/* ================= achievements ================= */
+var achQ=[],achBusy=false;
 function achProgress(a){
-  var v=0,t=1;
-  var map={totalMin:S.tot.min,pomos:S.tot.pomos,coinsEarned:S.earned,streak:S.st.streak};
-  if(a.check===undefined)return 0;
-  Object.keys(map).forEach(function(k){if(a.desc&&a.check&&(function(){return true;})()){} });
-  if(a.id.indexOf('minutes')===0)v=S.tot.min;
+  var targets={first:1,minutes10:10,minutes60:60,minutes300:300,minutes900:900,minutes1800:1800,minutes6000:6000,
+    pomo1:1,pomo10:10,pomo25:25,pomo50:50,pomo100:100,
+    coins100:100,coins500:500,coins1500:1500,coins5000:5000,
+    streak3:3,streak7:7,streak14:14,streak30:30,day300:300};
+  var v=0;
+  if(a.id.indexOf('minutes')===0||a.id==='first')v=S.tot.min;
   else if(a.id.indexOf('pomo')===0)v=S.tot.pomos;
   else if(a.id.indexOf('coins')===0)v=S.earned;
   else if(a.id.indexOf('streak')===0)v=S.st.streak;
-  else if(a.id==='first')v=S.tot.min;
   else if(a.id==='day300')v=S.day.s/60;
-  var targets={minutes10:10,minutes60:60,minutes300:300,minutes900:900,minutes1800:1800,minutes6000:6000,pomo1:1,pomo10:10,pomo25:25,pomo50:50,pomo100:100,coins100:100,coins500:500,coins1500:1500,coins5000:5000,streak3:3,streak7:7,streak14:14,streak30:30,day300:300,first:1};
-  t=targets[a.id]||1;
-  return clamp(v/t,0,1);
+  return clamp(v/(targets[a.id]||1),0,1);
 }
 function checkAch(){
+  var ctx={totalMin:S.tot.min,pomos:S.tot.pomos,coinsEarned:S.earned,streak:S.st.streak,daySec:S.day.s};
   ACH.forEach(function(a){
     if(S.ach.indexOf(a.id)>-1)return;
     var pass=false;
-    try{pass=!!a.check({totalMin:S.tot.min,pomos:S.tot.pomos,coinsEarned:S.earned,streak:S.st.streak,daySec:S.day.s});}catch(e){}
+    try{pass=!!a.check(ctx);}catch(e){}
     if(pass)achQ.push(a);
   });
   if(!achBusy)drainAch();
@@ -1098,43 +1102,48 @@ function drainAch(){
   toast('🏆','Achievement Unlocked — '+a.name,a.desc+' · +'+a.reward+' Primogems.');
   sfxAch();
   save();
-  if(!modalWrap.hidden&&sheet.dataset.kind==='ach')openAch();
+  if(modalWrap.classList.contains('open')&&sheet.dataset.kind==='ach')openAch();
   setTimeout(drainAch,900);
 }
 
-/* ---------- themes ---------- */
+/* ================= themes ================= */
+function findTheme(id){for(var i=0;i<THEMES.length;i++)if(THEMES[i].id===id)return THEMES[i];return THEMES[0];}
 function applyTheme(t){
+  if(S.bgActive>=0&&S.bgs[S.bgActive]&&S.bgs[S.bgActive].data)return; /* custom realm owns the palette */
   var r=document.documentElement.style;
   r.setProperty('--bg1',t.c1);r.setProperty('--bg2',t.c2);
   r.setProperty('--acc',t.acc);r.setProperty('--acc2',t.acc2);
   r.setProperty('--accSoft',rgba(t.acc2,.35));r.setProperty('--muted',t.muted);
+  r.setProperty('--panel','rgba(15,23,52,.52)');r.setProperty('--line','rgba(255,255,255,.16)');r.setProperty('--line2','rgba(255,255,255,.08)');
+  r.setProperty('--txtsh','0 1px 3px rgba(0,0,0,.55)');
   document.body.setAttribute('data-theme',t.id);
-  if(S.bgActive<0){document.body.classList.remove('custom');bgScrim.style.background='none';setPalette(BASE_DK,false);}
+  document.body.classList.remove('custom');
+  bgScrim.style.background='none';
+  document.body.style.color='#fff';
   var mc=$('metaTheme');if(mc)mc.setAttribute('content',t.c1);
 }
-function findTheme(id){for(var i=0;i<THEMES.length;i++)if(THEMES[i].id===id)return THEMES[i];return THEMES[0];}
 function setTheme(id,fromUser){
   if(S.unlocked.indexOf(id)<0)return;
-  S.theme=id;applyTheme(findTheme(id));
+  S.theme=id;
+  applyTheme(findTheme(id));
   if(fromUser){
-    var c=S.claimed.themeShifted||{};if(c[todayStr]!==1)c[todayStr]=1;S.claimed.themeShifted=c;
+    var c=S.claimed.themeShifted||{};c[todayStr]=1;S.claimed.themeShifted=c;
     renderMissions();
   }
   save();
 }
 function renderThemePreviews(){
   themePreview.innerHTML='';
-  var picks=[THEMES[0],THEMES[1],THEMES[3],THEMES[4]];
-  picks.forEach(function(t){
+  [THEMES[0],THEMES[1],THEMES[3],THEMES[4]].forEach(function(t){
     var owned=S.unlocked.indexOf(t.id)>-1;
     var c=el('div','tcard'+(S.theme===t.id?' active':'')+(owned?'':' locked'));
     var sw=el('div','swatch');
     sw.style.background='linear-gradient(135deg,'+t.c1+','+t.c2+')';
     sw.appendChild(el('i')).style.background=t.acc;
     c.appendChild(sw);
-    c.appendChild(el('div','tname',t.name));
+    c.appendChild(txt('div','tname',t.name));
     c.appendChild(el('div','tbuy'+(owned?' owned':''),owned?(S.theme===t.id?'✦ Equipped':'✦ Owned'):('<svg><use href="#ic-gem"></use></svg>'+t.cost)));
-    c.addEventListener('click',function(){openShop();});
+    c.addEventListener('click',openShop);
     themePreview.appendChild(c);
   });
 }
@@ -1148,7 +1157,7 @@ function buildShop(){
     sw.style.background='linear-gradient(135deg,'+t.c1+','+t.c2+')';
     sw.appendChild(el('i')).style.background=t.acc;
     c.appendChild(sw);
-    c.appendChild(el('div','tname',t.name));
+    c.appendChild(txt('div','tname',t.name));
     c.appendChild(el('div','tbuy'+(owned?' owned':''),owned?(S.theme===t.id?'✦ Equipped':'✦ Owned'):('<svg><use href="#ic-gem"></use></svg>'+t.cost)));
     c.addEventListener('click',function(){
       if(!owned){
@@ -1157,7 +1166,7 @@ function buildShop(){
         toast('🎉','Theme unlocked — '+t.name,'Equipped automatically.');
       }
       setTheme(t.id,true);
-      save();buildShop();renderThemePreviews();
+      save();buildShop();renderThemePreviews();updateStats();
     });
     grid.appendChild(c);
   });
@@ -1165,7 +1174,7 @@ function buildShop(){
   return box;
 }
 
-/* ---------- custom backgrounds ---------- */
+/* ================= custom backgrounds ================= */
 function renderSlots(){
   bgSlots.innerHTML='';
   for(var i=0;i<3;i++){
@@ -1174,18 +1183,22 @@ function renderSlots(){
       var row=el('div','bgslot'+(S.bgActive===i?' active':''));
       var th=el('div','bthumb');
       if(b&&b.data)th.style.backgroundImage='url("'+b.data+'")';
-      else{var sv=document.createElementNS('http://www.w3.org/2000/svg','svg');var us=document.createElementNS('http://www.w3.org/2000/svg','use');us.setAttribute('href','#ic-img');sv.appendChild(us);th.appendChild(sv);}
+      else{
+        var sv=document.createElementNS('http://www.w3.org/2000/svg','svg');
+        var us=document.createElementNS('http://www.w3.org/2000/svg','use');
+        us.setAttribute('href','#ic-img');sv.appendChild(us);th.appendChild(sv);
+      }
       row.appendChild(th);
       var info=el('div','binfo');
-      info.appendChild(el('b',null,b?(b.name||('Realm '+(i+1))):('Realm slot '+(i+1))));
-      info.appendChild(el('span',null,b?(b.type||'image'):'Empty — 50 Primogems to unlock'));
+      info.appendChild(txt('b',null,b?(b.name||('Realm '+(i+1))):('Realm slot '+(i+1))));
+      info.appendChild(txt('span',null,b?(b.type||'image'):'Empty — 50 Primogems to unlock'));
       row.appendChild(info);
       var btns=el('div','bbtns');
-      var up=el('button','btn ghost mini',b?'Replace':'Upload');
+      var up=txt('button','btn ghost mini',b?'Replace':'Upload');
       up.addEventListener('click',function(){pendSlot=i;fileInput.value='';fileInput.click();});
       btns.appendChild(up);
       if(b){
-        var use=el('button','btn '+(S.bgActive===i?'ghost':'primary')+' mini',S.bgActive===i?'Active':'Set');
+        var use=txt('button','btn '+(S.bgActive===i?'ghost':'primary')+' mini',S.bgActive===i?'Active':'Set');
         use.addEventListener('click',function(){S.bgActive=i;applyBg();save();renderSlots();});
         btns.appendChild(use);
       }
@@ -1194,11 +1207,12 @@ function renderSlots(){
     })(i);
   }
 }
+var pendSlot=-1;
 fileInput.addEventListener('change',function(){
   var f=fileInput.files&&fileInput.files[0];
-  if(!f)return;
-  var slot=pendSlot;if(slot<0)return;
+  if(!f||pendSlot<0)return;
   if(f.size>8*1024*1024){toast('🖼️','Image too large','Please pick an image under 8 MB.');return;}
+  var slot=pendSlot;
   var rd=new FileReader();
   rd.onload=function(){applyBgImage(slot,String(rd.result),f.type||'image');};
   rd.onerror=function(){toast('⚠️','Could not read that file','Try another image format.');};
@@ -1207,14 +1221,14 @@ fileInput.addEventListener('change',function(){
 function applyBgImage(slot,data,type){
   var b=S.bgs[slot];
   var finish=function(){
-    S.bgs[slot]={data:data,name:(b&&b.name)||('Realm '+(slot+1)),type:type};
+    S.bgs[slot]={data:data,name:(b&&b.name)?b.name:('Realm '+(slot+1)),type:type};
     S.bgActive=slot;
     applyBg();save();renderSlots();
     toast('🖼️','Realm updated','Background set and color-matched.');
   };
   if(b){finish();return;}
   if(S.coins<50){toast('💠','Need 50 Primogems','Unlock a realm slot by studying a little more.');return;}
-  S.coins-=50;bumpCoin();finish();
+  S.coins-=50;bumpCoin();finish();updateStats();
 }
 function applyBg(){
   var b=S.bgActive>=0?S.bgs[S.bgActive]:null;
@@ -1224,7 +1238,6 @@ function applyBg(){
     bgLayer.style.backgroundImage='none';
     bgScrim.style.background='none';
     applyTheme(findTheme(S.theme));
-    setPalette(BASE_DK,false);
     return;
   }
   var img=new Image();
@@ -1233,7 +1246,7 @@ function applyBg(){
     bgLayer.style.filter='blur('+S.blur+'px)';
     document.body.classList.add('custom');
     document.body.setAttribute('data-theme','custom');
-    try{adaptColors(img);}catch(e){setPalette(BASE_DK,true);}
+    try{adaptColors(img);}catch(e){toast('⚠️','Color scan failed','Using default palette.');}
   };
   img.onerror=function(){toast('⚠️','Background failed to load','The stored image may be corrupted.');};
   img.src=b.data;
@@ -1249,20 +1262,26 @@ $('btnClearBg').addEventListener('click',function(){
   toast('🌌','Theme sky restored','Using the '+findTheme(S.theme).name+' palette.');
 });
 
-/* material-style adaptation */
+/* material-style adaptation from the image */
 function quantize(px,k){
+  function rangeOf(b){
+    var mn=[255,255,255],mx=[0,0,0];
+    b.px.forEach(function(p){for(var i=0;i<3;i++){if(p[i]<mn[i])mn[i]=p[i];if(p[i]>mx[i])mx[i]=p[i];}});
+    return Math.max(mx[0]-mn[0],mx[1]-mn[1],mx[2]-mn[2]);
+  }
   var boxes=[{px:px}];
   while(boxes.length<k){
     boxes.sort(function(a,b){return rangeOf(b)-rangeOf(a);});
     var t=boxes.shift();
     if(!t||t.px.length<2){if(t)boxes.push(t);break;}
-    var ch=longestCh(t.px);
+    var ch=0,rr=rangeOf(t);
+    var mn=[255,255,255],mx=[0,0,0];
+    t.px.forEach(function(p){for(var i=0;i<3;i++){if(p[i]<mn[i])mn[i]=p[i];if(p[i]>mx[i])mx[i]=p[i];}});
+    for(var c2=0;c2<3;c2++){if(mx[c2]-mn[c2]===rr){ch=c2;break;}}
     t.px.sort(function(a,b){return a[ch]-b[ch];});
     var mid=Math.floor(t.px.length/2);
     boxes.push({px:t.px.slice(0,mid)},{px:t.px.slice(mid)});
   }
-  function rangeOf(b){var mn=[255,255,255],mx=[0,0,0];b.px.forEach(function(p){for(var i=0;i<3;i++){if(p[i]<mn[i])mn[i]=p[i];if(p[i]>mx[i])mx[i]=p[i];}});return Math.max(mx[0]-mn[0],mx[1]-mn[1],mx[2]-mn[2]);}
-  function longestCh(p){return rangeOf({px:p});}
   return boxes.map(function(b){
     var s=[0,0,0];b.px.forEach(function(p){s[0]+=p[0];s[1]+=p[1];s[2]+=p[2];});
     var n=b.px.length||1;
@@ -1277,96 +1296,66 @@ function adaptColors(img){
   ctx.drawImage(img,0,0,W,H);
   var data=ctx.getImageData(0,0,W,H).data,px=[];
   for(var i=0;i<data.length;i+=4){if(data[i+3]>120)px.push([data[i],data[i+1],data[i+2]]);}
-  if(!px.length){setPalette(BASE_DK,true);return;}
+  if(!px.length)return;
   var buckets=quantize(px,8);
   buckets.sort(function(a,b){return b.count-a.count;});
-  var dom=buckets[0],domHex=hexOf(dom);
-  var hsl=hexToHsl(domHex);
+  var hsl=hexToHsl(hexOf(buckets[0]));
   var S1=clamp(hsl.s,0.38,0.85),L1=clamp(hsl.l,0.26,0.62);
   var acc=hslToHex(hsl.h,S1,L1);
   var acc2=hslToHex((hsl.h+28)%360,clamp(S1+0.05,0,0.9),clamp(L1-0.1,0.05,0.85));
-  var acc3=hslToHex((hsl.h+330)%360,S1,clamp(L1+0.08,0,0.9));
   var dark=lum(acc)<0.42;
   var ink=dark?'#f3f4ee':'#20242e';
   if(contrast(ink,acc)<4.5)ink=dark?'#ffffff':'#12141c';
+  var muted=dark?'rgba(240,243,250,.78)':'rgba(30,34,44,.78)';
   var panel=dark?'rgba(10,14,24,.58)':'rgba(255,255,255,.6)';
-  var muted=dark?'rgba(240,243,250,.75)':'rgba(30,34,44,.75)';
   var line=dark?'rgba(255,255,255,.18)':'rgba(20,24,40,.22)';
   var line2=dark?'rgba(255,255,255,.09)':'rgba(20,24,40,.12)';
   var r=document.documentElement.style;
   r.setProperty('--acc',acc);r.setProperty('--acc2',acc2);
   r.setProperty('--accSoft',rgba(acc2,.35));
   r.setProperty('--panel',panel);r.setProperty('--line',line);r.setProperty('--line2',line2);
-  r.setProperty('--muted',muted);
+  r.setProperty('--muted',muted);r.setProperty('--ink',ink);
   r.setProperty('--txtsh',dark?'0 1px 3px rgba(0,0,0,.6)':'0 1px 2px rgba(255,255,255,.4)');
-  setPalette({ink:ink,muted:muted},dark);
+  document.body.style.color=ink;
   bgScrim.style.background=dark
     ?'linear-gradient(180deg,rgba(5,8,18,.52),rgba(5,8,18,.34) 40%,rgba(5,8,18,.62))'
     :'linear-gradient(180deg,rgba(255,255,255,.4),rgba(255,255,255,.22) 40%,rgba(255,255,255,.46))';
   var mc=$('metaTheme');if(mc)mc.setAttribute('content',acc);
 }
-function setPalette(base,dark){
-  document.body.style.color=base.ink;
-  document.documentElement.style.setProperty('--ink',base.ink);
-  if(dark===false&&!document.body.classList.contains('custom')){
-    document.body.style.color='#fff';
-    document.documentElement.style.setProperty('--ink','#eef1fb');
-  }
-}
 
-/* ---------- stats ---------- */
-function updateStats(){
-  dayBump();
-  var todayS=S.day.s+(SW.running?Math.floor(currentMs()/1000):0);
-  stToday.textContent=fmtHMS(todayS);
-  chipToday.textContent=fmtHMS(todayS);
-  stTotal.textContent=fmtHMS(S.tot.s);
-  chipTotal.textContent=fmtHMS(S.tot.s);
-  stPomos.textContent=S.tot.pomos;
-  stStreak.textContent=S.st.streak;
-  stTodaySub.textContent='across '+(S.day.pomos||0)+' pomodoro'+(S.day.pomos===1?'':'s')+' + free focus';
-  stTotalSub.textContent=fmtMin(S.tot.min)+' lifetime focus';
-  stPomosSub.textContent=S.day.pomos+' today';
-  coinAmt.textContent=S.coins;
-}
-
-/* ---------- panels ---------- */
-function openModal(kind,build){
+/* ================= modal ================= */
+function openModal(kind,titleText,build){
   sheet.innerHTML='';sheet.dataset.kind=kind;
   var head=el('div','shead');
   head.appendChild(el('span','dia'));
-  var h=el('h2',null,kind==='ach'?'Achievements':(kind==='shop'?'Wardrobe — Themes':'Realms'));
-  var prog=el('span',null,'');prog.style.cssText='font-size:12px;color:var(--muted);font-weight:800';
-  if(kind==='ach')prog.textContent=S.ach.length+' / '+ACH.length;
-  head.appendChild(h);head.appendChild(prog);
-  var x=el('button','icobtn mclose','✕');
+  head.appendChild(txt('h2',null,titleText));
+  if(kind==='ach')head.appendChild(txt('span',null,S.ach.length+' / '+ACH.length)).style.cssText='font-size:12px;color:var(--muted);font-weight:800';
+  var x=txt('button','icobtn mclose','✕');
   x.addEventListener('click',closeModal);
   head.appendChild(x);
   sheet.appendChild(head);
   sheet.appendChild(build());
   modalWrap.classList.add('open');
-  modalWrap.hidden=false;
 }
-function closeModal(){modalWrap.classList.remove('open');modalWrap.hidden=true;sheet.dataset.kind='';}
+function closeModal(){modalWrap.classList.remove('open');sheet.dataset.kind='';}
 modalWrap.addEventListener('click',function(e){if(e.target===modalWrap)closeModal();});
 document.addEventListener('keydown',function(e){if(e.key==='Escape')closeModal();});
-
 function openAch(){
-  openModal('ach',function(){
+  openModal('ach','Achievements',function(){
     var box=el('div','sheetbody');
     ACH.forEach(function(a){
       var done=S.ach.indexOf(a.id)>-1;
       var p=achProgress(a);
       var row=el('div','arow'+(done?' done':(p<=0?' locked':'')));
-      row.appendChild(el('div','aic',a.icon));
+      row.appendChild(txt('div','aic',a.icon));
       var body=el('div','abody');
       var t=el('div','at');
-      t.appendChild(el('b',null,a.name));
-      t.appendChild(el('span','arew','+'+a.reward+' ✦'));
+      t.appendChild(txt('b',null,a.name));
+      t.appendChild(txt('span','arew','+'+a.reward+' ✦'));
       body.appendChild(t);
-      body.appendChild(el('div','ad',a.desc));
+      body.appendChild(txt('div','ad',a.desc));
       var bar=el('div','bar');var fill=el('i');
-      fill.style.width=(done?100:Math.round(p*100))+'%';
+      fill.style.width=Math.round((done?1:p)*100)+'%';
       bar.appendChild(fill);body.appendChild(bar);
       row.appendChild(body);
       box.appendChild(row);
@@ -1375,16 +1364,15 @@ function openAch(){
   });
 }
 function openShop(){
-  THEME_OPENED=true;
-  openModal('shop',buildShop);
+  var c=S.claimed.wardrobeOpened||{};c[todayStr]=1;S.claimed.wardrobeOpened=c;
+  openModal('shop','Wardrobe — Themes',buildShop);
   renderMissions();
 }
-
 $('btnAch').addEventListener('click',openAch);
 $('btnThemes').addEventListener('click',openShop);
 $('btnShop').addEventListener('click',openShop);
 
-/* ---------- backup / restore ---------- */
+/* ================= backup / restore ================= */
 function buildBackup(){
   return JSON.stringify({app:'teyvat-study-sanctum',version:1,exported:new Date().toISOString(),state:S},null,2);
 }
@@ -1396,7 +1384,7 @@ function saveFileNative(name,text){
   setTimeout(function(){URL.revokeObjectURL(url);if(a.parentNode)a.parentNode.removeChild(a);},400);
 }
 async function doBackup(){
-  var name='teyvat-study-backup-'+dateStr()+'.json';
+  var name='teyvat-study-backup-'+todayStr+'.json';
   var text=buildBackup();
   try{
     if(window.showSaveFilePicker){
@@ -1409,17 +1397,26 @@ async function doBackup(){
   saveFileNative(name,text);
   toast('💾','Backup downloaded','Keep it safe, Traveler.');
 }
+function resetTimers(){
+  P.running=false;P.phase='focus';P.dur=pomDur('focus');P.remaining=P.dur;
+  SW.running=false;SW.elapsed=0;SW.granted=0;
+  renderDots();render();
+}
 function restoreFrom(obj){
   var st=obj&&obj.state;
-  if(!st||typeof st!=='object')throw new Error('bad');
+  if(!st||typeof st!=='object')throw new Error('invalid');
+  if(SW.running){var elp=Date.now()-SW.startEpoch;SW.elapsed+=elp;addFocus(elp);}
   var fresh=def();mergeInto(fresh,st);
   S=fresh;todayStr=dateStr();
-  if(S.day.d!==todayStr)dayBump();
+  dayBump();
+  if(S._earnedAtDayStart===undefined)S._earnedAtDayStart=S.earned;
+  if(S.unlocked.indexOf(S.theme)<0)S.theme='default';
   computeDaily();
+  resetTimers();
   applyTheme(findTheme(S.theme));
   applyBg();
-  renderSlots();renderThemePreviews();renderMissions();renderDots();updateStats();
   inFocus.value=S.prefs.f;inBreak.value=S.prefs.b;chkAuto.checked=!!S.prefs.auto;
+  renderSlots();renderThemePreviews();renderMissions();updateStats();
   save();
   toast('✅','Backup restored','Welcome back to the Sanctum.');
 }
@@ -1431,15 +1428,16 @@ async function doRestore(){
       restoreFrom(JSON.parse(await f.text()));
       return;
     }
-  }catch(err){
-    if(err&&err.name==='AbortError')return;
-  }
+  }catch(err){if(err&&err.name==='AbortError')return;}
   var inp=document.createElement('input');
   inp.type='file';inp.accept='.json,application/json';
   inp.onchange=function(){
     var f=inp.files&&inp.files[0];if(!f)return;
     var rd=new FileReader();
-    rd.onload=function(){try{restoreFrom(JSON.parse(String(rd.result)));}catch(e){toast('⚠️','Invalid backup file','That JSON does not look like a Sanctum backup.');}};
+    rd.onload=function(){
+      try{restoreFrom(JSON.parse(String(rd.result)));}
+      catch(e){toast('⚠️','Invalid backup file','That JSON does not look like a Sanctum backup.');}
+    };
     rd.readAsText(f);
   };
   inp.click();
@@ -1449,7 +1447,7 @@ $('btnRestore').addEventListener('click',function(){
   if(confirm('Restoring replaces all current progress with the backup file. Continue?'))doRestore();
 });
 
-/* ---------- tabs / controls ---------- */
+/* ================= tabs & controls ================= */
 tabPomo.addEventListener('click',function(){pomView.hidden=false;swView.hidden=true;tabPomo.classList.add('active');tabSw.classList.remove('active');render();});
 tabSw.addEventListener('click',function(){pomView.hidden=true;swView.hidden=false;tabSw.classList.add('active');tabPomo.classList.remove('active');render();});
 pomoStart.addEventListener('click',function(){P.running?pausePomo():startPomo();});
@@ -1457,18 +1455,69 @@ pomoReset.addEventListener('click',pomoReset);
 pomoSkip.addEventListener('click',function(){if(P.running||P.remaining<P.dur)pomoSkip();});
 inFocus.addEventListener('change',function(){
   var v=clamp(parseInt(inFocus.value,10)||25,5,90);inFocus.value=v;S.prefs.f=v;
-  if(!P.running&&P.phase==='focus'){P.dur=v*60000;P.remaining=P.dur;}save();render();
+  if(!P.running&&P.phase==='focus'){P.dur=v*60000;P.remaining=P.dur;}
+  save();render();
 });
 inBreak.addEventListener('change',function(){
   var v=clamp(parseInt(inBreak.value,10)||5,1,30);inBreak.value=v;S.prefs.b=v;
-  if(!P.running&&P.phase==='break'){P.dur=v*60000;P.remaining=P.dur;}save();render();
+  if(!P.running&&P.phase==='break'){P.dur=v*60000;P.remaining=P.dur;}
+  save();render();
 });
 chkAuto.addEventListener('change',function(){S.prefs.auto=chkAuto.checked;save();});
 swStart.addEventListener('click',swStartFn);
 swLap.addEventListener('click',swLapFn);
 swReset.addEventListener('click',swResetFn);
 
-/* ---------- ambient particles ---------- */
+/* ================= master tick ================= */
+var lastSec=0;
+setInterval(function(){
+  var now=Date.now();
+  var nd=dateStr();
+  if(nd!==todayStr){
+    todayStr=nd;
+    dayBump();
+    computeDaily();
+    renderMissions();
+  }
+  if(P.running&&now>=P.phaseEnd)pomoCompleteFlow();
+  grantSwLive();
+  render();
+  var sec=Math.floor(now/1000);
+  if(sec!==lastSec){
+    lastSec=sec;
+    updateStats();
+    paintMissionNote();
+    setTitle();
+    if(now-lastMissionPaint>10000)renderMissions();
+  }
+},250);
+
+document.addEventListener('visibilitychange',function(){
+  if(document.visibilityState==='visible'){
+    if(P.running&&Date.now()>=P.phaseEnd)pomoCompleteFlow();
+    grantSwLive();
+    render();
+  }
+});
+window.addEventListener('beforeunload',function(){
+  if(SW.running){var elp=Date.now()-SW.startEpoch;SW.elapsed+=elp;addFocus(elp);}
+  if(P.running&&P.phase==='focus'){
+    var el2=P.dur-Math.max(0,P.remaining-(Date.now()-P.ended));
+    if(el2>1000)addFocus(el2);
+  }
+  save();
+});
+window.addEventListener('keydown',function(e){
+  if(e.target&&/INPUT|TEXTAREA/.test(e.target.tagName))return;
+  if(e.code==='Space'){
+    e.preventDefault();
+    if(!pomView.hidden){P.running?pausePomo():startPomo();}
+    else swStartFn();
+  }
+});
+window.addEventListener('pointerdown',ensureAC);
+
+/* ================= ambient particles ================= */
 (function(){
   var stars=$('stars');
   for(var i=0;i<44;i++){
@@ -1486,16 +1535,11 @@ swReset.addEventListener('click',swResetFn);
   }
 })();
 
-/* ---------- boot ---------- */
-S=load();
-todayStr=dateStr();
-if(S.day.d!==todayStr)dayBump();
-if(S._earnedAtDayStart===undefined)S._earnedAtDayStart=Math.max(0,S.earned);
+/* ================= boot ================= */
 computeDaily();
 applyTheme(findTheme(S.theme));
-if(S.bgActive>=0&&S.bgs[S.bgActive])applyBg();
+if(S.bgActive>=0&&S.bgs[S.bgActive]&&S.bgs[S.bgActive].data)applyBg();
 inFocus.value=S.prefs.f;inBreak.value=S.prefs.b;chkAuto.checked=!!S.prefs.auto;
-P.dur=pomDur('focus');P.remaining=P.dur;
 renderDots();renderSlots();renderThemePreviews();renderMissions();updateStats();render();
 save();
 })();
