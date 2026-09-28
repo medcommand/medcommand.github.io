@@ -26,5 +26,9 @@
     {
         "name": "Genshin Impact",
         "url": "https://medcommand.github.io/genshin.html"
+    },
+    {
+        "name": "Github Copilot",
+        "url": "https://medcommand.github.io/copilot.html"
     }
 ]
