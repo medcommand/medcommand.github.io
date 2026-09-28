@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#6b0f1a">
+<meta name="description" content="Demon Focus — a glassmorphism study focus app with Pomodoro, stopwatch, coins, achievements, missions, themes, and custom backgrounds.">
+<meta name="application-name" content="Demon Focus">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Demon Focus">
+<meta name="color-scheme" content="dark light">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Demon Focus">
+<meta property="og:title" content="Demon Focus — Study Focus App">
+<meta property="og:description" content="A Demon Slayer-inspired glass study timer with Pomodoro, stopwatch, coins, achievements, missions, themes, and custom backgrounds.">
+<meta property="og:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%236b0f1a'/%3E%3Cstop offset='.6' stop-color='%23081420'/%3E%3Cstop offset='1' stop-color='%231c9ab8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23g)'/%3E%3Ccircle cx='1030' cy='80' r='160' fill='%23ffffff' fill-opacity='.08'/%3E%3Cpath d='M110 470 C250 160 540 140 820 430' fill='none' stroke='%23ffffff' stroke-opacity='.35' stroke-width='4'/%3E%3Cpath d='M130 505 C310 210 560 190 860 470' fill='none' stroke='%23ff5570' stroke-opacity='.35' stroke-width='18'/%3E%3Ctext x='90' y='250' fill='white' font-family='Arial,sans-serif' font-size='86' font-weight='700'%3EDemon Focus%3C/text%3E%3Ctext x='95' y='335' fill='white' fill-opacity='.8' font-family='Arial,sans-serif' font-size='34'%3EStudy. Focus. Earn. Evolve.%3C/text%3E%3C/svg%3E">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Demon Focus — Study Focus App">
+<meta name="twitter:description" content="A glassmorphism study focus app with Pomodoro, stopwatch, coins, missions, themes, and custom backgrounds.">
+<meta name="twitter:image" content="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='630' viewBox='0 0 1200 630'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop stop-color='%236b0f1a'/%3E%3Cstop offset='.6' stop-color='%23081420'/%3E%3Cstop offset='1' stop-color='%231c9ab8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='1200' height='630' fill='url(%23g)'/%3E%3Ctext x='90' y='250' fill='white' font-family='Arial,sans-serif' font-size='86' font-weight='700'%3EDemon Focus%3C/text%3E%3Ctext x='95' y='335' fill='white' fill-opacity='.8' font-family='Arial,sans-serif' font-size='34'%3EStudy. Focus. Earn. Evolve.%3C/text%3E%3C/svg%3E">
+<title>Demon Focus — Study Focus App</title>
+<style>
+:root{
+  --primary:#b5233d;
+  --primary-2:#e5526b;
+  --accent:#1bb4d0;
+  --accent-2:#77e6f7;
+  --bg:#070a10;
+  --surface:rgba(14,18,28,.66);
+  --inner-surface:linear-gradient(145deg,rgba(255,255,255,.10),rgba(0,0,0,.28));
+  --surface-2:rgba(255,255,255,.08);
+  --surface-3:rgba(255,255,255,.12);
+  --border:rgba(255,255,255,.14);
+  --text:#f6f8fb;
+  --muted:rgba(246,248,251,.68);
+  --good:#58d68d;
+  --warn:#ffc866;
+  --danger:#ff6a7f;
+  --on-primary:#ffffff;
+  --shadow:0 18px 70px rgba(0,0,0,.38);
+  --radius:24px;
+  --blur:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}
+body{overflow-x:hidden}
+button,input,select{font:inherit}
+button{border:0;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid color-mix(in srgb,var(--accent) 72%,white);outline-offset:2px}
+#backgroundLayer,#backgroundTint,#particleCanvas{position:fixed;inset:-3%;pointer-events:none}
+#backgroundLayer{z-index:-4;background:radial-gradient(circle at 18% 12%,color-mix(in srgb,var(--primary) 26%,transparent),transparent 38%),radial-gradient(circle at 85% 20%,color-mix(in srgb,var(--accent) 19%,transparent),transparent 34%),linear-gradient(145deg,var(--bg),#02040a 72%);background-size:cover;background-position:center;filter:blur(0) saturate(1.08);transform:scale(1.04)}
+#backgroundTint{z-index:-3;background:linear-gradient(120deg,rgba(0,0,0,.38),rgba(0,0,0,.12));mix-blend-mode:multiply}
+#particleCanvas{z-index:-2;opacity:.7}
+#appShell{width:min(1220px,calc(100% - 28px));margin:16px auto 34px;position:relative}
+.glass{background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow);backdrop-filter:blur(var(--blur)) saturate(1.18);-webkit-backdrop-filter:blur(var(--blur)) saturate(1.18)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-radius:22px;position:sticky;top:12px;z-index:10}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brandMark{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--accent));box-shadow:0 8px 24px color-mix(in srgb,var(--primary) 35%,transparent);position:relative;overflow:hidden}
+.brandMark:after{content:"";position:absolute;inset:-30%;background:linear-gradient(120deg,transparent 30%,rgba(255,255,255,.65),transparent 70%);transform:translateX(-70%) rotate(12deg);animation:shimmer 4.6s infinite}
+@keyframes shimmer{0%,55%{transform:translateX(-75%) rotate(12deg)}70%,100%{transform:translateX(150%) rotate(12deg)}}
+.brandText{display:flex;flex-direction:column;line-height:1.05}.brandTitle{font-size:17px;font-weight:800;letter-spacing:.2px}.brandSub{font-size:11px;color:var(--muted);margin-top:5px}
+.topActions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.iconBtn{width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.09);display:grid;place-items:center;transition:.18s transform,.18s background;position:relative;overflow:hidden}.iconBtn:hover{transform:translateY(-1px);background:rgba(255,255,255,.12)}
+.coinPill{display:flex;align-items:center;gap:7px;padding:9px 12px;border-radius:16px;background:linear-gradient(135deg,color-mix(in srgb,#f7c948 18%,transparent),rgba(255,255,255,.08));border:1px solid color-mix(in srgb,#f7c948 30%,transparent);font-weight:800;color:#ffe47d}.coinPill span:last-child{color:#fff;font-size:14px}
+main{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(340px,.95fr);gap:18px;margin-top:18px}
+@media (max-width:980px){main{grid-template-columns:1fr}.side{grid-template-columns:1fr 1fr}.topbar{position:relative;top:0}}
+@media (max-width:680px){#appShell{width:min(100% - 18px,1220px)}.topbar{padding:12px;border-radius:20px}.topActions{gap:6px}.brandSub{display:none}.side{grid-template-columns:1fr}.timerCard{min-height:490px}.timerRing{width:260px;height:260px}.timerValue{font-size:58px}}
+.hero{padding:22px;border-radius:30px;position:relative;overflow:hidden}
+.hero:before{content:"";position:absolute;inset:-55%;background:conic-gradient(from 210deg,transparent 0deg,color-mix(in srgb,var(--primary) 24%,transparent) 70deg,transparent 130deg,color-mix(in srgb,var(--accent) 18%,transparent) 210deg,transparent 290deg);animation:spinGlow 18s linear infinite}.hero>*{position:relative;z-index:1}
+@keyframes spinGlow{to{transform:rotate(360deg)}}
+.modes{display:flex;gap:8px;padding:5px;border-radius:17px;background:rgba(0,0,0,.22);border:1px solid rgba(255,255,255,.1);width:max-content;max-width:100%;overflow:auto}.modeBtn{padding:10px 14px;border-radius:13px;background:transparent;color:var(--muted);font-weight:750;white-space:nowrap}.modeBtn.active{background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 35%,rgba(255,255,255,.08)),rgba(255,255,255,.08));color:var(--text);box-shadow:inset 0 0 0 1px rgba(255,255,255,.09)}
+.timerWrap{display:grid;place-items:center;padding:18px 0 8px}.timerRing{width:320px;height:320px;border-radius:50%;display:grid;place-items:center;position:relative;background:conic-gradient(var(--primary) var(--progress,0%),rgba(255,255,255,.09) 0)}.timerRing:after{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--inner-surface);border:1px solid rgba(255,255,255,.1);box-shadow:inset 0 0 45px rgba(0,0,0,.35)}.timerInner{position:relative;z-index:1;display:flex;align-items:center;flex-direction:column;gap:8px}.phase{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);font-weight:800}.timerValue{font-size:72px;font-weight:900;letter-spacing:-2px;text-shadow:0 9px 30px rgba(0,0,0,.28);font-variant-numeric:tabular-nums}.timerHint{font-size:12px;color:var(--muted)}
+.controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}.primaryBtn,.ghostBtn,.dangerBtn{min-height:46px;padding:0 20px;border-radius:16px;font-weight:850;transition:.18s transform,.18s filter,.18s background;display:inline-flex;align-items:center;justify-content:center;gap:8px}.primaryBtn{background:linear-gradient(135deg,var(--primary),color-mix(in srgb,var(--primary-2) 75%,var(--primary)));box-shadow:0 12px 26px color-mix(in srgb,var(--primary) 32%,transparent)}.ghostBtn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.1)}.dangerBtn{background:rgba(255,70,98,.12);border:1px solid rgba(255,100,120,.26);color:#ff9dad}.primaryBtn:hover,.ghostBtn:hover,.dangerBtn:hover{transform:translateY(-1px);filter:brightness(1.07)}
+.microStats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:18px}.microStat{padding:13px;border-radius:18px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.08)}.microLabel{color:var(--muted);font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:800}.microValue{margin-top:6px;font-size:19px;font-weight:900;font-variant-numeric:tabular-nums}
+.side{display:grid;grid-template-columns:1fr;gap:18px}.card{padding:18px;border-radius:24px}.cardTitleRow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}.cardTitle{font-size:15px;font-weight:900;letter-spacing:.1px}.eyebrow{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;font-weight:800}.progressBar{height:10px;border-radius:999px;background:rgba(255,255,255,.09);overflow:hidden;border:1px solid rgba(255,255,255,.08)}.progressBar>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent));box-shadow:0 0 18px color-mix(in srgb,var(--accent) 24%,transparent);width:0;transition:width .22s}
+.mission{padding:12px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);margin-top:8px}.missionTop{display:flex;justify-content:space-between;gap:8px}.missionName{font-weight:750;font-size:13px}.missionCount{font-size:11px;color:var(--muted);white-space:nowrap}.missionBar{margin-top:8px;height:7px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden}.missionBar span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent-2))}.missionDone{opacity:.7}.missionDone .missionName{text-decoration:line-through}
+.statGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.statBox{padding:13px;border-radius:17px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07)}.statBox strong{display:block;font-size:21px;font-variant-numeric:tabular-nums}.statBox span{display:block;color:var(--muted);font-size:11px;margin-top:3px}
+.achievementList,.themeList{display:grid;gap:8px;max-height:365px;overflow:auto;padding-right:3px}.achievement,.themeItem{display:flex;align-items:center;gap:10px;padding:11px;border-radius:16px;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}.achievementIcon{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;background:rgba(255,255,255,.08);font-size:17px}.achievement.locked{opacity:.48;filter:saturate(.5)}.achievementText{min-width:0;flex:1}.achievementName{font-size:12px;font-weight:850}.achievementDesc{font-size:10px;color:var(--muted);margin-top:2px}.badge{font-size:10px;font-weight:900;padding:6px 8px;border-radius:10px;background:rgba(255,255,255,.08);white-space:nowrap}.badge.good{background:rgba(73,215,135,.12);color:#7df0a9}
+.themeSwatches{display:flex;gap:4px}.swatch{width:16px;height:16px;border-radius:50%;border:1px solid rgba(255,255,255,.23)}.themeItem button{margin-left:auto}.price{font-size:10px;color:#ffe47d;font-weight:900}.unlocked .price{color:#7df0a9}.themeItem.current{box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--accent) 65%,transparent)}
+.backgroundControls{display:grid;gap:10px}.dropZone{padding:14px;border-radius:18px;border:1px dashed rgba(255,255,255,.24);background:rgba(255,255,255,.045)}.dropZone input{width:100%}.rangeRow{display:grid;grid-template-columns:1fr auto;align-items:center;gap:12px}.rangeRow input{width:100%}.rangeVal{min-width:46px;text-align:right;font-weight:850;font-size:12px}.help{font-size:10px;color:var(--muted);line-height:1.5}
+.toastStack{pointer-events:none;position:fixed;right:18px;bottom:18px;z-index:50;display:grid;gap:10px;width:min(360px,calc(100vw - 36px))}.toast{pointer-events:auto;padding:13px 14px;border-radius:17px;background:rgba(8,11,17,.78);border:1px solid rgba(255,255,255,.13);box-shadow:0 15px 45px rgba(0,0,0,.42);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);animation:toastIn .3s ease both}.toastTitle{font-weight:900;font-size:12px}.toastText{font-size:11px;color:rgba(255,255,255,.74);margin-top:3px}.toastBar{height:3px;margin-top:9px;border-radius:999px;background:linear-gradient(90deg,var(--primary),var(--accent));transform-origin:left;animation:toastBar 3.1s linear forwards}@keyframes toastIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}@keyframes toastBar{to{transform:scaleX(0)}}
+.drawerBackdrop{position:fixed;inset:0;background:rgba(0,0,0,.42);z-index:55;display:none}.drawerBackdrop.open{display:block}.drawer{position:fixed;right:16px;bottom:16px;z-index:60;width:min(540px,calc(100% - 32px));max-height:min(80vh,760px);overflow:auto;padding:18px;border-radius:24px;transform:translateY(115%);transition:transform .25s ease}.drawer.open{transform:none}.drawerHeader{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.drawerTabs{display:flex;gap:8px;flex-wrap:wrap}.drawerTab{padding:9px 11px;border-radius:13px;background:rgba(255,255,255,.06);font-size:12px;font-weight:850}.drawerTab.active{background:rgba(255,255,255,.13)}.drawerPanel{display:none}.drawerPanel.active{display:block}.fileActions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.smallBtn{padding:9px 12px;border-radius:13px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.09);font-size:11px;font-weight:850}
+.footerNote{text-align:center;color:var(--muted);font-size:10px;margin:14px auto 0;max-width:900px}
+.ripple{position:absolute;border-radius:50%;transform:scale(0);animation:ripple .55s ease-out;background:rgba(255,255,255,.24);pointer-events:none}@keyframes ripple{to{transform:scale(4);opacity:0}}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div id="backgroundLayer" aria-hidden="true"></div>
+<div id="backgroundTint" aria-hidden="true"></div>
+<canvas id="particleCanvas" aria-hidden="true"></canvas>
+<div id="appShell">
+  <header class="topbar glass">
+    <div class="brand">
+      <div class="brandMark" aria-hidden="true"><svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M5 18.5 19 5.5M7.5 6.5c3.8-.8 7.6.3 10.2 3.2M5.2 11.1c2.9-1.9 6.2-2 9.2-.5M8 18c2.8 1.4 6.4 1.4 9-.2" stroke="white" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+      <div class="brandText"><div class="brandTitle">Demon Focus</div><div class="brandSub">Study • Focus • Earn • Evolve</div></div>
+    </div>
+    <div class="topActions">
+      <div class="coinPill" title="Study coins"><span>◈</span><span id="coinCount">0</span></div>
+      <button class="iconBtn rippleBtn" id="backupBtn" title="Backup to JSON" aria-label="Backup to JSON"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 3v11m0 0 4-4m-4 4-4-4M5 17v2a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="iconBtn rippleBtn" id="restoreBtn" title="Restore JSON" aria-label="Restore JSON"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M7 7V4m0 3H4m3 0a8 8 0 1 1-1.2 10.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8 12h8m-4-4v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></button>
+      <button class="iconBtn rippleBtn" id="settingsBtn" title="Customization" aria-label="Customization"><svg width="19" height="19" viewBox="0 0 24 24" fill="none"><path d="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4Z" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 15a1.9 1.9 0 0 0 .4 2.1l.1.1-1.8 1.8-.1-.1a1.9 1.9 0 0 0-2.1-.4 1.9 1.9 0 0 0-1.1 1.7v.2h-2.6v-.2a1.9 1.9 0 0 0-1.1-1.7 1.9 1.9 0 0 0-2.1.4l-.1.1-1.8-1.8.1-.1a1.9 1.9 0 0 0 .4-2.1 1.9 1.9 0 0 0-1.7-1.1h-.2v-2.6h.2A1.9 1.9 0 0 0 8 10.2a1.9 1.9 0 0 0-.4-2.1l-.1-.1 1.8-1.8.1.1a1.9 1.9 0 0 0 2.1.4 1.9 1.9 0 0 0 1.1-1.7V4.8h2.6V5a1.9 1.9 0 0 0 1.1 1.7 1.9 1.9 0 0 0 2.1-.4l.1-.1 1.8 1.8-.1.1a1.9 1.9 0 0 0-.4 2.1 1.9 1.9 0 0 0 1.7 1.1h.2v2.6h-.2A1.9 1.9 0 0 0 19.4 15Z" stroke="currentColor" stroke-width="1.2"/></svg></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero glass">
+      <div class="modes" role="tablist" aria-label="Focus timer mode">
+        <button class="modeBtn active rippleBtn" id="pomodoroTab" data-mode="pomodoro" role="tab" aria-selected="true">Pomodoro 25/5</button>
+        <button class="modeBtn rippleBtn" id="stopwatchTab" data-mode="stopwatch" role="tab" aria-selected="false">Stopwatch</button>
+      </div>
+
+      <div id="pomodoroPanel">
+        <div class="timerWrap">
+          <div class="timerRing" id="timerRing" style="--progress:0%">
+            <div class="timerInner"><div class="phase" id="phaseLabel">Focus</div><div class="timerValue" id="timerValue">25:00</div><div class="timerHint" id="timerHint">Focus time earns coins</div></div>
+          </div>
+        </div>
+        <div class="controls">
+          <button class="primaryBtn rippleBtn" id="pomodoroMainBtn">Start Focus</button>
+          <button class="ghostBtn rippleBtn" id="pomodoroResetBtn">Reset</button>
+          <button class="ghostBtn rippleBtn" id="pomodoroSkipBtn">Skip</button>
+        </div>
+      </div>
+
+      <div id="stopwatchPanel" class="hidden">
+        <div class="timerWrap">
+          <div class="timerRing" id="stopwatchRing" style="--progress:0%"><div class="timerInner"><div class="phase">Stopwatch</div><div class="timerValue" id="stopwatchValue">00:00:00</div><div class="timerHint">Every full study minute grants 1 coin</div></div></div>
+        </div>
+        <div class="controls">
+          <button class="primaryBtn rippleBtn" id="stopwatchMainBtn">Start Stopwatch</button>
+          <button class="ghostBtn rippleBtn" id="stopwatchResetBtn">Reset</button>
+        </div>
+      </div>
+
+      <div class="microStats">
+        <div class="microStat"><div class="microLabel">Today</div><div class="microValue" id="todayFocus">00:00</div></div>
+        <div class="microStat"><div class="microLabel">All time</div><div class="microValue" id="totalFocus">00:00</div></div>
+        <div class="microStat"><div class="microLabel">Streak</div><div class="microValue" id="streakValue">0 days</div></div>
+      </div>
+    </section>
+
+    <aside class="side">
+      <section class="card glass">
+        <div class="cardTitleRow"><div><div class="eyebrow">Daily missions</div><div class="cardTitle">Today’s training scroll</div></div><div class="badge" id="missionDate">UTC</div></div>
+        <div id="missionList"></div>
+      </section>
+
+      <section class="card glass">
+        <div class="cardTitleRow"><div><div class="eyebrow">Progress</div><div class="cardTitle">Focus ledger</div></div></div>
+        <div class="statGrid">
+          <div class="statBox"><strong id="statFocusMin">0</strong><span>focus minutes</span></div>
+          <div class="statBox"><strong id="statPomodoros">0</strong><span>pomodoros</span></div>
+          <div class="statBox"><strong id="statCoins">0</strong><span>coins earned</span></div>
+          <div class="statBox"><strong id="statSessions">0</strong><span>focus sessions</span></div>
+        </div>
+      </section>
+
+      <section class="card glass">
+        <div class="cardTitleRow"><div><div class="eyebrow">Milestones</div><div class="cardTitle">Achievements</div></div><div class="badge" id="achievementCount">0 / 0</div></div>
+        <div class="achievementList" id="achievementList"></div>
+      </section>
+    </aside>
+  </main>
+
+  <div class="footerNote">Designed as a Demon Slayer-inspired fan-style interface: a dark crimson/teal palette, wave motifs, glass layers, and subtle particles. No external image assets are required.</div>
+</div>
+
+<div class="drawerBackdrop" id="drawerBackdrop"></div>
+<aside class="drawer glass" id="drawer" aria-label="Customization and data">
+  <div class="drawerHeader"><div><div class="eyebrow">Customization</div><div class="cardTitle">Style & data vault</div></div><button class="iconBtn rippleBtn" id="closeDrawer" aria-label="Close">×</button></div>
+  <div class="drawerTabs">
+    <button class="drawerTab active rippleBtn" data-panel="themes">20 Themes</button>
+    <button class="drawerTab rippleBtn" data-panel="background">Custom Background</button>
+    <button class="drawerTab rippleBtn" data-panel="data">Backup / Restore</button>
+  </div>
+
+  <section class="drawerPanel active" id="panel-themes">
+    <div class="help" style="margin:12px 0">Theme 1 is free. Other themes unlock with coins. Purchase costs scale gently so the focus loop remains the primary way to earn.</div>
+    <div class="themeList" id="themeList"></div>
+  </section>
+
+  <section class="drawerPanel" id="panel-background">
+    <div class="backgroundControls">
+      <div class="dropZone"><div class="cardTitle" style="font-size:12px;margin-bottom:6px">Choose an image</div><input id="backgroundInput" type="file" accept="image/*,.jpg,.jpeg,.png,.gif,.webp,.bmp,.avif,.svg,.tif,.tiff,.ico"></div>
+      <div class="help">Applying a new custom background costs 50 coins. The selected file is stored locally as Base64 and rendered with cover-cropping so it fills the app surface.</div>
+      <div class="rangeRow"><div><div class="cardTitle" style="font-size:12px">Background blur</div><input id="blurSlider" type="range" min="0" max="28" step="1" value="0"></div><div class="rangeVal" id="blurValue">0 px</div></div>
+      <button class="smallBtn rippleBtn" id="clearBackgroundBtn">Remove custom background</button>
+    </div>
+  </section>
+
+  <section class="drawerPanel" id="panel-data">
+    <div class="help">Backup stores your timers, statistics, achievements, unlocked themes, deterministic mission state, preferences, and the custom background image as an embedded Base64 string.</div>
+    <div class="fileActions"><button class="smallBtn rippleBtn" id="backupBtn2">Save JSON backup</button><button class="smallBtn rippleBtn" id="restoreBtn2">Restore JSON backup</button></div>
+    <input class="hidden" id="restoreInput" type="file" accept="application/json,.json">
+  </section>
+</aside>
+
+<div class="toastStack" id="toastStack" aria-live="polite" aria-atomic="true"></div>
+
+<script>
+(function(){
+  "use strict";
+
+  var STORAGE_KEY = "demon-focus-state-v1";
+  var BACKUP_VERSION = 1;
+  var POMO_FOCUS_MS = 25 * 60 * 1000;
+  var POMO_BREAK_MS = 5 * 60 * 1000;
+  var COIN_PER_MINUTE = 1;
+  var BG_COST = 50;
+  var MISSION_COUNT = 6;
+
+  var themes = [
+    {id:"crimson-water",name:"Crimson Water",p:"#b5233d",p2:"#e5526b",a:"#1bb4d0",a2:"#77e6f7",bg:"#070a10"},
+    {id:"wisteria",name:"Wisteria Night",p:"#8f5bdd",p2:"#b891ff",a:"#55c8ff",a2:"#b7f0ff",bg:"#080713"},
+    {id:"sunrise",name:"Hinokami Sunrise",p:"#ef6c22",p2:"#ffad33",a:"#e83f6f",a2:"#ffc87a",bg:"#100806"},
+    {id:"mist",name:"Mist Hashira",p:"#597e9c",p2:"#91b7d7",a:"#6fe0d0",a2:"#c1fff6",bg:"#071016"},
+    {id:"insect",name:"Butterfly Garden",p:"#b46be8",p2:"#ef9dfd",a:"#64d5bd",a2:"#b1ffe9",bg:"#110817"},
+    {id:"stone",name:"Stone Resolve",p:"#8b8b8b",p2:"#c4c4c4",a:"#f1c77f",a2:"#ffe9bd",bg:"#0d0d0e"},
+    {id:"flame",name:"Flame Breathing",p:"#d83b25",p2:"#ff7b39",a:"#ffc62b",a2:"#fff08a",bg:"#100705"},
+    {id:"water",name:"Water Breathing",p:"#1768aa",p2:"#32a6e5",a:"#63e0e9",a2:"#cdfcff",bg:"#041018"},
+    {id:"forest",name:"Forest Spirit",p:"#297653",p2:"#50b878",a:"#a5d64c",a2:"#e6ff9e",bg:"#06100b"},
+    {id:"moon",name:"Moonlit Silk",p:"#4549a8",p2:"#6978d5",a:"#a9b7ff",a2:"#edf0ff",bg:"#08091a"},
+    {id:"lotus",name:"Lotus Dream",p:"#c84f9a",p2:"#ef76bb",a:"#7dd8f4",a2:"#dcf8ff",bg:"#110914"},
+    {id:"aurora",name:"Aurora Edge",p:"#2c7f7a",p2:"#44c7b9",a:"#7b8dff",a2:"#d6ddff",bg:"#061011"},
+    {id:"ember",name:"Ember Gold",p:"#a1411e",p2:"#dc6a2c",a:"#f0c341",a2:"#fff0a0",bg:"#100907"},
+    {id:"ice",name:"Frost Breathing",p:"#3e7aa4",p2:"#78bde7",a:"#7ff4f4",a2:"#dcffff",bg:"#061014"},
+    {id:"plum",name:"Plum Shadow",p:"#702c68",p2:"#a4509f",a:"#ec6ea8",a2:"#ffd2ea",bg:"#100711"},
+    {id:"jade",name:"Jade Guard",p:"#27735f",p2:"#43aa86",a:"#c9dd55",a2:"#efffb5",bg:"#06100b"},
+    {id:"steel",name:"Steel Nichirin",p:"#56616d",p2:"#8594a3",a:"#76c6d9",a2:"#c9f6ff",bg:"#080b0f"},
+    {id:"rose",name:"Rose Petal",p:"#9f3156",p2:"#d95e86",a:"#ff9a9c",a2:"#ffd9da",bg:"#10070b"},
+    {id:"cobalt",name:"Cobalt Wave",p:"#2548a8",p2:"#4771dc",a:"#25b6d4",a2:"#b1f5ff",bg:"#050914"},
+    {id:"obsidian",name:"Obsidian Crest",p:"#3f4a5a",p2:"#687a91",a:"#b45669",a2:"#ff9ca9",bg:"#040508"}
+  ];
+
+  var missionPool = [];
+  function addMissions(list){ for(var i=0;i<list.length;i++) missionPool.push(list[i]); }
+  var minuteTargets = [5,8,10,12,15,18,20,25,30,35];
+  var minuteVerbs = [
+    "Complete {n} focused minutes.","Accumulate {n} study minutes today.","Stay with one task for {n} minutes.","Build {n} minutes of deep work.","Train your focus for {n} minutes."
+  ];
+  for(var mv=0;mv<minuteVerbs.length;mv++) for(var mt=0;mt<minuteTargets.length;mt++) addMissions([{kind:"focusMinutes",target:minuteTargets[mt],label:minuteVerbs[mv].replace("{n}",minuteTargets[mt]),seed:mv+"-"+mt}]);
+  var pomoTargets = [1,1,2,2,3,3,4,4,5,6];
+  var pomoVerbs = ["Complete {n} Pomodoro focus session(s).","Finish {n} full focus round(s).","Clear {n} Pomodoro round(s) today.","Finish {n} timer mission round(s)."];
+  for(var pv=0;pv<pomoVerbs.length;pv++) for(var pt=0;pt<pomoTargets.length;pt++) addMissions([{kind:"pomodoros",target:pomoTargets[pt],label:pomoVerbs[pv].replace("{n}",pomoTargets[pt]),seed:pv+"-"+pt}]);
+  var coinTargets = [3,5,8,10,12,15,18,20,25,30];
+  var coinVerbs = ["Earn {n} study coin(s).","Collect {n} coin(s) from focus time.","Reach {n} newly earned coin(s) today.","Bank {n} coin(s) through study."];
+  for(var cv=0;cv<coinVerbs.length;cv++) for(var ct=0;ct<coinTargets.length;ct++) addMissions([{kind:"coinsToday",target:coinTargets[ct],label:coinVerbs[cv].replace("{n}",coinTargets[ct]),seed:cv+"-"+ct}]);
+  var sessionTargets = [1,1,2,2,3,3,4,5,6,7];
+  var sessionVerbs = ["Start {n} focus session(s).","Log {n} separate study session(s).","Practice focus in {n} session(s).","Complete {n} study block(s) today."];
+  for(var sv=0;sv<sessionVerbs.length;sv++) for(var st=0;st<sessionTargets.length;st++) addMissions([{kind:"sessions",target:sessionTargets[st],label:sessionVerbs[sv].replace("{n}",sessionTargets[st]),seed:sv+"-"+st}]);
+  var watchTargets = [1,2,3,5,7,10,12,15,20,25];
+  var watchVerbs = ["Record {n} stopwatch minute(s).","Use the stopwatch for {n} minute(s).","Log {n} minute(s) in stopwatch mode.","Build {n} stopwatch minute(s) of focus."];
+  for(var wv=0;wv<watchVerbs.length;wv++) for(var wt=0;wt<watchTargets.length;wt++) addMissions([{kind:"stopwatchMinutes",target:watchTargets[wt],label:watchVerbs[wv].replace("{n}",watchTargets[wt]),seed:wv+"-"+wt}]);
+  var streakTargets = [1,2,3,3,4,5,7,7,10,14];
+  var streakVerbs = ["Maintain a {n}-day focus streak.","Reach a {n}-day study streak.","Keep your flame alive for {n} day(s)."];
+  for(var rv=0;rv<streakVerbs.length;rv++) for(var rt=0;rt<streakTargets.length;rt++) addMissions([{kind:"streak",target:streakTargets[rt],label:streakVerbs[rv].replace("{n}",streakTargets[rt]),seed:rv+"-"+rt}]);
+  var totalTargets = [30,45,60,90,120,150,180,240,300,360];
+  var totalVerbs = ["Reach {n} total focus minutes.","Push your lifetime focus to {n} minutes.","Grow the focus ledger to {n} minutes."];
+  for(var tv=0;tv<totalVerbs.length;tv++) for(var tt=0;tt<totalTargets.length;tt++) addMissions([{kind:"focusMinutes",target:totalTargets[tt],label:totalVerbs[tv].replace("{n}",totalTargets[tt]).replace("total focus minutes","focus minutes today").replace("lifetime focus","focus time today").replace("focus ledger","today\'s focus total"),seed:"daily-"+tv+"-"+tt}]);
+
+  var achievements = [
+    {id:"first-focus",icon:"🔥",name:"First Flame",desc:"Finish your first focused minute.",ok:function(s){return totalFocusSeconds(s)>=60}},
+    {id:"thirty-min",icon:"🌊",name:"Flow State",desc:"Reach 30 total focus minutes.",ok:function(s){return Math.floor(totalFocusSeconds(s)/60)>=30}},
+    {id:"one-hour",icon:"☀",name:"Sunrise",desc:"Reach 60 total focus minutes.",ok:function(s){return Math.floor(totalFocusSeconds(s)/60)>=60}},
+    {id:"five-hour",icon:"🗡",name:"Nichirin Discipline",desc:"Reach 300 total focus minutes.",ok:function(s){return Math.floor(totalFocusSeconds(s)/60)>=300}},
+    {id:"ten-hour",icon:"🏯",name:"Endless Resolve",desc:"Reach 600 total focus minutes.",ok:function(s){return Math.floor(totalFocusSeconds(s)/60)>=600}},
+    {id:"first-pomo",icon:"⏳",name:"First Round",desc:"Complete your first Pomodoro.",ok:function(s){return s.stats.pomodoros>=1}},
+    {id:"ten-pomo",icon:"⚔",name:"Ten Blades",desc:"Complete 10 Pomodoros.",ok:function(s){return s.stats.pomodoros>=10}},
+    {id:"fifty-pomo",icon:"🌙",name:"Moonlit Grind",desc:"Complete 50 Pomodoros.",ok:function(s){return s.stats.pomodoros>=50}},
+    {id:"hundred-coins",icon:"💰",name:"Coin Keeper",desc:"Earn 100 study coins.",ok:function(s){return s.stats.totalCoinsEarned>=100}},
+    {id:"five-hundred-coins",icon:"💎",name:"Treasure Chest",desc:"Earn 500 study coins.",ok:function(s){return s.stats.totalCoinsEarned>=500}},
+    {id:"three-day",icon:"🌸",name:"Petal Streak",desc:"Build a 3-day focus streak.",ok:function(s){return computeStreak(s)>=3}},
+    {id:"seven-day",icon:"🐉",name:"Seven-Day Breathing",desc:"Build a 7-day focus streak.",ok:function(s){return computeStreak(s)>=7}},
+    {id:"thirty-day",icon:"🧿",name:"Hashira Habit",desc:"Build a 30-day focus streak.",ok:function(s){return computeStreak(s)>=30}},
+    {id:"five-sessions",icon:"📜",name:"Training Scroll",desc:"Start 5 study sessions.",ok:function(s){return s.stats.totalSessions>=5}},
+    {id:"hundred-sessions",icon:"🪶",name:"Mastery",desc:"Start 100 study sessions.",ok:function(s){return s.stats.totalSessions>=100}},
+    {id:"ten-min-day",icon:"🍃",name:"Calm Before Battle",desc:"Focus 10 minutes in one UTC day.",ok:function(s){return getTodayFocusSeconds(s)>=600}},
+    {id:"sixty-min-day",icon:"🕯",name:"Deep Day",desc:"Focus 60 minutes in one UTC day.",ok:function(s){return getTodayFocusSeconds(s)>=3600}},
+    {id:"theme-5",icon:"🎨",name:"Color Breather",desc:"Unlock 5 themes.",ok:function(s){return s.unlockedThemes.length>=5}},
+    {id:"theme-10",icon:"🧵",name:"Pattern Collector",desc:"Unlock 10 themes.",ok:function(s){return s.unlockedThemes.length>=10}},
+    {id:"theme-all",icon:"✨",name:"Infinity Wardrobe",desc:"Unlock all 20 themes.",ok:function(s){return s.unlockedThemes.length>=20}}
+  ];
+
+  function now(){return Date.now()}
+  function utcDay(ts){
+    var d=new Date(ts||now());
+    return d.getUTCFullYear()+"-"+pad(d.getUTCMonth()+1)+"-"+pad(d.getUTCDate());
+  }
+  function pad(n){return String(n).padStart(2,"0")}
+  function hashString(str){var h=2166136261;for(var i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)}return h>>>0}
+  function mulberry32(a){return function(){var t=a+=0x6D2B79F5;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return((t^t>>>14)>>>0)/4294967296}}
+
+  var state = defaultState();
+  var pomodoro = {phase:"focus",running:false,endsAt:0,remaining:POMO_FOCUS_MS,completedFocus:0,lastTick:0,awardedMinutes:0};
+  var stopwatch = {running:false,startAt:0,elapsed:0,lastAwardedMinutes:0,sessionStarted:false};
+  var activeMode = "pomodoro";
+  var loopTimer = null;
+  var audioCtx = null;
+  var backgroundObjectUrl = null;
+
+  function defaultState(){
+    return {version:BACKUP_VERSION,coins:0,unlockedThemes:["crimson-water"],activeTheme:"crimson-water",background:{dataUrl:"",name:"",blur:0,dominant:"",secondary:""},stats:{totalFocusSeconds:0,totalCoinsEarned:0,pomodoros:0,totalSessions:0,stopwatchFocusMinutes:0},dailyStats:{},missions:{day:"",ids:[],completed:{}},preferences:{sound:true}};
+  }
+
+  function safeParse(raw){try{return JSON.parse(raw)}catch(e){return null}}
+  function sanitizeState(obj){
+    var s=defaultState();
+    if(!obj||typeof obj!=="object") return s;
+    s.coins=Math.max(0,Math.floor(Number(obj.coins)||0));
+    s.unlockedThemes=Array.isArray(obj.unlockedThemes)?obj.unlockedThemes.filter(function(id){return themes.some(function(t){return t.id===id})}):["crimson-water"];
+    if(s.unlockedThemes.indexOf("crimson-water")<0)s.unlockedThemes.unshift("crimson-water");
+    s.activeTheme=themes.some(function(t){return t.id===obj.activeTheme})?obj.activeTheme:"crimson-water";
+    if(s.unlockedThemes.indexOf(s.activeTheme)<0)s.activeTheme="crimson-water";
+    if(obj.background&&typeof obj.background==="object"){
+      s.background.dataUrl=typeof obj.background.dataUrl==="string"&&obj.background.dataUrl.indexOf("data:image/")===0?obj.background.dataUrl:"";
+      s.background.name=typeof obj.background.name==="string"?obj.background.name.slice(0,160):"";
+      s.background.blur=Math.max(0,Math.min(28,Number(obj.background.blur)||0));
+      s.background.dominant=typeof obj.background.dominant==="string"?obj.background.dominant:"";
+      s.background.secondary=typeof obj.background.secondary==="string"?obj.background.secondary:"";
+    }
+    if(obj.stats&&typeof obj.stats==="object"){
+      s.stats.totalFocusSeconds=Math.max(0,Math.floor(Number(obj.stats.totalFocusSeconds)||0));
+      s.stats.totalCoinsEarned=Math.max(0,Math.floor(Number(obj.stats.totalCoinsEarned)||0));
+      s.stats.pomodoros=Math.max(0,Math.floor(Number(obj.stats.pomodoros)||0));
+      s.stats.totalSessions=Math.max(0,Math.floor(Number(obj.stats.totalSessions)||0));
+      s.stats.stopwatchFocusMinutes=Math.max(0,Math.floor(Number(obj.stats.stopwatchFocusMinutes)||0));
+    }
+    if(obj.dailyStats&&typeof obj.dailyStats==="object"){
+      var out={};
+      Object.keys(obj.dailyStats).slice(-370).forEach(function(k){if(!/^\d{4}-\d{2}-\d{2}$/.test(k))return;var v=obj.dailyStats[k]||{};out[k]={focusSeconds:Math.min(864000,Math.max(0,Math.floor(Number(v.focusSeconds)||0))),coins:Math.min(100000,Math.max(0,Math.floor(Number(v.coins)||0))),sessions:Math.min(10000,Math.max(0,Math.floor(Number(v.sessions)||0))),pomodoros:Math.min(10000,Math.max(0,Math.floor(Number(v.pomodoros)||0))),stopwatchMinutes:Math.min(100000,Math.max(0,Math.floor(Number(v.stopwatchMinutes)||0)))};});
+      s.dailyStats=out;
+    }else if(obj.daily&&typeof obj.daily==="object"){
+      var legacy={};Object.keys(obj.daily).forEach(function(k){if(/^\d{4}-\d{2}-\d{2}$/.test(k))legacy[k]={focusSeconds:Math.max(0,Math.floor(Number(obj.daily[k])||0)),coins:0,sessions:0,pomodoros:0,stopwatchMinutes:0}});s.dailyStats=legacy;
+    }
+    if(obj.missions&&typeof obj.missions==="object"){
+      s.missions.day=typeof obj.missions.day==="string"?obj.missions.day:"";
+      s.missions.ids=Array.isArray(obj.missions.ids)?obj.missions.ids.filter(function(x){return Number.isInteger(x)&&x>=0&&x<missionPool.length}):[];
+      s.missions.completed=obj.missions.completed&&typeof obj.missions.completed==="object"?obj.missions.completed:{};
+    }
+    if(obj.preferences&&typeof obj.preferences==="object")s.preferences.sound=obj.preferences.sound!==false;
+    return s;
+  }
+
+  function loadState(){
+    try{var raw=localStorage.getItem(STORAGE_KEY);if(raw){state=sanitizeState(safeParse(raw)||{})}}catch(e){state=defaultState()}
+  }
+  function saveState(){
+    try{localStorage.setItem(STORAGE_KEY,JSON.stringify(state))}catch(e){showToast("Storage notice","Your browser blocked local storage. Export a backup to keep progress.","warn")}
+  }
+
+  function dailyEntry(day){
+    day=day||utcDay();
+    if(!state.dailyStats[day])state.dailyStats[day]={focusSeconds:0,coins:0,sessions:0,pomodoros:0,stopwatchMinutes:0};
+    return state.dailyStats[day];
+  }
+  function pomodoroLiveFocusSeconds(){
+    if(!(pomodoro.running&&pomodoro.phase==="focus"))return 0;
+    var elapsed=Math.max(0,Math.floor((POMO_FOCUS_MS-pomodoro.remaining)/1000));
+    return Math.max(0,elapsed-(pomodoro.awardedMinutes||0)*60);
+  }
+  function stopwatchLiveSeconds(){return stopwatch.running?Math.max(0,Math.floor((now()-stopwatch.startAt)/1000)):0}
+  function totalFocusSeconds(s){return Math.max(0,s.stats.totalFocusSeconds + pomodoroLiveFocusSeconds() + stopwatchLiveSeconds())}
+  function getTodayFocusSeconds(s){return Math.max(0,dailyEntry(utcDay()).focusSeconds + pomodoroLiveFocusSeconds() + stopwatchLiveSeconds())}
+
+  function computeStreak(s){
+    var d=new Date(Date.UTC(new Date().getUTCFullYear(),new Date().getUTCMonth(),new Date().getUTCDate()));
+    var count=0;
+    while(count<370){
+      var key=utcDay(d.getTime());
+      var entry=s.dailyStats[key];if(entry&&entry.focusSeconds>=60){count++;d.setUTCDate(d.getUTCDate()-1)}else break;
+    }
+    return count;
+  }
+
+  function formatTime(totalSeconds, showHours){
+    var sec=Math.max(0,Math.floor(totalSeconds));
+    var h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),s=sec%60;
+    if(showHours||h>0)return pad(h)+":"+pad(m)+":"+pad(s);
+    return pad(m)+":"+pad(s);
+  }
+  function showToast(title,text,msgType){
+    var el=document.createElement("div");el.className="toast";
+    var safeTitle=document.createElement("div");safeTitle.className="toastTitle";safeTitle.textContent=title;
+    var safeText=document.createElement("div");safeText.className="toastText";safeText.textContent=text;
+    var bar=document.createElement("div");bar.className="toastBar";
+    el.appendChild(safeTitle);el.appendChild(safeText);el.appendChild(bar);
+    document.getElementById("toastStack").appendChild(el);
+    if(msgType==="warn")el.style.borderColor="rgba(255,200,102,.32)";
+    if(msgType==="good")el.style.borderColor="rgba(88,214,141,.34)";
+    playToastSound(msgType||"normal");
+    setTimeout(function(){el.remove()},3400);
+  }
+  function playToastSound(kind){
+    if(state.preferences.sound===false)return;
+    try{
+      if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();
+      if(audioCtx.state==="suspended")audioCtx.resume();
+      var osc=audioCtx.createOscillator(),gain=audioCtx.createGain();
+      osc.type="sine";var t=audioCtx.currentTime;
+      var freq=kind==="good"?880:(kind==="warn"?330:660);osc.frequency.setValueAtTime(freq,t);osc.frequency.exponentialRampToValueAtTime(freq*1.35,t+.13);
+      gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.065,t+.015);gain.gain.exponentialRampToValueAtTime(.0001,t+.18);
+      osc.connect(gain);gain.connect(audioCtx.destination);osc.start(t);osc.stop(t+.19);
+    }catch(e){}
+  }
+
+  function addFocusSeconds(seconds, source){
+    var whole=Math.max(0,Math.floor(seconds));if(whole<=0)return;
+    state.stats.totalFocusSeconds+=whole;
+    var day=utcDay();dailyEntry(day).focusSeconds+=whole;
+    if(source==="stopwatch") {state.stats.stopwatchFocusMinutes+=Math.floor(whole/60);dailyEntry(day).stopwatchMinutes+=Math.floor(whole/60);}
+    saveState();
+  }
+  function addCoins(amount, reason){
+    var n=Math.max(0,Math.floor(amount));if(!n)return;
+    state.coins+=n;state.stats.totalCoinsEarned+=n;dailyEntry(utcDay()).coins+=n;saveState();updateStatsUI();renderMissions();renderAchievements();
+    if(reason)showToast("+"+n+" coin"+(n===1?"":"s"),reason,"good");
+  }
+
+  function ensureDailyMissions(){
+    var day=utcDay();
+    if(state.missions.day===day && state.missions.ids.length===MISSION_COUNT)return;
+    var rng=mulberry32(hashString("demon-focus-missions|"+day));
+    var ids=[];var used={};
+    while(ids.length<MISSION_COUNT){var id=Math.floor(rng()*missionPool.length);if(!used[id]){used[id]=true;ids.push(id)}}
+    state.missions={day:day,ids:ids,completed:{}};saveState();
+  }
+  function missionProgress(m){
+    if(m.kind==="focusMinutes")return Math.floor(getTodayFocusSeconds(state)/60);
+    if(m.kind==="pomodoros")return dailyEntry(utcDay()).pomodoros;
+    if(m.kind==="coinsToday")return getCoinsEarnedToday();
+    if(m.kind==="sessions")return dailyEntry(utcDay()).sessions;
+    if(m.kind==="stopwatchMinutes")return dailyEntry(utcDay()).stopwatchMinutes;
+    if(m.kind==="streak")return computeStreak(state);
+    return 0;
+  }
+  function getCoinsEarnedToday(){return dailyEntry(utcDay()).coins||0}
+  function markMissions(){
+    ensureDailyMissions();
+    for(var i=0;i<state.missions.ids.length;i++){
+      var id=state.missions.ids[i],m=missionPool[id],p=missionProgress(m);
+      if(p>=m.target && !state.missions.completed[id]){state.missions.completed[id]=true;showToast("Mission cleared",""+m.label,"good")}
+    }
+    saveState();updateStatsUI();renderMissions();renderAchievements();
+  }
+
+  function getTheme(){return themes.find(function(t){return t.id===state.activeTheme})||themes[0]}
+  function hexToRgb(hex){var s=hex.replace("#","");return {r:parseInt(s.slice(0,2),16),g:parseInt(s.slice(2,4),16),b:parseInt(s.slice(4,6),16)}}
+  function rgbToHex(r,g,b){return "#"+[r,g,b].map(function(x){return Math.round(Math.max(0,Math.min(255,x))).toString(16).padStart(2,"0")}).join("")}
+  function luminanceFromRgb(r,g,b){var vals=[r,g,b].map(function(v){v/=255;return v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4)});return .2126*vals[0]+.7152*vals[1]+.0722*vals[2]}
+  function contrastText(hex){var c=hexToRgb(hex);return luminanceFromRgb(c.r,c.g,c.b)>.54?"#081015":"#ffffff"}
+  function setTheme(id,show){
+    var t=themes.find(function(x){return x.id===id});if(!t)return;
+    var root=document.documentElement;root.style.setProperty("--primary",t.p);root.style.setProperty("--primary-2",t.p2);root.style.setProperty("--accent",t.a);root.style.setProperty("--accent-2",t.a2);root.style.setProperty("--bg",t.bg);root.style.setProperty("--on-primary",contrastText(t.p));
+    document.querySelector('meta[name="theme-color"]').setAttribute("content",t.p);
+    state.activeTheme=t.id;saveState();renderThemes();updateBackgroundLayer();
+    if(show)showToast("Theme equipped",t.name,"good");
+  }
+  function renderThemes(){
+    var list=document.getElementById("themeList");list.innerHTML="";
+    themes.forEach(function(t,index){
+      var unlocked=state.unlockedThemes.indexOf(t.id)>=0, item=document.createElement("div");item.className="themeItem"+(unlocked?" unlocked":"")+(state.activeTheme===t.id?" current":"");
+      var sw=document.createElement("div");sw.className="themeSwatches";[t.p,t.p2,t.a].forEach(function(c){var d=document.createElement("div");d.className="swatch";d.style.background=c;sw.appendChild(d)});
+      var text=document.createElement("div");text.style.minWidth="0";text.style.flex="1";var n=document.createElement("div");n.className="achievementName";n.textContent=t.name;var d=document.createElement("div");d.className="achievementDesc";d.textContent=index===0?"Free starter theme":("Unlock cost: "+themeCost(index)+" coins");text.appendChild(n);text.appendChild(d);
+      var b=document.createElement("button");b.className="smallBtn rippleBtn";b.textContent=state.activeTheme===t.id?"Active":(unlocked?"Use":"Unlock "+themeCost(index));b.disabled=state.activeTheme===t.id;b.onclick=function(){if(unlocked){setTheme(t.id,true)}else{unlockTheme(t)}};
+      item.appendChild(sw);item.appendChild(text);item.appendChild(b);list.appendChild(item);
+    });
+  }
+  function themeCost(index){return 40+index*20}
+  function unlockTheme(t){var idx=themes.findIndex(function(x){return x.id===t.id}),cost=themeCost(idx);if(state.coins<cost){showToast("Not enough coins","You need "+cost+" coins to unlock "+t.name,"warn");return}state.coins-=cost;state.unlockedThemes.push(t.id);saveState();updateStatsUI();renderAchievements();renderThemes();showToast("Theme unlocked",t.name,"good")}
+
+  function updateBackgroundLayer(){
+    var layer=document.getElementById("backgroundLayer"),t=getTheme();
+    layer.style.backgroundImage=state.background.dataUrl?"url('"+state.background.dataUrl.replace(/'/g,"%27")+"')":"radial-gradient(circle at 18% 12%,"+hexWithAlpha(t.p,.26)+",transparent 38%),radial-gradient(circle at 85% 20%,"+hexWithAlpha(t.a,.19)+",transparent 34%),linear-gradient(145deg,"+t.bg+",#02040a 72%)";
+    layer.style.filter="blur("+state.background.blur+"px) saturate(1.08)";
+    layer.style.transform="scale(1.04)";
+    var tint=document.getElementById("backgroundTint");
+    if(state.background.dataUrl){
+      var dom=state.background.dominant||t.p,sec=state.background.secondary||t.a;
+      var domRgb=hexToRgb(dom),secRgb=hexToRgb(sec);var ld=luminanceFromRgb(domRgb.r,domRgb.g,domRgb.b),ls=luminanceFromRgb(secRgb.r,secRgb.g,secRgb.b);
+      var dark=(ld+ls)/2<.46;
+      tint.style.background=dark?"linear-gradient(120deg,rgba(0,0,0,.34),rgba(0,0,0,.08))":"linear-gradient(120deg,rgba(255,255,255,.24),rgba(255,255,255,.03))";
+      document.documentElement.style.setProperty("--text",dark?"#f8fbff":"#10151b");document.documentElement.style.setProperty("--muted",dark?"rgba(248,251,255,.72)":"rgba(16,21,27,.70)");
+      document.documentElement.style.setProperty("--border",dark?"rgba(255,255,255,.16)":"rgba(0,0,0,.13)");
+      document.documentElement.style.setProperty("--surface",dark?"rgba(13,17,26,.60)":"rgba(255,255,255,.50)");document.documentElement.style.setProperty("--inner-surface",dark?"linear-gradient(145deg,rgba(255,255,255,.10),rgba(0,0,0,.30))":"linear-gradient(145deg,rgba(255,255,255,.52),rgba(255,255,255,.24))");
+    }else{
+      document.documentElement.style.setProperty("--text","#f6f8fb");document.documentElement.style.setProperty("--muted","rgba(246,248,251,.68)");document.documentElement.style.setProperty("--border","rgba(255,255,255,.14)");document.documentElement.style.setProperty("--surface","rgba(14,18,28,.66)");document.documentElement.style.setProperty("--inner-surface","linear-gradient(145deg,rgba(255,255,255,.10),rgba(0,0,0,.28))");
+      tint.style.background="linear-gradient(120deg,rgba(0,0,0,.38),rgba(0,0,0,.12))";
+    }
+  }
+  function hexWithAlpha(hex,a){var c=hexToRgb(hex);return "rgba("+c.r+","+c.g+","+c.b+","+a+")"}
+
+  function analyzeImageData(dataUrl,done){
+    var img=new Image();img.onload=function(){
+      try{
+        var canvas=document.createElement("canvas"),max=96,scale=Math.min(1,max/Math.max(img.width,img.height));canvas.width=Math.max(1,Math.round(img.width*scale));canvas.height=Math.max(1,Math.round(img.height*scale));
+        var ctx=canvas.getContext("2d",{willReadFrequently:true});ctx.drawImage(img,0,0,canvas.width,canvas.height);var px=ctx.getImageData(0,0,canvas.width,canvas.height).data;var buckets={};
+        for(var i=0;i<px.length;i+=16){var r=px[i],g=px[i+1],b=px[i+2],a=px[i+3];if(a<180)continue;var qr=Math.round(r/24)*24,qg=Math.round(g/24)*24,qb=Math.round(b/24)*24,key=qr+","+qg+","+qb;buckets[key]=(buckets[key]||0)+1}
+        var top=Object.keys(buckets).sort(function(a,b){return buckets[b]-buckets[a]}).slice(0,4).map(function(k){return k.split(",").map(Number)});
+        var d=top[0]||[120,120,130],s=top[1]||[40,80,100];done({dominant:rgbToHex(d[0],d[1],d[2]),secondary:rgbToHex(s[0],s[1],s[2])});
+      }catch(e){done({dominant:"",secondary:""})}
+    };img.onerror=function(){done({dominant:"",secondary:""})};img.src=dataUrl;
+  }
+
+  async function setCustomBackground(file){
+    if(!file||!file.type||file.type.indexOf("image/")!==0){showToast("Unsupported image","Choose a common image file such as PNG, JPEG, GIF, WebP, BMP, AVIF, SVG, TIFF, or ICO.","warn");return}
+    if(state.coins<BG_COST){showToast("Not enough coins","Applying a custom background costs 50 coins.","warn");return}
+    var reader=new FileReader();reader.onload=function(){
+      var dataUrl=String(reader.result||"");if(dataUrl.indexOf("data:image/")!==0){showToast("Image error","The selected file could not be read as an image.","warn");return}
+      analyzeImageData(dataUrl,function(colors){
+        state.coins-=BG_COST;state.background={dataUrl:dataUrl,name:file.name.slice(0,160),blur:Number(document.getElementById("blurSlider").value)||0,dominant:colors.dominant,secondary:colors.secondary};saveState();document.getElementById("blurValue").textContent=state.background.blur+" px";updateBackgroundLayer();updateUI();showToast("Background equipped","50 coins spent • "+file.name,"good");
+      });
+    };reader.onerror=function(){showToast("Image error","The selected image could not be read.","warn")};reader.readAsDataURL(file);
+  }
+  function clearBackground(){state.background={dataUrl:"",name:"",blur:0,dominant:"",secondary:""};saveState();document.getElementById("blurSlider").value=0;document.getElementById("blurValue").textContent="0 px";updateBackgroundLayer();showToast("Background removed","Theme background restored.")}
+
+  function startSessionIfNeeded(){
+    if(!stopwatch.sessionStarted){stopwatch.sessionStarted=true;state.stats.totalSessions+=1;dailyEntry(utcDay()).sessions+=1;saveState();}
+  }
+
+  function startPomodoro(){
+    if(pomodoro.running)return;
+    startSessionIfNeeded();pomodoro.running=true;pomodoro.endsAt=now()+pomodoro.remaining;pomodoro.lastTick=now();
+    document.getElementById("pomodoroMainBtn").textContent="Pause Focus";saveState();
+  }
+  function pausePomodoro(){if(!pomodoro.running)return;pomodoro.remaining=Math.max(0,pomodoro.endsAt-now());pomodoro.running=false;document.getElementById("pomodoroMainBtn").textContent=pomodoro.phase==="focus"?"Resume Focus":"Resume Break";saveState()}
+  function resetPomodoro(){pomodoro.running=false;pomodoro.phase="focus";pomodoro.remaining=POMO_FOCUS_MS;pomodoro.endsAt=0;pomodoro.completedFocus=0;pomodoro.awardedMinutes=0;stopwatch.sessionStarted=false;updateTimerUI();document.getElementById("pomodoroMainBtn").textContent="Start Focus"}
+  function skipPomodoro(){
+    pomodoro.running=false;
+    if(pomodoro.phase==="focus"){pomodoro.phase="break";pomodoro.remaining=POMO_BREAK_MS;pomodoro.awardedMinutes=0;document.getElementById("pomodoroMainBtn").textContent="Start Break";showToast("Focus skipped","Break phase ready.","warn")}
+    else{pomodoro.phase="focus";pomodoro.remaining=POMO_FOCUS_MS;pomodoro.awardedMinutes=0;stopwatch.sessionStarted=false;document.getElementById("pomodoroMainBtn").textContent="Start Focus";showToast("Break skipped","Focus phase ready.")}
+    updateTimerUI();
+  }
+  function finishPomodoroPhase(){
+    if(pomodoro.phase==="focus"){
+      reconcilePomodoroMinuteCoins();
+      pomodoro.completedFocus+=1;state.stats.pomodoros+=1;dailyEntry(utcDay()).pomodoros+=1;saveState();showToast("Pomodoro complete","25 minutes of focus finished. Break time.","good");pomodoro.phase="break";pomodoro.remaining=POMO_BREAK_MS;pomodoro.running=true;pomodoro.endsAt=now()+POMO_BREAK_MS;document.getElementById("pomodoroMainBtn").textContent="Pause Break";
+      markMissions();
+    }else{
+      showToast("Break complete","Back to focus. Ready when you are.");pomodoro.phase="focus";pomodoro.remaining=POMO_FOCUS_MS;pomodoro.awardedMinutes=0;pomodoro.running=false;document.getElementById("pomodoroMainBtn").textContent="Start Focus";markMissions();
+    }
+  }
+
+  function startStopwatch(){if(stopwatch.running)return;startSessionIfNeeded();stopwatch.running=true;stopwatch.startAt=now();document.getElementById("stopwatchMainBtn").textContent="Pause Stopwatch";saveState()}
+  function pauseStopwatch(){if(!stopwatch.running)return;stopwatch.elapsed+=Math.max(0,now()-stopwatch.startAt);stopwatch.running=false;stopwatch.startAt=0;document.getElementById("stopwatchMainBtn").textContent="Resume Stopwatch";flushStopwatchAwards();updateStopwatchUI();saveState()}
+  function resetStopwatch(){if(stopwatch.running)pauseStopwatch();stopwatch.elapsed=0;stopwatch.lastAwardedMinutes=0;stopwatch.sessionStarted=false;document.getElementById("stopwatchMainBtn").textContent="Start Stopwatch";updateStopwatchUI()}
+  function stopwatchSeconds(){return Math.floor((stopwatch.elapsed+(stopwatch.running?Math.max(0,now()-stopwatch.startAt):0))/1000)}
+  function flushStopwatchAwards(){
+    var mins=Math.floor(stopwatchSeconds()/60);
+    while(stopwatch.lastAwardedMinutes<mins){stopwatch.lastAwardedMinutes++;addFocusSeconds(60,"stopwatch");addCoins(COIN_PER_MINUTE,"Stopwatch minute complete • +1 focus minute logged");}
+    markMissions();
+  }
+
+  function pomodoroFocusSeconds(){return pomodoro.phase==="focus"?Math.floor((POMO_FOCUS_MS-pomodoro.remaining)/1000):POMO_FOCUS_MS}
+  function tick(){
+    var ts=now();
+    if(pomodoro.running){pomodoro.remaining=Math.max(0,pomodoro.endsAt-ts);if(pomodoro.remaining<=0)finishPomodoroPhase();}
+    if(stopwatch.running)flushStopwatchAwards();
+    updateTimerUI();updateStopwatchUI();updateStatsUI();pomodoro.lastTick=ts;
+  }
+
+  function reconcilePomodoroMinuteCoins(){
+    if(!pomodoro.running||pomodoro.phase!=="focus")return;
+    var elapsedFocus=Math.floor((POMO_FOCUS_MS-pomodoro.remaining)/1000);var targetMinutes=Math.floor(elapsedFocus/60);
+    pomodoro.awardedMinutes=pomodoro.awardedMinutes||0;
+    while(pomodoro.awardedMinutes<targetMinutes){pomodoro.awardedMinutes++;addFocusSeconds(60,"pomodoro");addCoins(1,"Pomodoro focus minute complete");}
+  }
+
+  function renderMissions(){
+    ensureDailyMissions();
+    var list=document.getElementById("missionList");list.innerHTML="";
+    document.getElementById("missionDate").textContent=state.missions.day+" UTC";
+    state.missions.ids.forEach(function(id){
+      var m=missionPool[id],p=missionProgress(m),done=p>=m.target;if(done&&!state.missions.completed[id]){state.missions.completed[id]=true;showToast("Mission cleared",m.label,"good")}
+      var box=document.createElement("div");box.className="mission"+(done?" missionDone":"");
+      var top=document.createElement("div");top.className="missionTop";var name=document.createElement("div");name.className="missionName";name.textContent=m.label;var count=document.createElement("div");count.className="missionCount";count.textContent=Math.min(p,m.target)+" / "+m.target;top.appendChild(name);top.appendChild(count);
+      var bar=document.createElement("div");bar.className="missionBar";var span=document.createElement("span");span.style.width=Math.min(100,(p/m.target)*100)+"%";bar.appendChild(span);box.appendChild(top);box.appendChild(bar);list.appendChild(box);
+    });
+  }
+
+  function renderAchievements(){
+    var list=document.getElementById("achievementList"),unlocked=0;list.innerHTML="";
+    achievements.forEach(function(a){var ok=false;try{ok=a.ok(state)}catch(e){}if(ok)unlocked++;var item=document.createElement("div");item.className="achievement"+(ok?"":" locked");var icon=document.createElement("div");icon.className="achievementIcon";icon.textContent=ok?a.icon:"🔒";var tx=document.createElement("div");tx.className="achievementText";var n=document.createElement("div");n.className="achievementName";n.textContent=a.name;var d=document.createElement("div");d.className="achievementDesc";d.textContent=a.desc;tx.appendChild(n);tx.appendChild(d);var badge=document.createElement("div");badge.className="badge"+(ok?" good":"");badge.textContent=ok?"Unlocked":"Locked";item.appendChild(icon);item.appendChild(tx);item.appendChild(badge);list.appendChild(item)});
+    document.getElementById("achievementCount").textContent=unlocked+" / "+achievements.length;
+  }
+
+  function updateTimerUI(){
+    var val=pomodoro.phase==="focus"?pomodoro.remaining/1000:pomodoro.remaining/1000;document.getElementById("timerValue").textContent=formatTime(val,false);document.getElementById("phaseLabel").textContent=pomodoro.phase==="focus"?"Focus":"Break";document.getElementById("timerHint").textContent=pomodoro.phase==="focus"?"Focus time earns coins":"Rest, breathe, then return";
+    var total=pomodoro.phase==="focus"?POMO_FOCUS_MS:POMO_BREAK_MS;var prog=(1-(pomodoro.remaining/total))*100;document.getElementById("timerRing").style.setProperty("--progress",Math.max(0,Math.min(100,prog))+"%");
+  }
+  function updateStopwatchUI(){var sec=stopwatchSeconds();document.getElementById("stopwatchValue").textContent=formatTime(sec,true);document.getElementById("stopwatchRing").style.setProperty("--progress",((sec%3600)/3600*100)+"%")}
+  function updateStatsUI(){
+    document.getElementById("coinCount").textContent=state.coins;document.getElementById("todayFocus").textContent=formatTime(getTodayFocusSeconds(state)/60,false);document.getElementById("totalFocus").textContent=formatTime(totalFocusSeconds(state)/60,false);document.getElementById("streakValue").textContent=computeStreak(state)+" day"+(computeStreak(state)===1?"":"s");
+    document.getElementById("statFocusMin").textContent=Math.floor(totalFocusSeconds(state)/60);document.getElementById("statPomodoros").textContent=state.stats.pomodoros;document.getElementById("statCoins").textContent=state.stats.totalCoinsEarned;document.getElementById("statSessions").textContent=state.stats.totalSessions;
+  }
+  function updateUI(){updateStatsUI()}
+  function renderAll(){updateStatsUI();renderMissions();renderAchievements();renderThemes()}
+
+  function switchMode(mode){
+    activeMode=mode;document.getElementById("pomodoroTab").classList.toggle("active",mode==="pomodoro");document.getElementById("stopwatchTab").classList.toggle("active",mode==="stopwatch");document.getElementById("pomodoroTab").setAttribute("aria-selected",mode==="pomodoro");document.getElementById("stopwatchTab").setAttribute("aria-selected",mode==="stopwatch");document.getElementById("pomodoroPanel").classList.toggle("hidden",mode!=="pomodoro");document.getElementById("stopwatchPanel").classList.toggle("hidden",mode!=="stopwatch");
+  }
+
+  function openDrawer(panel){document.getElementById("drawer").classList.add("open");document.getElementById("drawerBackdrop").classList.add("open");switchDrawerPanel(panel||"themes")}
+  function closeDrawer(){document.getElementById("drawer").classList.remove("open");document.getElementById("drawerBackdrop").classList.remove("open")}
+  function switchDrawerPanel(name){document.querySelectorAll(".drawerTab").forEach(function(b){b.classList.toggle("active",b.getAttribute("data-panel")===name)});document.querySelectorAll(".drawerPanel").forEach(function(p){p.classList.toggle("active",p.id==="panel-"+name)})}
+
+  async function restoreBackup(){
+    try{
+      if("showOpenFilePicker" in window){var handles=await window.showOpenFilePicker({multiple:false,types:[{description:"Demon Focus JSON Backup",accept:{"application/json":[".json"]}}]});if(handles&&handles[0]){var file=await handles[0].getFile();await restoreFromFile(file);return}}
+    }catch(e){if(e&&e.name==="AbortError")return}
+    document.getElementById("restoreInput").click();
+  }
+
+  async function backupState(){
+    var payload={app:"Demon Focus",version:BACKUP_VERSION,exportedAt:new Date().toISOString(),state:state,pomodoro:{phase:pomodoro.phase,remaining:pomodoro.remaining},stopwatch:{elapsed:stopwatch.elapsed}};
+    var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});var filename="demon-focus-backup-"+utcDay()+".json";
+    try{
+      if("showSaveFilePicker" in window){var handle=await window.showSaveFilePicker({suggestedName:filename,types:[{description:"Demon Focus JSON Backup",accept:{"application/json":[".json"]}}]});var writable=await handle.createWritable();await writable.write(blob);await writable.close();showToast("Backup saved","JSON backup exported with embedded background image.","good");return}
+    }catch(e){if(e&&e.name==="AbortError")return}
+    var url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(function(){URL.revokeObjectURL(url)},1000);showToast("Backup downloaded","The browser used its download fallback.","good");
+  }
+
+  async function restoreFromFile(file){
+    var reader=new FileReader();reader.onload=function(){
+      var parsed=safeParse(String(reader.result||""));if(!parsed||typeof parsed!=="object"||!parsed.state){showToast("Restore failed","That JSON file is not a Demon Focus backup.","warn");return}
+      state=sanitizeState(parsed.state);saveState();pomodoro.running=false;pomodoro.phase=parsed.pomodoro&&parsed.pomodoro.phase==="break"?"break":"focus";pomodoro.remaining=Math.max(0,Math.min(pomodoro.phase==="focus"?POMO_FOCUS_MS:POMO_BREAK_MS,Number(parsed.pomodoro&&parsed.pomodoro.remaining)|| (pomodoro.phase==="focus"?POMO_FOCUS_MS:POMO_BREAK_MS)));pomodoro.awardedMinutes=0;stopwatch.running=false;stopwatch.elapsed=Math.max(0,Number(parsed.stopwatch&&parsed.stopwatch.elapsed)||0);stopwatch.startAt=0;stopwatch.lastAwardedMinutes=Math.floor(stopwatch.elapsed/60000);document.getElementById("pomodoroMainBtn").textContent=pomodoro.phase==="focus"?"Start Focus":"Start Break";document.getElementById("stopwatchMainBtn").textContent=stopwatch.elapsed?"Resume Stopwatch":"Start Stopwatch";document.getElementById("blurSlider").value=state.background.blur;document.getElementById("blurValue").textContent=state.background.blur+" px";setTheme(state.activeTheme,false);updateBackgroundLayer();updateUI();showToast("Restore complete","Your local progress and embedded background were restored.","good");
+    };reader.onerror=function(){showToast("Restore failed","The backup file could not be read.","warn")};reader.readAsText(file);
+  }
+
+  function addRipple(e){var b=e.currentTarget;if(!b||b.disabled)return;var r=document.createElement("span"),rect=b.getBoundingClientRect(),size=Math.max(rect.width,rect.height);r.className="ripple";r.style.width=size+"px";r.style.height=size+"px";r.style.left=(e.clientX-rect.left-size/2)+"px";r.style.top=(e.clientY-rect.top-size/2)+"px";b.appendChild(r);setTimeout(function(){r.remove()},600)}
+
+  function initParticles(){
+    var c=document.getElementById("particleCanvas"),ctx=c.getContext("2d"),particles=[];
+    function resize(){c.width=Math.floor(window.innerWidth*devicePixelRatio);c.height=Math.floor(window.innerHeight*devicePixelRatio);c.style.width=window.innerWidth+"px";c.style.height=window.innerHeight+"px";ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0)}
+    function seed(){particles=[];for(var i=0;i<55;i++)particles.push({x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,r:.5+Math.random()*2.2,vx:(Math.random()-.5)*.22,vy:-.08-Math.random()*.35,a:.15+Math.random()*.45})}
+    function frame(){ctx.clearRect(0,0,window.innerWidth,window.innerHeight);var t=getTheme(),pc=hexToRgb(t.a);for(var i=0;i<particles.length;i++){var p=particles[i];p.x+=p.vx;p.y+=p.vy;if(p.y<-10){p.y=window.innerHeight+10;p.x=Math.random()*window.innerWidth}if(p.x<-10)p.x=window.innerWidth+10;if(p.x>window.innerWidth+10)p.x=-10;ctx.beginPath();ctx.fillStyle="rgba("+pc.r+","+pc.g+","+pc.b+","+p.a+")";ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill()}requestAnimationFrame(frame)}
+    resize();seed();window.addEventListener("resize",function(){resize();seed()});frame();
+  }
+
+  function bind(){
+    document.querySelectorAll(".rippleBtn").forEach(function(b){b.addEventListener("click",addRipple)});
+    document.querySelectorAll("[data-mode]").forEach(function(b){b.addEventListener("click",function(){switchMode(b.getAttribute("data-mode"))})});
+    document.getElementById("pomodoroMainBtn").addEventListener("click",function(){if(pomodoro.running)pausePomodoro();else startPomodoro();updateTimerUI()});
+    document.getElementById("pomodoroResetBtn").addEventListener("click",resetPomodoro);document.getElementById("pomodoroSkipBtn").addEventListener("click",skipPomodoro);
+    document.getElementById("stopwatchMainBtn").addEventListener("click",function(){if(stopwatch.running)pauseStopwatch();else startStopwatch();updateStopwatchUI()});document.getElementById("stopwatchResetBtn").addEventListener("click",resetStopwatch);
+    document.getElementById("settingsBtn").addEventListener("click",function(){openDrawer("themes")});document.getElementById("closeDrawer").addEventListener("click",closeDrawer);document.getElementById("drawerBackdrop").addEventListener("click",closeDrawer);
+    document.querySelectorAll(".drawerTab").forEach(function(b){b.addEventListener("click",function(){switchDrawerPanel(b.getAttribute("data-panel"))})});
+    document.getElementById("backupBtn").addEventListener("click",backupState);document.getElementById("backupBtn2").addEventListener("click",backupState);
+    document.getElementById("restoreBtn").addEventListener("click",function(){openDrawer("data");restoreBackup()});document.getElementById("restoreBtn2").addEventListener("click",function(){restoreBackup()});
+    document.getElementById("restoreInput").addEventListener("change",function(){var f=this.files&&this.files[0];if(f)restoreFromFile(f);this.value=""});
+    document.getElementById("backgroundInput").addEventListener("change",function(){var f=this.files&&this.files[0];if(f)setCustomBackground(f);this.value=""});
+    document.getElementById("blurSlider").addEventListener("input",function(){state.background.blur=Number(this.value)||0;document.getElementById("blurValue").textContent=state.background.blur+" px";updateBackgroundLayer();saveState()});
+    document.getElementById("clearBackgroundBtn").addEventListener("click",clearBackground);
+    window.addEventListener("keydown",function(e){if(e.key==="Escape")closeDrawer();if(e.key===" " && e.target===document.body){e.preventDefault();if(activeMode==="pomodoro"){if(pomodoro.running)pausePomodoro();else startPomodoro()}else{if(stopwatch.running)pauseStopwatch();else startStopwatch()}}});
+    document.addEventListener("visibilitychange",function(){tick()});
+    window.addEventListener("beforeunload",function(){reconcilePomodoroMinuteCoins();flushStopwatchAwards();if(stopwatch.running){stopwatch.elapsed+=Math.max(0,now()-stopwatch.startAt);stopwatch.running=false;stopwatch.startAt=0}saveState()});
+  }
+
+  function hydrate(){
+    loadState();ensureDailyMissions();setTheme(state.activeTheme,false);document.getElementById("blurSlider").value=state.background.blur;document.getElementById("blurValue").textContent=state.background.blur+" px";updateBackgroundLayer();updateTimerUI();updateStopwatchUI();renderAll();
+  }
+
+  loadState();
+  bind();
+  hydrate();
+  initParticles();
+
+  setInterval(function(){reconcilePomodoroMinuteCoins();tick()},250);
+
+  window.DemonFocus={getState:function(){return JSON.parse(JSON.stringify(state))},getMissionCount:function(){return missionPool.length},getMissionDay:function(){return utcDay()},getMissionIds:function(){ensureDailyMissions();return state.missions.ids.slice()},startPomodoro:startPomodoro,pausePomodoro:pausePomodoro,startStopwatch:startStopwatch,pauseStopwatch:pauseStopwatch,addTestFocus:function(seconds){addFocusSeconds(seconds,"test");addCoins(Math.floor(seconds/60),"Test focus awarded");renderAll()}};
+})();
+</script>
+</body>
+</html>
