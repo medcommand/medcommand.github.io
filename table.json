@@ -45,6 +45,10 @@
     },
     {
         "name": "Focusland-4",
-        "url":"https://study.focusland.workers.dev"
+        "url": "https://study.focusland.workers.dev"
+    },
+    {
+        "name": "Focusland-5",
+        "url": "https://app.focusland.workers.dev"
     }
 ]
