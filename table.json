@@ -30,5 +30,21 @@
     {
         "name": "Github Copilot",
         "url": "https://medcommand.github.io/copilot.html"
+    },
+    {   
+        "name": "Focusland-1",
+        "url": "https://total.concentration.workers.dev/"
+    },
+    {
+        "name": "Focusland-2",
+        "url": "https://focus.focusland.workers.dev/"
+    },
+    {
+        "name": "Focusland-3",
+        "url": "https://total.focusland.workers.dev/"
+    },
+    {
+        "name": "Focusland-4",
+        "url":"https://study.focusland.workers.dev"
     }
 ]
